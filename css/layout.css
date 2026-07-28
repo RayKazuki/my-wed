@@ -1,0 +1,333 @@
+/* ============================================================
+   layout.css — kerangka section & grid
+   ============================================================ */
+
+.shell {
+  width: min(100% - (var(--gutter) * 2), 62rem);
+  margin-inline: auto;
+}
+.shell--narrow { width: min(100% - (var(--gutter) * 2), 42rem); }
+
+.section {
+  position: relative;
+  padding-block: var(--section);
+  overflow: hidden;
+}
+.section--tint { background: var(--cream-deep); }
+.section--tight { padding-block: clamp(3rem, 7vw, 5rem); }
+
+.section__head {
+  text-align: center;
+  margin-bottom: clamp(2.5rem, 6vw, 4rem);
+}
+.section__head .eyebrow { display: block; margin-bottom: 1rem; }
+.section__head h2 {
+  font-size: var(--step-3);
+  font-style: italic;
+}
+
+/* ============================================================
+   COVER — layar pembuka
+   ============================================================ */
+
+.cover {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+}
+
+.cover__panel {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50.5%;
+  background: var(--cream);
+  overflow: hidden;
+  will-change: transform;
+}
+.cover__panel--top    { top: 0; }
+.cover__panel--bottom { bottom: 0; }
+
+/* Isi cover diletakkan di layer terpisah agar tidak ikut terbelah */
+.cover__inner {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: var(--gutter);
+  z-index: 2;
+}
+
+.cover__content { max-width: 30rem; }
+
+.cover__ornament {
+  width: clamp(120px, 30vw, 190px);
+  margin: 0 auto 1.75rem;
+  color: var(--sage);
+}
+
+.cover__names {
+  font-size: var(--step-4);
+  color: var(--ink);
+  margin-block: .4rem .9rem;
+}
+
+.cover__guest {
+  margin-top: 2.25rem;
+  padding-top: 1.75rem;
+  border-top: 1px solid var(--line);
+}
+.cover__guest span {
+  display: block;
+  font-size: var(--step--1);
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: .45rem;
+}
+.cover__guest strong {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-weight: 400;
+}
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: calc(var(--section) * .8) var(--gutter);
+  overflow: hidden;          /* tahan ornamen daun agar tidak memicu scroll mendatar */
+}
+
+.hero__names {
+  font-size: var(--step-4);
+  margin-block: .5rem;
+}
+.hero__amp {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  font-style: italic;
+  color: var(--gold);
+  margin-block: -.35rem;
+}
+.hero__date {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line);
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  letter-spacing: .3em;
+}
+
+/* ============================================================
+   MEMPELAI
+   ============================================================ */
+
+.couple {
+  display: grid;
+  gap: clamp(3rem, 8vw, 5rem);
+  grid-template-columns: 1fr;
+  align-items: start;
+  text-align: center;
+}
+@media (min-width: 48rem) {
+  .couple { grid-template-columns: 1fr auto 1fr; }
+}
+
+.couple__divider {
+  display: none;
+  align-self: center;
+  font-family: var(--font-script);
+  font-size: var(--step-3);
+  color: var(--gold);
+}
+@media (min-width: 48rem) { .couple__divider { display: block; } }
+
+.person__name {
+  font-family: var(--font-script);
+  font-size: var(--step-3);
+  margin-block: 1.5rem .35rem;
+}
+.person__full {
+  font-family: var(--font-display);
+  font-size: var(--step-1);
+  font-style: italic;
+  color: var(--ink-soft);
+  margin-bottom: .9rem;
+}
+.person__parents {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  letter-spacing: .04em;
+  line-height: 2;
+}
+.person__parents em {
+  display: block;
+  font-style: normal;
+  font-size: .82em;
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: .4rem;
+}
+
+/* ============================================================
+   COUNTDOWN
+   ============================================================ */
+
+.countdown {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: clamp(.5rem, 2vw, 1.25rem);
+  max-width: 34rem;
+  margin: 2.5rem auto 0;
+}
+
+.countdown__cell {
+  padding: clamp(.9rem, 3vw, 1.5rem) .35rem;
+  border: 1px solid var(--line);
+  background: rgba(244, 241, 234, .55);
+}
+.countdown__num {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 6vw, 2.7rem);
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.countdown__label {
+  display: block;
+  margin-top: .5rem;
+  font-size: clamp(.6rem, 2vw, .72rem);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+
+/* ============================================================
+   ACARA
+   ============================================================ */
+
+.events {
+  display: grid;
+  gap: clamp(1.5rem, 4vw, 2.25rem);
+  grid-template-columns: 1fr;
+}
+@media (min-width: 46rem) {
+  .events { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ============================================================
+   KISAH KAMI
+   ============================================================ */
+
+.timeline {
+  position: relative;
+  display: grid;
+  gap: clamp(2.25rem, 6vw, 3.25rem);
+  padding-left: clamp(1.5rem, 5vw, 2rem);
+}
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: .35rem;
+  bottom: .35rem;
+  width: 1px;
+  background: var(--line-strong);
+}
+.timeline__item { position: relative; }
+.timeline__dot {
+  position: absolute;
+  left: calc(clamp(1.5rem, 5vw, 2rem) * -1 + 1px);
+  top: .4rem;
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: var(--cream-light);
+  border: 1px solid var(--gold);
+}
+.timeline__dot::after {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border-radius: 50%;
+  background: var(--gold);
+}
+.timeline__year { display: block; margin-bottom: .5rem; }
+.timeline__title {
+  font-size: var(--step-2);
+  margin-bottom: .5rem;
+}
+.timeline__text {
+  font-size: var(--step--1);
+  color: var(--ink-soft);
+  max-width: 42ch;
+}
+
+/* ============================================================
+   GALERI
+   ============================================================ */
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: clamp(.5rem, 1.6vw, .9rem);
+}
+@media (min-width: 46rem) {
+  .gallery { grid-template-columns: repeat(3, 1fr); }
+  .gallery > :nth-child(1) { grid-row: span 2; }
+  .gallery > :nth-child(6) { grid-column: span 2; }
+}
+
+/* ============================================================
+   HADIAH & UCAPAN
+   ============================================================ */
+
+.gifts {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 32rem;
+  margin-inline: auto;
+}
+
+.wishes {
+  max-height: 22rem;
+  overflow-y: auto;
+  padding-right: .5rem;
+  margin-top: 2rem;
+  display: grid;
+  gap: .9rem;
+}
+
+/* ============================================================
+   PENUTUP
+   ============================================================ */
+
+.closing {
+  text-align: center;
+  padding-block: calc(var(--section) * 1.1) var(--section);
+}
+.closing__names {
+  font-size: var(--step-4);
+  margin-block: 1.25rem 1.75rem;
+}
+
+.credit {
+  padding-block: 2rem;
+  text-align: center;
+  font-size: var(--step--1);
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  border-top: 1px solid var(--line);
+}
