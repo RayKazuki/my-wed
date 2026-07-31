@@ -6,9 +6,10 @@
    2 · Reveal      scroll-in animation
    3 · Countdown   live timer to the akad
    4 · Petals      drifting petal generator
-   5 · Lightbox    gallery viewer
-   6 · Rsvp        form, storage, wishes wall
-   7 · boot
+   5 · Music       background sound toggle
+   6 · Lightbox    gallery viewer
+   7 · Rsvp        form, storage, wishes wall
+   8 · boot
    ══════════════════════════════════════════════════════════════════ */
 (function () {
   'use strict';
@@ -63,6 +64,7 @@
       this.gate.classList.add('open');
       document.body.classList.remove('locked');
       window.scrollTo(0, 0);
+      Music.play();
       setTimeout(() => this.gate.remove(), 1600);
     }
   };
@@ -166,7 +168,34 @@
   };
 
 
-  /* ── 5 · LIGHTBOX ─────────────────────────────────────────────── */
+  /* ── 5 · MUSIC ────────────────────────────────────────────────── */
+
+  const Music = {
+    init() {
+      this.audio  = $('#bgm');
+      this.button = $('#btnMusic');
+      if (!this.audio || !this.button) return;
+
+      this.button.addEventListener('click', () => this.toggle());
+    },
+
+    play() {
+      this.audio.play().then(() => this.setPlaying(true)).catch(() => this.setPlaying(false));
+    },
+
+    toggle() {
+      if (this.audio.paused) this.play();
+      else { this.audio.pause(); this.setPlaying(false); }
+    },
+
+    setPlaying(isPlaying) {
+      this.button.classList.toggle('playing', isPlaying);
+      this.button.setAttribute('aria-pressed', String(isPlaying));
+    }
+  };
+
+
+  /* ── 6 · LIGHTBOX ─────────────────────────────────────────────── */
 
   const Lightbox = {
     sources: ['#gal', '#pola'],
@@ -203,7 +232,7 @@
   };
 
 
-  /* ── 6 · RSVP ─────────────────────────────────────────────────── */
+  /* ── 7 · RSVP ─────────────────────────────────────────────────── */
 
   const Rsvp = {
     init() {
@@ -284,7 +313,7 @@
   };
 
 
-  /* ── 7 · BOOT ─────────────────────────────────────────────────── */
+  /* ── 8 · BOOT ─────────────────────────────────────────────────── */
 
-  [Cover, Reveal, Countdown, Petals, Lightbox, Rsvp].forEach(module => module.init());
+  [Cover, Reveal, Countdown, Petals, Music, Lightbox, Rsvp].forEach(module => module.init());
 })();
