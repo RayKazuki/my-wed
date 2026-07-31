@@ -206,44 +206,39 @@
   /* ── 6 · RSVP ─────────────────────────────────────────────────── */
 
   const Rsvp = {
-    memory: [],                            // used when window.storage is absent
-
     init() {
       const button = $('#btnSend');
       if (!button) return;
 
-      this.wishes  = $('#wishes');
-      this.notice  = $('#formMsg');
-      this.persist = typeof window.storage !== 'undefined';
+      this.wishes = $('#wishes');
+      this.notice = $('#formMsg');
 
       button.addEventListener('click', () => this.submit());
-      this.load().then(list => this.render(list));
+      this.render(this.load());
     },
 
-    async load() {
-      if (!this.persist) return this.memory;
+    load() {
       try {
-        const stored = await window.storage.get(CONFIG.storageKey, true);
-        return stored ? JSON.parse(stored.value) : [];
+        const stored = localStorage.getItem(CONFIG.storageKey);
+        return stored ? JSON.parse(stored) : [];
       } catch (err) {
         return [];
       }
     },
 
-    async save(list) {
-      if (!this.persist) { this.memory = list; return; }
+    save(list) {
       try {
-        await window.storage.set(CONFIG.storageKey, JSON.stringify(list), true);
+        localStorage.setItem(CONFIG.storageKey, JSON.stringify(list));
       } catch (err) {
-        this.memory = list;
+        // storage unavailable (private mode / quota) — wishes won't persist past this session
       }
     },
 
-    async submit() {
+    submit() {
       const name = $('#rsvpName').value.trim();
       if (!name) return this.notify('Isi nama Anda dulu.');
 
-      const list = await this.load();
+      const list = this.load();
       list.push({
         name:   name,
         attend: $('#rsvpAttend').value,
@@ -252,7 +247,7 @@
         at:     Date.now()
       });
 
-      await this.save(list);
+      this.save(list);
       this.render(list);
 
       $('#rsvpName').value = '';

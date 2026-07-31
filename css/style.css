@@ -14,7 +14,7 @@
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
 body{font-family:var(--serif);font-weight:300;color:var(--ink);line-height:1.8;overflow-x:hidden;
   background-color:var(--paper);
-  background-image:url("../img/grain.webp");
+  background-image:url("../assets/img/grain.webp");
   background-size:150px 150px;background-repeat:repeat;
 }
 body.locked{overflow:hidden;height:100svh}
@@ -54,7 +54,7 @@ a{color:inherit}
   padding:var(--pad);text-align:center;overflow-y:auto;
   transition:opacity .9s ease .55s,visibility 0s linear 1.45s}
 #gate.open{opacity:0;visibility:hidden}
-#gate::before{content:"";position:absolute;inset:0;background:url("../img/texture.webp") center/cover no-repeat;opacity:.14;pointer-events:none}
+#gate::before{content:"";position:absolute;inset:0;background:url("../assets/img/texture.webp") center/cover no-repeat;opacity:.14;pointer-events:none}
 #gate>*{position:relative}
 .gate-monogram{width:min(11rem,42vw);margin:0 auto .4rem}
 .env-wrap{position:relative;width:min(23rem,82vw);margin:0 auto}
