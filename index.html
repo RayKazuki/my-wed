@@ -1297,26 +1297,31 @@
 
 <script>
   (function () {
+    var root = document.documentElement;
+    var reduceMotion = !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+    function $(id) { return document.getElementById(id); }
+    function each(list, fn) { Array.prototype.forEach.call(list, fn); }
+    function toArray(list) { return Array.prototype.slice.call(list); }
+    function rand(a, b) { return a + Math.random() * (b - a); }
+
+    // ---------- countdown ----------
     var target = Date.parse('2026-11-21T08:00:00+07:00');
-    var d = document.getElementById('cd-d');
-    var h = document.getElementById('cd-h');
-    var m = document.getElementById('cd-m');
-    var done = document.getElementById('cd-done');
+    var cdD = $('cd-d'), cdH = $('cd-h'), cdM = $('cd-m'), cdDone = $('cd-done');
     function pad(n) { return n < 10 ? '0' + n : String(n); }
     function tick() {
       var left = Math.max(0, target - Date.now());
-      d.textContent = pad(Math.floor(left / 864e5));
-      h.textContent = pad(Math.floor(left % 864e5 / 36e5));
-      m.textContent = pad(Math.floor(left % 36e5 / 6e4));
-      done.hidden = left > 0;
+      cdD.textContent = pad(Math.floor(left / 864e5));
+      cdH.textContent = pad(Math.floor(left % 864e5 / 36e5));
+      cdM.textContent = pad(Math.floor(left % 36e5 / 6e4));
+      cdDone.hidden = left > 0;
+      if (!left) clearInterval(cdTimer);
     }
+    var cdTimer = setInterval(tick, 1000);
     tick();
-    setInterval(tick, 1000);
 
-    // Melati petals: a light, endless shower; every few is a whole floret.
-    var rain = document.getElementById('melati-rain');
+    // ---------- melati petals: a light, endless shower; every few is a whole floret ----------
+    var rain = $('melati-rain');
     var svgNS = 'http://www.w3.org/2000/svg';
-    function rand(a, b) { return a + Math.random() * (b - a); }
     for (var p = 0; p < 18; p++) {
       var bloom = p % 6 === 0;
       var fall = rand(11, 19);
@@ -1342,8 +1347,8 @@
       rain.appendChild(petal);
     }
 
-    // Gallery photos: number them and make each one open the preview.
-    var shots = Array.prototype.slice.call(document.querySelectorAll('#galeri .shot'));
+    // ---------- gallery: number the photos and make each one open the preview ----------
+    var shots = toArray(document.querySelectorAll('#galeri .shot'));
     function captionOf(shot) {
       var media = shot.firstElementChild;
       var text = shot.getAttribute('data-caption') ||
@@ -1359,21 +1364,24 @@
     });
 
     // Duplicate each lane once so the drift loops without a gap.
-    Array.prototype.forEach.call(document.querySelectorAll('.track'), function (track) {
+    each(document.querySelectorAll('.track'), function (track) {
       var copy = track.firstElementChild.cloneNode(true);
       copy.setAttribute('aria-hidden', 'true');
-      Array.prototype.forEach.call(copy.querySelectorAll('[tabindex]'), function (el) {
-        el.setAttribute('tabindex', '-1');
-      });
+      each(copy.querySelectorAll('[tabindex]'), function (el) { el.setAttribute('tabindex', '-1'); });
       track.appendChild(copy);
     });
 
-    // Wishes are shared through Supabase (table log_ucapan: nama, isi_text, inserted_at).
+    // ---------- wishes, shared through Supabase (table log_ucapan: nama, isi_text, inserted_at) ----------
     // The anon key is the public client key; access is governed by the table's RLS policies.
     var SB_URL = 'https://qrlympptmmfafwvdhhkt.supabase.co/rest/v1/log_ucapan';
     var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFybHltcHB0bW1mYWZ3dmRoaGt0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyOTI4MzUsImV4cCI6MjA5Mzg2ODgzNX0.9e5I4xjqw5C-SUKUXCDypdNnlxkSLTV33uS_8t_QPpQ';
-    function sbHeaders() {
-      return { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' };
+    function sbFetch(query, options) {
+      options = options || {};
+      options.headers = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' };
+      return fetch(SB_URL + query, options).then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res;
+      });
     }
 
     function wishPill(name, msg, mine) {
@@ -1400,15 +1408,19 @@
       track.parentElement.style.setProperty('--dur', Math.max(40, pills.length * 11) + 's');
     }
 
-    var wishLanes = Array.prototype.slice.call(document.querySelectorAll('#ucapan .track'));
+    var wishLanes = toArray(document.querySelectorAll('#ucapan .track'));
     // the built-in wishes stay as filler until enough guests have written
-    var sampleWishes = wishLanes.map(function (track) {
-      return Array.prototype.slice.call(track.firstElementChild.children);
-    }).reduce(function (all, lane) { return all.concat(lane); }, []);
+    var sampleWishes = wishLanes.reduce(function (all, track) {
+      return all.concat(toArray(track.firstElementChild.children));
+    }, []);
+    // wishes this guest sent, kept so a late-arriving list doesn't wipe them out
+    var myWishes = [];
 
     function showGuestWishes(rows) {
-      var pills = rows.map(function (row) {
-        return wishPill(row.nama || 'Tamu', row.isi_text || '', false);
+      var pills = myWishes.map(function (w) { return wishPill(w.nama, w.isi_text, true); });
+      rows.forEach(function (row) {
+        var isMine = myWishes.some(function (w) { return w.nama === row.nama && w.isi_text === row.isi_text; });
+        if (!isMine) pills.push(wishPill(row.nama || 'Tamu', row.isi_text, false));
       });
       for (var i = 0; pills.length < 12 && i < sampleWishes.length; i++) {
         pills.push(sampleWishes[i].cloneNode(true));
@@ -1418,53 +1430,49 @@
       wishLanes.forEach(function (track, i) { fillLane(track, perLane[i]); });
     }
 
-    fetch(SB_URL + '?select=nama,isi_text,inserted_at&order=inserted_at.desc&limit=50', { headers: sbHeaders() })
-      .then(function (res) {
-        if (!res.ok) throw new Error('HTTP ' + res.status);
-        return res.json();
-      })
+    sbFetch('?select=nama,isi_text,inserted_at&order=inserted_at.desc&limit=50')
+      .then(function (res) { return res.json(); })
       .then(function (rows) {
         rows = rows.filter(function (row) { return row.isi_text && String(row.isi_text).trim(); });
         if (rows.length) showGuestWishes(rows);
       })
       .catch(function (err) {
         // keep the built-in wishes if the list can't be loaded
-        if (window.console) console.error('Gagal memuat ucapan:', err);
+        console.error('Gagal memuat ucapan:', err);
       });
 
     // Wish form: saves the wish to Supabase, then drops it into a passing lane.
-    var wForm = document.getElementById('wish-form');
-    var wName = document.getElementById('w-name');
-    var wMsg = document.getElementById('w-msg');
-    var wCount = document.getElementById('w-count');
-    var wErr = document.getElementById('w-err');
-    var wOk = document.getElementById('w-ok');
+    var wForm = $('wish-form');
+    var wName = $('w-name');
+    var wMsg = $('w-msg');
+    var wCount = $('w-count');
+    var wErr = $('w-err');
+    var wOk = $('w-ok');
     var wBtn = wForm.querySelector('.submit-btn');
     var nextLane = 0;
+    function showWishError(text, field) {
+      wErr.textContent = text;
+      wErr.hidden = false;
+      if (field) field.focus();
+    }
     wMsg.addEventListener('input', function () { wCount.textContent = wMsg.value.length + '/160'; });
     wForm.addEventListener('submit', function (e) {
       e.preventDefault();
+      if (wBtn.disabled) return;
       var name = wName.value.trim();
       var msg = wMsg.value.trim();
       wOk.hidden = true;
-      if (!name || !msg) {
-        wErr.textContent = !name && !msg ? 'Isi nama dan ucapan terlebih dahulu.' : (!name ? 'Isi nama Anda terlebih dahulu.' : 'Tulis ucapan Anda terlebih dahulu.');
-        wErr.hidden = false;
-        (!name ? wName : wMsg).focus();
-        return;
-      }
+      if (!name && !msg) return showWishError('Isi nama dan ucapan terlebih dahulu.', wName);
+      if (!name) return showWishError('Isi nama Anda terlebih dahulu.', wName);
+      if (!msg) return showWishError('Tulis ucapan Anda terlebih dahulu.', wMsg);
       wErr.hidden = true;
       wBtn.disabled = true;
       wBtn.textContent = 'MENGIRIM…';
-      fetch(SB_URL, { method: 'POST', headers: sbHeaders(), body: JSON.stringify({ nama: name, isi_text: msg }) })
-        .then(function (res) {
-          if (!res.ok) throw new Error('HTTP ' + res.status);
-          addMyWish(name, msg);
-        })
+      sbFetch('', { method: 'POST', body: JSON.stringify({ nama: name, isi_text: msg }) })
+        .then(function () { addMyWish(name, msg); })
         .catch(function (err) {
-          if (window.console) console.error('Gagal mengirim ucapan:', err);
-          wErr.textContent = 'Ucapan belum terkirim. Periksa koneksi Anda lalu coba lagi.';
-          wErr.hidden = false;
+          console.error('Gagal mengirim ucapan:', err);
+          showWishError('Ucapan belum terkirim. Periksa koneksi Anda lalu coba lagi.');
         })
         .then(function () {
           wBtn.disabled = false;
@@ -1473,18 +1481,18 @@
     });
 
     function addMyWish(name, msg) {
+      myWishes.push({ nama: name, isi_text: msg });
       // new wishes go into the left-moving lanes so they drift in from the right side
       var wishTracks = document.querySelectorAll('#ucapan .lane:not(.rev) .track');
-      var track = wishTracks[nextLane % wishTracks.length];
-      nextLane++;
-      Array.prototype.forEach.call(track.children, function (group) {
+      var track = wishTracks[nextLane++ % wishTracks.length];
+      each(track.children, function (group) {
         group.insertBefore(wishPill(name, msg, true), group.firstChild);
       });
       // restart the lane so the new wish starts just right of centre and drifts across
       var lane = track.parentElement;
       var dur = parseFloat(getComputedStyle(lane).getPropertyValue('--dur')) || 44;
       var half = track.scrollWidth / 2;
-      var shift = half - 0.5 * document.getElementById('ucapan').clientWidth;
+      var shift = half - 0.5 * $('ucapan').clientWidth;
       if (shift < 0) shift += half;
       track.style.animation = 'none';
       void track.offsetWidth;
@@ -1494,24 +1502,26 @@
       wCount.textContent = '0/160';
       wOk.textContent = 'Terima kasih, ' + name + '! Ucapan Anda sudah terkirim dan ikut berjalan di atas.';
       wOk.hidden = false;
-      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      document.getElementById('ucapan-title').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+      $('ucapan-title').scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
     }
 
-    // Wedding gift: copy account numbers (digits only)
-    var copyStatus = document.getElementById('copy-status');
-    Array.prototype.forEach.call(document.querySelectorAll('.copy-btn'), function (btn) {
+    // ---------- wedding gift: copy account numbers (digits only) ----------
+    var copyStatus = $('copy-status');
+    each(document.querySelectorAll('.copy-btn'), function (btn) {
+      var resetTimer;
       btn.addEventListener('click', function () {
-        var el = document.getElementById(btn.getAttribute('data-copy'));
+        var el = $(btn.getAttribute('data-copy'));
         var value = el.textContent.replace(/\s+/g, '');
         var bank = btn.closest('.acct').querySelector('.acct-bank').textContent;
         function done(label, msg) {
           btn.textContent = label;
           btn.classList.add('is-done');
           copyStatus.textContent = msg;
-          clearTimeout(btn._t);
-          btn._t = setTimeout(function () { btn.textContent = 'SALIN'; btn.classList.remove('is-done'); }, 2200);
+          clearTimeout(resetTimer);
+          resetTimer = setTimeout(function () { btn.textContent = 'SALIN'; btn.classList.remove('is-done'); }, 2200);
         }
+        function copied() { done('TERSALIN', 'Nomor rekening ' + bank + ' tersalin'); }
+        // fallback: select the number and try the old copy command
         function manual() {
           var range = document.createRange();
           range.selectNodeContents(el);
@@ -1520,28 +1530,24 @@
           sel.addRange(range);
           var ok = false;
           try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
-          if (ok) done('TERSALIN', 'Nomor rekening ' + bank + ' tersalin');
+          if (ok) copied();
           else done('SALIN MANUAL', 'Nomor rekening ' + bank + ' sudah dipilih, salin secara manual');
         }
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(value).then(function () {
-            done('TERSALIN', 'Nomor rekening ' + bank + ' tersalin');
-          }, manual);
-        } else {
-          manual();
-        }
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(value).then(copied, manual);
+        else manual();
       });
     });
 
-    // Photo preview (lightbox)
-    var lb = document.getElementById('lightbox');
-    var lbMedia = document.getElementById('lb-media');
-    var lbTitle = document.getElementById('lb-title');
-    var lbCount = document.getElementById('lb-count');
-    var lbFrame = document.getElementById('lb-frame');
+    // ---------- photo preview (lightbox) ----------
+    var lb = $('lightbox');
+    var lbMedia = $('lb-media');
+    var lbTitle = $('lb-title');
+    var lbCount = $('lb-count');
+    var lbFrame = $('lb-frame');
+    var lbClose = $('lb-close');
     var current = 0;
     var opener = null;
-    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var hideTimer = null;
 
     function show(i, dir) {
       current = (i + shots.length) % shots.length;
@@ -1559,44 +1565,47 @@
         );
       }
     }
+    function step(dir) { show(current + dir, dir); }
     function openPreview(i, from) {
+      clearTimeout(hideTimer); // reopened while still closing
       opener = from || null;
       show(i, 0);
       lb.hidden = false;
       root.classList.add('lb-open');
       requestAnimationFrame(function () { requestAnimationFrame(function () { lb.classList.add('is-open'); }); });
-      document.getElementById('lb-close').focus({ preventScroll: true });
+      lbClose.focus({ preventScroll: true });
     }
     function closePreview() {
       lb.classList.remove('is-open');
       root.classList.remove('lb-open');
-      setTimeout(function () {
+      hideTimer = setTimeout(function () {
         lb.hidden = true;
         lbMedia.innerHTML = '';
       }, reduceMotion ? 0 : 250);
       if (opener && opener.getAttribute('tabindex') === '0') opener.focus({ preventScroll: true });
     }
 
-    document.getElementById('galeri').addEventListener('click', function (e) {
+    var galeri = $('galeri');
+    galeri.addEventListener('click', function (e) {
       var shot = e.target.closest('.shot');
       if (shot) openPreview(+shot.getAttribute('data-index'), shot);
     });
-    document.getElementById('galeri').addEventListener('keydown', function (e) {
+    galeri.addEventListener('keydown', function (e) {
       var shot = e.target.closest('.shot');
       if (shot && (e.key === 'Enter' || e.key === ' ')) {
         e.preventDefault();
         openPreview(+shot.getAttribute('data-index'), shot);
       }
     });
-    document.getElementById('lb-close').addEventListener('click', closePreview);
-    document.getElementById('lb-prev').addEventListener('click', function () { show(current - 1, -1); });
-    document.getElementById('lb-next').addEventListener('click', function () { show(current + 1, 1); });
+    lbClose.addEventListener('click', closePreview);
+    $('lb-prev').addEventListener('click', function () { step(-1); });
+    $('lb-next').addEventListener('click', function () { step(1); });
     lb.addEventListener('click', function (e) { if (e.target === lb) closePreview(); });
     document.addEventListener('keydown', function (e) {
-      if (lb.hidden) return;
+      if (!root.classList.contains('lb-open')) return;
       if (e.key === 'Escape') closePreview();
-      else if (e.key === 'ArrowLeft') show(current - 1, -1);
-      else if (e.key === 'ArrowRight') show(current + 1, 1);
+      else if (e.key === 'ArrowLeft') step(-1);
+      else if (e.key === 'ArrowRight') step(1);
       else if (e.key === 'Tab') {
         // keep focus inside the preview
         var f = lb.querySelectorAll('button');
@@ -1608,42 +1617,35 @@
     // swipe left/right on the photo
     var startX = null;
     lbFrame.addEventListener('pointerdown', function (e) { startX = e.clientX; });
+    lbFrame.addEventListener('pointercancel', function () { startX = null; });
     lbFrame.addEventListener('pointerup', function (e) {
       if (startX === null) return;
       var dx = e.clientX - startX;
       startX = null;
-      if (Math.abs(dx) > 40) show(current + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+      if (Math.abs(dx) > 40) step(dx < 0 ? 1 : -1);
     });
 
-    // Full-screen cover: fades out (and drifts a little) as the guest scrolls past it.
+    // ---------- full-screen cover: fades out (and drifts a little) as the guest scrolls past it ----------
     var cover = document.querySelector('#undangan img');
     var coverTicking = false;
-    var coverCalm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     function fadeCover() {
       coverTicking = false;
       var h = cover.parentElement.offsetHeight || 1;
       var t = Math.min(1, Math.max(0, window.scrollY / (h * .8)));
       cover.style.opacity = (1 - t).toFixed(3);
-      cover.style.transform = coverCalm ? '' : 'translateY(' + (t * h * .25).toFixed(1) + 'px) scale(' + (1 + t * .06).toFixed(3) + ')';
+      cover.style.transform = reduceMotion ? '' : 'translateY(' + (t * h * .25).toFixed(1) + 'px) scale(' + (1 + t * .06).toFixed(3) + ')';
     }
-    window.addEventListener('scroll', function () {
+    function queueCover() {
       if (!coverTicking) { coverTicking = true; requestAnimationFrame(fadeCover); }
-    }, { passive: true });
-    window.addEventListener('resize', fadeCover);
+    }
+    window.addEventListener('scroll', queueCover, { passive: true });
+    window.addEventListener('resize', queueCover);
     fadeCover();
 
-    // Envelope cover: keep the page inert until the guest opens the invitation.
-    var root = document.documentElement;
-    var intro = document.getElementById('intro');
-    var behind = document.querySelectorAll('.topbar, main, .foot');
-    function setInert(on) {
-      Array.prototype.forEach.call(behind, function (el) {
-        if (on) el.setAttribute('inert', ''); else el.removeAttribute('inert');
-      });
-    }
-    // Background music (Kusuma Wijaya): the open tap counts as the user gesture browsers need.
-    var bgm = document.getElementById('bgm');
-    var musicBtn = document.getElementById('music-btn');
+    // ---------- background music (Kusuma Wijaya) ----------
+    // The "Buka Undangan" tap counts as the user gesture browsers need before playing audio.
+    var bgm = $('bgm');
+    var musicBtn = $('music-btn');
     var musicWanted = false;
     function setMusicBtn(on) {
       musicBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
@@ -1651,9 +1653,10 @@
     }
     function playMusic() {
       musicWanted = true;
-      var p = bgm.play();
-      if (p && p.then) p.then(function () { setMusicBtn(true); }, function () { setMusicBtn(false); });
-      else setMusicBtn(true);
+      Promise.resolve(bgm.play()).then(
+        function () { setMusicBtn(true); },
+        function () { musicWanted = false; setMusicBtn(false); }
+      );
     }
     function pauseMusic() {
       musicWanted = false;
@@ -1666,34 +1669,44 @@
     // pause while the guest switches apps or tabs, resume when they come back
     document.addEventListener('visibilitychange', function () {
       if (document.hidden) bgm.pause();
-      else if (musicWanted) bgm.play().catch(function () { setMusicBtn(false); });
+      else if (musicWanted) playMusic();
     });
 
+    // ---------- envelope intro: keep the page inert until the guest opens the invitation ----------
+    var intro = $('intro');
+    var behind = document.querySelectorAll('.topbar, main, .foot');
+    function setInert(on) {
+      each(behind, function (el) {
+        if (on) el.setAttribute('inert', ''); else el.removeAttribute('inert');
+      });
+    }
     if (root.classList.contains('sealed') && intro) {
       setInert(true);
-      document.getElementById('open-btn').addEventListener('click', function () {
+      var openBtn = $('open-btn');
+      openBtn.addEventListener('click', function () {
+        openBtn.disabled = true; // one tap starts the sequence; ignore repeats
         playMusic();
-        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
         window.scrollTo(0, 0);
         function finish() {
           intro.remove();
           root.classList.remove('sealed', 'revealing');
           setInert(false);
           window.scrollTo(0, 0);
-          document.getElementById('undangan').focus({ preventScroll: true });
+          $('undangan').focus({ preventScroll: true });
         }
-        if (reduce) {
+        if (reduceMotion) {
           intro.classList.add('is-leaving');
           setTimeout(finish, 250);
           return;
         }
+        // timings match the CSS: seal → flap → letter rises (~2.3s), then the cover fades out (~1s)
         intro.classList.add('is-opening');
         setTimeout(function () {
           intro.classList.add('is-leaving');
           root.classList.add('revealing');
         }, 2300);
         setTimeout(finish, 3350);
-      });
+      }, { once: true });
     }
   })();
 </script>
