@@ -1,0 +1,120 @@
+DAFTAR FONT - Undangan Rayhan & Yoland (index.html)
+====================================================
+
+Cara membaca:  Bagian  |  Ukuran  |  Warna
+Ukuran "22u" = mengikuti lebar layar: 22px di HP selebar 400px,
+  mengecil/membesar sesuai lebar HP (min. x0,8 di layar 320px, maks. x2).
+Ukuran "clamp(a, b, c)" = minimal a, idealnya b (vw = % lebar layar), maksimal c.
+
+PALET WARNA
+-----------
+  Merah marun  (--red)      #941c21
+  Tinta        (--ink)      #241c18   (coklat sangat gelap, hampir hitam)
+  Tinta lembut (--ink-soft) #4a3e37   (coklat keabuan)
+  Krem terang               #f3eee2
+  Krem tombol               #efead3
+  Putih                     #ffffff
+
+
+FONT UTAMA (tampil di halaman)
+------------------------------
+1. Railey
+   Sumber : DaFont - https://www.dafont.com/railey.font (file lokal: fonts/Railey.ttf)
+   Lisensi: demo, FREE FOR PERSONAL USE ONLY (lihat fonts/Railey - Read Me.txt)
+   - Nama mempelai (Huda Nur Rayhan, S.Kom / Yoland Alifia Az Zahra, S.Sos)
+       | 22u (22px di layar 400px) | merah marun #941c21
+   Judul-judul bagian (--title):
+   - Judul bagian (Save the date!, Count the date) | 32-42px | merah marun #941c21
+   - Judul galeri "Our moments"           | 32-42px                 | merah marun #941c21
+   - Judul "Ucapan & Doa"                 | 32-42px                 | krem terang #f3eee2
+   - Judul "Wedding Gift"                 | 32-42px                 | merah marun #941c21
+   - Keterangan foto di pratinjau         | 22px                    | merah marun #941c21
+   - Penutup: tanda tangan "Rayhan & Yoland" | 32-42px              | merah marun #941c21
+
+2. Cormorant Garamond  (--serif)
+   Sumber : Google Fonts
+   - Teks isi dasar seluruh halaman       | 18px, tebal 500         | tinta #241c18
+   - Ayat QS. Ar-Rum                      | 16px                    | #1c1511
+   - "QS. Ar-Rum : 21"                    | 15px, tebal 700         | #1c1511
+   - Kalimat pembuka (Tanpa mengurangi…)  | 18.5px                  | tinta #241c18
+   - Nama orang tua                       | 15u, maks. 20px         | tinta lembut #4a3e37
+   - Judul acara (Akad / Resepsi)         | 32px, tebal 600         | tinta #241c18
+   - Tanggal acara                        | 18px                    | tinta #241c18
+   - Nama tempat acara                    | 20px, tebal 600         | tinta #241c18
+   - Alamat acara (Kaligondang, Purbalingga)| 20px                  | tinta lembut #4a3e37
+   - "Hari yang dinanti telah tiba"       | 19px, miring            | merah marun #941c21
+   - Teks di sampul (tanggal, THE WEDDING OF, Kepada Yth.)
+                                          | mengikuti tinggi sampul | #14100d
+   - Pengantar Wedding Gift               | 18.5px                  | tinta #241c18
+   - Nama pemilik rekening / alamat kado  | 17px                    | tinta lembut #4a3e37
+   - Kalimat penutup                      | 18.5px                  | tinta #241c18
+   - Ucapan yang berjalan                 | 18px, miring            | tinta #241c18
+   - Isian form ucapan                    | 18px                    | tinta #241c18
+   - Pesan error / berhasil form          | 16px / 17px miring      | merah marun / tinta
+   - Catatan di bawah form                | 14.5px                  | tinta lembut #4a3e37
+   - Kalimat "Silakan buka di HP" (desktop)| 19px                   | krem terang #f3eee2
+   - Amplop: "THE WEDDING OF"             | 13px, tebal 700         | krem terang #f3eee2
+   - Amplop: "Kepada Yth."                | 18px                    | krem terang #f3eee2
+   - Surat di amplop: teks kecil / tanggal| 10px / 11px, tebal 700  | tinta / merah marun
+
+3. Playfair Display  (--display)
+   Sumber : Google Fonts
+   - Amplop: "Rayhan & Yoland"            | 36-48px, miring 600     | krem terang #f3eee2
+   - Surat di amplop: "Rayhan & Yoland"   | 22-30px, miring 600     | tinta #241c18
+   - Sampul: "Rayhan & Yoland"            | mengikuti tinggi sampul, miring 600 | #14100d
+   - Tanda "&" di antara mempelai         | 32px, tebal 600         | merah marun #941c21
+   - Angka hitung mundur                  | 30-44px, tebal 600      | putih #ffffff
+   - Judul "Silakan buka di HP" (desktop) | 40px, miring 600        | krem terang #f3eee2
+
+4. Josefin Sans  (--sans)
+   Sumber : Google Fonts
+   - Tombol "BUKA UNDANGAN"               | 14px                    | #2d2a26 (krem #efead3 saat disentuh)
+   - Jam acara                            | 15px, tebal 600         | merah marun #941c21
+   - Tombol peta                          | 13px, tebal 600         | putih #ffffff
+   - Label hitung mundur (HARI/JAM/MENIT) | 11px, tebal 600         | putih #ffffff
+   - Petunjuk galeri                      | 12px, kapital           | tinta lembut #4a3e37
+   - Nomor foto di pratinjau (1 / 14)     | 12px                    | tinta lembut #4a3e37
+   - Penghitung karakter (0/160)          | 11px, tebal 600         | tinta lembut #4a3e37
+   - Tombol "TAMBAHKAN UCAPAN"            | 13px                    | krem tombol #efead3
+   - Tombol Wedding Gift                  | 13px                    | krem tombol #efead3
+   - Nama bank                            | 13px, tebal 600, kapital| tinta lembut #4a3e37
+   - Tombol "SALIN"                       | 12px                    | #2d2a26 (krem saat disentuh)
+   - Footer                               | 12px, kapital           | tinta lembut #4a3e37
+   - Nama di layar desktop                | 13px                    | krem terang #f3eee2
+
+5. MV Boli  (--title-soft)
+   Sumber : bawaan Windows (tidak ada di HP)
+   - Judul form "Tulis ucapan"            | 28px                    | merah marun #941c21
+   - Penutup: "Kami yang berbahagia,"     | 20-24px                 | merah marun #941c21
+
+6. Itim  (--title-soft, cadangan MV Boli)
+   Sumber : Google Fonts
+   - Dua teks di no. 5, dengan ukuran & warna yang sama, saat dibuka di HP
+     (HP tidak punya MV Boli)
+
+7. Courier Prime  (--mono)
+   Sumber : Google Fonts
+   - Nomor rekening                       | 20px                    | tinta #241c18
+
+8. Amiri
+   Sumber : Google Fonts
+   - Bismillah                            | 26px                    | tinta #241c18
+   - Ucapan berbahasa Arab                | 19px                    | tinta #241c18
+
+9. Mrs Saint Delafield  (--script)
+   Sumber : Google Fonts
+   - Monogram "R&Y" pada segel amplop     | 24px                    | krem kemerahan rgba(255,222,205,.85)
+
+
+FONT CADANGAN (dimuat, tapi hanya tampil kalau font utama gagal dimuat)
+----------------------------------------------------------------------
+10. Homemade Apple  - Google Fonts - cadangan untuk Railey (nama mempelai & judul)
+11. Mea Culpa  (--hand) - Google Fonts - cadangan kedua untuk nama mempelai
+
+
+CATATAN
+-------
+- Font Google Fonts dimuat otomatis lewat internet, tidak perlu file lokal.
+- Railey memakai file lokal: folder "fonts" wajib ikut diunggah bersama index.html.
+- MV Boli hanya ada di Windows, jadi "Tulis ucapan" dan "Kami yang berbahagia," di HP
+  tampil dengan Itim (sedikit berbeda dari yang terlihat di laptop).

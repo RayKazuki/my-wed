@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html>
 
 <head>
@@ -45,6 +45,16 @@
     href="https://fonts.googleapis.com/css2?family=Amiri&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Courier+Prime&family=Homemade+Apple&family=Itim&family=Josefin+Sans:wght@300;400;600&family=Mea+Culpa&family=Mrs+Saint+Delafield&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" />
   <style>
     /* Single-look letterpress invitation: painted explicitly, no dark variant. */
+    /* Railey is not on Google Fonts: uses the installed copy, or a file in fonts/ next to this page. */
+    @font-face {
+      font-family: "Railey";
+      src: local("Railey"), local("Railey Regular"), local("Railey-Regular"),
+        url("fonts/Railey.woff2") format("woff2"),
+        url("fonts/Railey.otf") format("opentype"),
+        url("fonts/Railey.ttf") format("truetype");
+      font-display: swap;
+    }
+
     :root {
       --taupe: #8a786c;
       --taupe-light: #9c8b7e;
@@ -63,8 +73,10 @@
       --display: "Playfair Display", Georgia, serif;
       --script: "Mrs Saint Delafield", "Brush Script MT", cursive;
       --hand: "Mea Culpa", "Brush Script MT", cursive;
-      /* section titles: MV Boli ships only with Windows, so phones fall back to Itim (a close, rounded Google font) */
-      --title: "MV Boli", "Itim", "Comic Sans MS", cursive;
+      /* section titles: Railey (fonts/Railey.ttf, same as the couple's names), so every device shows the same script */
+      --title: "Railey", "Homemade Apple", cursive;
+      /* "Tulis ucapan" and "Kami yang berbahagia,": MV Boli ships only with Windows, so phones fall back to Itim */
+      --title-soft: "MV Boli", "Itim", "Comic Sans MS", cursive;
       --sans: "Josefin Sans", "Gill Sans", "Trebuchet MS", sans-serif;
       --mono: "Courier Prime", "Courier New", monospace;
       /* 1/400 of the screen width: a 400px-wide design that grows and shrinks with the phone */
@@ -932,7 +944,7 @@
     }
 
     .name {
-      font-family: "Homemade Apple", var(--hand);
+      font-family: "Railey", "Homemade Apple", var(--hand);
       font-weight: 400;
       color: var(--red);
       font-size: calc(22 * var(--u));
@@ -1033,22 +1045,12 @@
         inset 0 0 0 7px #cbbfa5;
     }
 
-    .ev-eyebrow {
-      font-family: var(--sans);
-      font-weight: 400;
-      font-size: 12px;
-      letter-spacing: 0.38em;
-      padding-left: 0.38em;
-      text-transform: uppercase;
-      color: var(--red);
-    }
-
     .ev-title {
       font-family: var(--serif);
       font-weight: 600;
       font-size: 32px;
       line-height: 1.2;
-      margin-top: 14px;
+      margin-top: 0;
       color: var(--ink);
     }
 
@@ -1080,7 +1082,7 @@
     }
 
     .ev-addr {
-      font-size: 15.5px;
+      font-size: 20px;
       color: var(--ink-soft);
       margin-top: 2px;
     }
@@ -1118,7 +1120,7 @@
     }
 
     .countdown-title {
-      margin-top: 26px;
+      margin-top: 44px;
     }
 
     .count {
@@ -1495,6 +1497,11 @@
       transform: rotate(45deg);
     }
 
+    /* guest said they will attend: green dot (not attending / unknown stays red) */
+    .wish.is-hadir::before {
+      background: #3f7d3a;
+    }
+
     .wish.ar {
       font-family: "Amiri", "Traditional Arabic", serif;
       font-style: normal;
@@ -1555,7 +1562,7 @@
     }
 
     .wish-form h3 {
-      font-family: var(--title);
+      font-family: var(--title-soft);
       font-weight: 400;
       color: var(--red);
       font-size: 28px;
@@ -1585,12 +1592,16 @@
     }
 
     .field .count {
+      /* shares the class name with the countdown row (.count), so cancel its layout */
+      display: inline;
+      margin: 0;
       font-weight: 400;
       letter-spacing: 0.08em;
       font-variant-numeric: tabular-nums;
     }
 
     .field input,
+    .field select,
     .field textarea {
       box-sizing: border-box;
       width: 100%;
@@ -1607,7 +1618,27 @@
       min-height: 92px;
     }
 
+    /* attendance dropdown: native select with a drawn chevron */
+    .field select {
+      -webkit-appearance: none;
+      appearance: none;
+      padding-right: 38px;
+      cursor: pointer;
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5l5 5 5-5' fill='none' stroke='%23941c21' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") right 14px center / 12px 8px no-repeat,
+        #fffdf8;
+    }
+
+    .field select:invalid {
+      color: #8f847b;
+    }
+
+    .field select option {
+      color: var(--ink);
+    }
+
     .field input:focus,
+    .field select:focus,
     .field textarea:focus {
       outline: none;
       border-color: var(--red);
@@ -1933,7 +1964,7 @@
     }
 
     .sign-pre {
-      font-family: var(--title);
+      font-family: var(--title-soft);
       color: var(--red);
       font-size: clamp(20px, 5.5vw, 24px);
       line-height: 1.3;
@@ -1967,6 +1998,18 @@
       letter-spacing: 0.3em;
       text-transform: uppercase;
       color: var(--ink-soft);
+    }
+
+    .foot-copy {
+      margin-top: 10px;
+      font-size: 10.5px;
+      letter-spacing: 0.18em;
+      text-transform: none;
+      opacity: 0.75;
+    }
+
+    .foot-copy small {
+      font-size: inherit;
     }
 
     /* ---------- falling melati (jasmine) petals ---------- */
@@ -2448,7 +2491,7 @@
       <h2 class="gallery-title" id="galeri-title">Our moments</h2>
       <p class="gallery-hint">Ketuk foto untuk melihat lebih dekat</p>
       <div class="lanes">
-        <div class="lane" style="--dur: 52s">
+        <div class="lane" style="--dur: 68s">
           <div class="track">
             <div class="group">
               <figure class="shot">
@@ -2461,7 +2504,46 @@
                 <img src="pict/slide/web/DSC04418.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
               </figure>
               <figure class="shot">
-                <img src="pict/slide/web/DSC04605.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+                <img src="pict/slide/web/DSC04465.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+              </figure>
+              <figure class="shot">
+                <img src="pict/slide/web/DSC04581.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+              </figure>
+              <figure class="shot">
+                <img src="pict/slide/web/DSC04618.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+              </figure>
+              <figure class="shot">
+                <img src="pict/slide/web/DSC08608.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+              </figure>
+              <figure class="shot">
+                <img src="pict/slide/web/DSC08642.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+              </figure>
+              <figure class="shot">
+                <img src="pict/slide/web/DSC08703.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+              </figure>
+            </div>
+          </div>
+        </div>
+        <div class="lane rev" style="--dur: 68s">
+          <div class="track">
+            <div class="group">
+              <figure class="shot">
+                <img src="pict/slide/web/DSC04339.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+              </figure>
+              <figure class="shot">
+                <img src="pict/slide/web/DSC04376.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+              </figure>
+              <figure class="shot">
+                <img src="pict/slide/web/DSC04459.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+              </figure>
+              <figure class="shot">
+                <img src="pict/slide/web/DSC04492.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+              </figure>
+              <figure class="shot">
+                <img src="pict/slide/web/DSC04585.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+              </figure>
+              <figure class="shot">
+                <img src="pict/slide/web/DSC04651.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
               </figure>
               <figure class="shot">
                 <img src="pict/slide/web/DSC08618.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
@@ -2470,34 +2552,37 @@
                 <img src="pict/slide/web/DSC08678.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
               </figure>
               <figure class="shot">
-                <img src="pict/slide/web/DSC08703.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+                <img src="pict/slide/web/DSC08715.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
               </figure>
             </div>
           </div>
         </div>
-        <div class="lane rev" style="--dur: 56s">
+        <div class="lane" style="--dur: 61s">
           <div class="track">
             <div class="group">
               <figure class="shot">
-                <img src="pict/slide/web/DSC04339.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+                <img src="pict/slide/web/DSC04345.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
               </figure>
               <figure class="shot">
                 <img src="pict/slide/web/DSC04389.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
               </figure>
               <figure class="shot">
-                <img src="pict/slide/web/DSC04585.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+                <img src="pict/slide/web/DSC04461.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
               </figure>
               <figure class="shot">
-                <img src="pict/slide/web/DSC08608.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+                <img src="pict/slide/web/DSC04579.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+              </figure>
+              <figure class="shot">
+                <img src="pict/slide/web/DSC04605.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
+              </figure>
+              <figure class="shot">
+                <img src="pict/slide/web/DSC08555.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
               </figure>
               <figure class="shot">
                 <img src="pict/slide/web/DSC08637.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
               </figure>
               <figure class="shot">
                 <img src="pict/slide/web/DSC08682.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
-              </figure>
-              <figure class="shot">
-                <img src="pict/slide/web/DSC08715.jpg" width="900" height="1350" decoding="async" alt="&nbsp;" />
               </figure>
             </div>
           </div>
@@ -2511,7 +2596,6 @@
         <h2 class="script-xl">Save the date!</h2>
         <div class="events">
           <article class="ev">
-            <p class="ev-eyebrow">Akad Nikah</p>
             <h3 class="ev-title">Akad</h3>
             <hr class="ev-rule" />
             <p class="ev-date">Sabtu, 21 November 2026</p>
@@ -2527,7 +2611,6 @@
             </a>
           </article>
           <article class="ev">
-            <p class="ev-eyebrow">Resepsi</p>
             <h3 class="ev-title">Resepsi</h3>
             <hr class="ev-rule" />
             <p class="ev-date">Sabtu, 21 November 2026</p>
@@ -2619,6 +2702,14 @@
         <div class="field">
           <label for="w-name">Nama</label>
           <input id="w-name" name="name" type="text" maxlength="40" autocomplete="name" placeholder="Nama Anda" />
+        </div>
+        <div class="field">
+          <label for="w-hadir">Kehadiran</label>
+          <select id="w-hadir" name="hadir" required>
+            <option value="" disabled selected>Pilih kehadiran</option>
+            <option value="true">Hadir</option>
+            <option value="false">Tidak hadir</option>
+          </select>
         </div>
         <div class="field">
           <div class="field-top">
@@ -2739,13 +2830,15 @@
     </section>
   </main>
 
-  <footer class="foot band">Rayhan &amp; Yoland · 21.11.2026</footer>
+  <footer class="foot band">
+    <p class="foot-copy"><small>&copy; 2026 · Made with love by Rayhan &amp; Yoland</small></p>
+  </footer>
 
   <!-- Falling melati petals (decorative) -->
   <div class="melati-rain" id="melati-rain" aria-hidden="true"></div>
 
   <!-- Background music: starts with "Buka Undangan", toggled by the floating button -->
-  <audio id="bgm" src="music/Kusuma_Wijaya.mp3" loop preload="auto"></audio>
+  <audio id="bgm" src="music/music.mp3" loop preload="auto"></audio>
   <button class="music-btn" id="music-btn" type="button" aria-pressed="false" aria-label="Putar musik">
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path class="ic-note" d="M9 17.5V6l10-2v11.5" fill="none" stroke="currentColor" stroke-width="1.8"
@@ -2931,6 +3024,9 @@
       // The anon key is the public client key; access is governed by the table's RLS policies.
       var SB_URL =
         "https://qrlympptmmfafwvdhhkt.supabase.co/rest/v1/log_ucapan";
+      // guest list (table list_pengunjung: id, Nama), looked up from the invitation link's ?id=
+      var SB_GUESTS_URL =
+        "https://qrlympptmmfafwvdhhkt.supabase.co/rest/v1/list_pengunjung";
       var SB_KEY =
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFybHltcHB0bW1mYWZ3dmRoaGt0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyOTI4MzUsImV4cCI6MjA5Mzg2ODgzNX0.9e5I4xjqw5C-SUKUXCDypdNnlxkSLTV33uS_8t_QPpQ";
       function sbHeaders() {
@@ -2941,9 +3037,10 @@
         };
       }
 
-      function wishPill(name, msg, mine) {
+      function wishPill(name, msg, mine, hadir) {
         var pill = document.createElement("p");
-        pill.className = mine ? "wish is-mine" : "wish";
+        pill.className =
+          (mine ? "wish is-mine" : "wish") + (hadir === true ? " is-hadir" : "");
         var from = document.createElement("span");
         from.className = "wish-from";
         from.textContent = name + ":";
@@ -2987,14 +3084,16 @@
 
       function showGuestWishes(rows) {
         var pills = myWishes.map(function (w) {
-          return wishPill(w.nama, w.isi_text, true);
+          return wishPill(w.nama, w.isi_text, true, w.hadir);
         });
         rows.forEach(function (row) {
           var isMine = myWishes.some(function (w) {
             return w.nama === row.nama && w.isi_text === row.isi_text;
           });
           if (!isMine)
-            pills.push(wishPill(row.nama || "Tamu", row.isi_text, false));
+            pills.push(
+              wishPill(row.nama || "Tamu", row.isi_text, false, row.hadir),
+            );
         });
         for (var i = 0; pills.length < 12 && i < sampleWishes.length; i++) {
           pills.push(sampleWishes[i].cloneNode(true));
@@ -3012,7 +3111,7 @@
 
       fetch(
         SB_URL +
-        "?select=nama,isi_text,inserted_at&order=inserted_at.desc&limit=15",
+        "?select=nama,isi_text,hadir,inserted_at&order=inserted_at.desc&limit=15",
         { headers: sbHeaders() },
       )
         .then(function (res) {
@@ -3034,6 +3133,7 @@
       var wForm = document.getElementById("wish-form");
       var wName = document.getElementById("w-name");
       var wMsg = document.getElementById("w-msg");
+      var wHadir = document.getElementById("w-hadir");
       var wCount = document.getElementById("w-count");
       var wErr = document.getElementById("w-err");
       var wOk = document.getElementById("w-ok");
@@ -3047,16 +3147,19 @@
         if (wBtn.disabled) return;
         var name = wName.value.trim();
         var msg = wMsg.value.trim();
+        var hadir = wHadir.value; // "true" | "false" | "" (not chosen yet)
         wOk.hidden = true;
-        if (!name || !msg) {
+        if (!name || !hadir || !msg) {
+          var missing = [];
+          if (!name) missing.push("nama");
+          if (!hadir) missing.push("kehadiran");
+          if (!msg) missing.push("ucapan");
           wErr.textContent =
-            !name && !msg
-              ? "Isi nama dan ucapan terlebih dahulu."
-              : !name
-                ? "Isi nama Anda terlebih dahulu."
-                : "Tulis ucapan Anda terlebih dahulu.";
+            "Lengkapi " +
+            missing.join(", ").replace(/, ([^,]*)$/, " dan $1") +
+            " terlebih dahulu.";
           wErr.hidden = false;
-          (!name ? wName : wMsg).focus();
+          (!name ? wName : !hadir ? wHadir : wMsg).focus();
           return;
         }
         wErr.hidden = true;
@@ -3065,11 +3168,15 @@
         fetch(SB_URL, {
           method: "POST",
           headers: sbHeaders(),
-          body: JSON.stringify({ nama: name, isi_text: msg }),
+          body: JSON.stringify({
+            nama: name,
+            isi_text: msg,
+            hadir: hadir === "true",
+          }),
         })
           .then(function (res) {
             if (!res.ok) throw new Error("HTTP " + res.status);
-            addMyWish(name, msg);
+            addMyWish(name, msg, hadir === "true");
           })
           .catch(function (err) {
             console.error("Gagal mengirim ucapan:", err);
@@ -3083,15 +3190,18 @@
           });
       });
 
-      function addMyWish(name, msg) {
-        myWishes.push({ nama: name, isi_text: msg });
+      function addMyWish(name, msg, isHadir) {
+        myWishes.push({ nama: name, isi_text: msg, hadir: isHadir });
         // new wishes go into the left-moving lanes so they drift in from the right side
         var wishTracks = document.querySelectorAll(
           "#ucapan .lane:not(.rev) .track",
         );
         var track = wishTracks[nextLane++ % wishTracks.length];
         Array.prototype.forEach.call(track.children, function (group) {
-          group.insertBefore(wishPill(name, msg, true), group.firstChild);
+          group.insertBefore(
+            wishPill(name, msg, true, isHadir),
+            group.firstChild,
+          );
         });
         // restart the lane so the new wish starts just right of centre and drifts across
         var lane = track.parentElement;
@@ -3106,6 +3216,7 @@
         track.style.animation = "";
         track.style.animationDelay = (-(shift / half) * dur).toFixed(2) + "s";
         wMsg.value = "";
+        wHadir.value = "";
         wCount.textContent = "0/160";
         wOk.textContent =
           "Terima kasih, " +
@@ -3360,21 +3471,43 @@
         else if (musicWanted) playMusic();
       });
 
-      // Guest name from the link, e.g. index.html?to=Budi+Santoso (textContent, so no HTML injection).
-      try {
-        var guest = (
-          new URLSearchParams(window.location.search).get("to") || ""
-        )
+      // Guest name from the link: index.html?id=12 looks the guest up in Supabase (list_pengunjung.Nama);
+      // index.html?to=Budi+Santoso still works as plain text. textContent, so no HTML injection.
+      function showGuest(name) {
+        name = String(name || "")
           .trim()
           .slice(0, 80);
+        if (!name) return;
         // envelope and cover both greet the guest
-        if (guest)
-          Array.prototype.forEach.call(
-            document.querySelectorAll(".guest-name"),
-            function (el) {
-              el.textContent = guest;
-            },
-          );
+        Array.prototype.forEach.call(
+          document.querySelectorAll(".guest-name"),
+          function (el) {
+            el.textContent = name;
+          },
+        );
+      }
+      try {
+        var params = new URLSearchParams(window.location.search);
+        showGuest(params.get("to"));
+        var guestId = (params.get("id") || "").trim();
+        // id is a bigint: only digits are sent to Supabase
+        if (/^\d{1,18}$/.test(guestId)) {
+          fetch(
+            SB_GUESTS_URL + "?select=Nama&id=eq." + guestId + "&limit=1",
+            { headers: sbHeaders() },
+          )
+            .then(function (res) {
+              if (!res.ok) throw new Error("HTTP " + res.status);
+              return res.json();
+            })
+            .then(function (rows) {
+              // unknown id: keep the default "Bapak/Ibu/Saudara/i"
+              if (rows.length) showGuest(rows[0].Nama);
+            })
+            .catch(function (err) {
+              if (window.console) console.error("Gagal memuat nama tamu:", err);
+            });
+        }
       } catch (e) { }
 
       // Cover zooms in and fades out (with a slow parallax drift) as it scrolls off the screen.
