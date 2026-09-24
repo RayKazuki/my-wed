@@ -37,6 +37,9 @@
     --u: clamp(.8px, 100vw / 400, 2px);
   }
   html { scroll-behavior: smooth; }
+  /* no sideways scrolling: clip anything that pokes past the screen edge (lotus, 100vw pieces) */
+  html { overflow-x: hidden; overflow-x: clip; }
+  body { overflow-x: clip; }
   @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
   body {
     margin: 0;
@@ -225,6 +228,20 @@
     box-shadow: 0 12px 30px rgba(35, 20, 10, .32);
   }
   .card svg, .card img { display: block; width: 100%; height: auto; }
+  /* full-page cover: fills the screen, fades out as the guest scrolls (opacity/--cover-* set by JS) */
+  #undangan {
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    will-change: opacity;
+  }
+  #undangan img {
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    transform: translateY(var(--cover-shift, 0px)) scale(var(--cover-scale, 1));
+    will-change: transform;
+  }
 
   /* ---------- verse door + couple: layout sized in --u (1/400 of the screen width) so it scales with the phone; text stays at the page-wide sizes ---------- */
   .door-wrap { position: relative; max-width: calc(360 * var(--u)); margin: calc(56 * var(--u)) auto 0; }
@@ -323,7 +340,7 @@
     margin-bottom: calc(10 * var(--u));
     text-wrap: balance;
   }
-  .parents { font-size: calc(10 * var(--u)); line-height: 1.4; color: var(--ink-soft); text-wrap: balance; }
+  .parents { font-size: min(calc(15 * var(--u)), 20px); line-height: 1.4; color: var(--ink-soft); text-wrap: balance; }
   .amp { font-family: var(--display); font-weight: 600; color: var(--red); font-size: 32px; text-align: center; line-height: 1; margin: 0; }
 
   /* full-bleed: reaches both screen edges, outside the column padding */
@@ -950,7 +967,7 @@
     <div class="seal" aria-hidden="true"></div>
     <button class="open-btn" id="open-btn" type="button">BUKA UNDANGAN</button>
   </div>
-  <p class="intro-to">Kepada Yth.<br>Bapak/Ibu/Saudara/i</p>
+  <p class="intro-to">Kepada Yth.<br><span id="guest-name">Bapak/Ibu/Saudara/i</span></p>
 </div>
 
 <main>
@@ -1628,6 +1645,33 @@
       if (document.hidden) bgm.pause();
       else if (musicWanted) bgm.play().catch(function () { setMusicBtn(false); });
     });
+
+    // Guest name from the link, e.g. index.html?to=Budi+Santoso (textContent, so no HTML injection).
+    try {
+      var guest = (new URLSearchParams(window.location.search).get('to') || '').trim().slice(0, 80);
+      if (guest) document.getElementById('guest-name').textContent = guest;
+    } catch (e) {}
+
+    // Cover fades out (with a slow parallax drift) as it scrolls off the screen.
+    var cover = document.getElementById('undangan');
+    var coverTicking = false;
+    function updateCover() {
+      coverTicking = false;
+      var h = cover.offsetHeight || window.innerHeight;
+      var y = Math.max(window.scrollY || window.pageYOffset || 0, 0);
+      var p = Math.min(y / (h * 0.75), 1);
+      cover.style.opacity = (1 - p).toFixed(3);
+      var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!still) {
+        cover.style.setProperty('--cover-shift', Math.min(y, h) * 0.35 + 'px');
+        cover.style.setProperty('--cover-scale', (1 + p * 0.06).toFixed(4));
+      }
+    }
+    window.addEventListener('scroll', function () {
+      if (!coverTicking) { coverTicking = true; requestAnimationFrame(updateCover); }
+    }, { passive: true });
+    window.addEventListener('resize', updateCover);
+    updateCover();
 
     if (root.classList.contains('sealed') && intro) {
       setInert(true);
