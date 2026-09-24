@@ -407,6 +407,10 @@
     place-items: center;
   }
   .oval img, .couple-photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); display: block; }
+  /* closing photo (2:3) in a 5:6 frame: pinned to the frame so object-fit crops it (instead of the
+     grid letting it grow to its own height), and aimed low to keep the couple in view, head to shoes */
+  .couple-photo { position: relative; }
+  .couple-photo img { position: absolute; inset: 0; object-position: 50% 82%; }
   .oval > svg, .couple-photo > svg { width: 100%; height: 100%; display: block; }
   .mono { font-family: var(--script); color: rgba(246, 240, 228, .78); font-size: clamp(58px, 17vw, 86px); line-height: 1; user-select: none; }
   .who { text-align: center; }
@@ -1203,7 +1207,7 @@
           <p class="ev-time">08.00 WIB</p>
           <p class="ev-venue">Desa Sempor Lor 01/04</p>
           <p class="ev-addr">Kaligondang, Purbalingga</p>
-          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Sempor%20Lor%2C%20Kaligondang%2C%20Purbalingga" target="_blank" rel="noopener">
+          <a class="map-btn" href="https://maps.app.goo.gl/SySkiYxQXX4cGGvx7" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"/></svg>
             Google Map
           </a>
@@ -1216,7 +1220,7 @@
           <p class="ev-time">11.00 WIB – Selesai</p>
           <p class="ev-venue">Desa Sempor Lor 01/04</p>
           <p class="ev-addr">Kaligondang, Purbalingga</p>
-          <a class="map-btn" href="https://www.google.com/maps/search/?api=1&amp;query=Sempor%20Lor%2C%20Kaligondang%2C%20Purbalingga" target="_blank" rel="noopener">
+          <a class="map-btn" href="https://maps.app.goo.gl/SySkiYxQXX4cGGvx7" target="_blank" rel="noopener">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7Zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5Z"/></svg>
             Google Map
           </a>
@@ -1334,40 +1338,8 @@
       </div>
       <p class="sign-pre">Kami yang berbahagia,</p>
       <p class="sign">Rayhan &amp; Yoland</p>
-      <!-- Foto contoh (dummy): ganti dengan <img src="..." alt="Rayhan & Yoland"> -->
       <div class="couple-photo" data-photo="couple">
-        <svg viewBox="0 0 300 360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Foto contoh Rayhan dan Yoland">
-          <defs>
-            <linearGradient id="cp-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6d6d6"/><stop offset=".55" stop-color="#8f8f8f"/><stop offset="1" stop-color="#3c3c3c"/></linearGradient>
-            <linearGradient id="cp-dress" x1="0" x2="1"><stop offset="0" stop-color="#f4f4f4"/><stop offset=".7" stop-color="#dcdcdc"/><stop offset="1" stop-color="#b4b4b4"/></linearGradient>
-            <linearGradient id="cp-shirt" x1="0" x2="1"><stop offset="0" stop-color="#f0f0f0"/><stop offset="1" stop-color="#bdbdbd"/></linearGradient>
-            <filter id="cp-blur"><feGaussianBlur stdDeviation="5"/></filter>
-            <filter id="cp-grain"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2"/><feColorMatrix type="saturate" values="0"/></filter>
-          </defs>
-          <rect width="300" height="360" fill="url(#cp-sky)"/>
-          <g filter="url(#cp-blur)">
-            <circle cx="30" cy="120" r="54" fill="#5f5f5f"/><circle cx="96" cy="84" r="46" fill="#777"/>
-            <circle cx="214" cy="92" r="50" fill="#6c6c6c"/><circle cx="282" cy="130" r="58" fill="#525252"/>
-            <path d="M150 40 C170 90 176 150 168 220" stroke="#6a6a6a" stroke-width="10" fill="none"/>
-            <path d="M240 60 C230 120 250 180 236 240 M40 70 C60 130 44 190 60 250" stroke="#4b4b4b" stroke-width="14" fill="none"/>
-            <rect y="210" width="300" height="60" fill="#474747"/>
-          </g>
-          <path d="M0 262 H300 V360 H0Z" fill="#2f2f2f"/>
-          <path d="M8 262 V244 M24 262 V238 M40 262 V248 M58 262 V240 M246 262 V242 M262 262 V236 M280 262 V246 M296 262 V240" stroke="#3d3d3d" stroke-width="3"/>
-          <ellipse cx="150" cy="324" rx="92" ry="10" fill="#1e1e1e" opacity=".7"/>
-          <rect x="103" y="232" width="11" height="88" fill="#1f1f1f"/><rect x="118" y="232" width="11" height="88" fill="#1b1b1b"/>
-          <path d="M100 318 h16 v6 h-18z M116 318 h16 v6 h-18z" fill="#0e0e0e"/>
-          <path d="M96 142 C100 136 108 134 116 134 C124 134 132 136 136 142 L140 236 H92Z" fill="url(#cp-shirt)"/>
-          <path d="M96 146 L90 228 M136 146 L142 228" stroke="#cfcfcf" stroke-width="10" stroke-linecap="round"/>
-          <rect x="110" y="124" width="12" height="14" fill="#8e8e8e"/>
-          <ellipse cx="116" cy="112" rx="14" ry="17" fill="#a3a3a3"/>
-          <path d="M102 108 C102 92 130 92 130 108 C124 101 108 101 102 108Z" fill="#1d1d1d"/>
-          <path d="M164 142 C168 134 176 132 184 132 C192 132 200 134 204 142 L228 322 H140Z" fill="url(#cp-dress)"/>
-          <path d="M166 150 C156 128 162 100 184 96 C206 100 212 128 202 150 C198 158 170 158 166 150Z" fill="#ededed"/>
-          <ellipse cx="184" cy="120" rx="12" ry="15" fill="#a8a8a8"/>
-          <g><circle cx="178" cy="198" r="9" fill="#ffffff"/><circle cx="189" cy="193" r="8" fill="#e4e4e4"/><circle cx="186" cy="205" r="8" fill="#f7f7f7"/><circle cx="171" cy="206" r="6" fill="#d8d8d8"/><path d="M180 210 L176 236 M184 210 L186 234" stroke="#8a8a8a" stroke-width="2"/></g>
-          <rect width="300" height="360" filter="url(#cp-grain)" opacity=".14"/>
-        </svg>
+        <img src="pict/last/web/DSC02120.jpg" width="900" height="1350" alt="Rayhan dan Yoland berdiri berdampingan di depan kebun pisang" loading="lazy" decoding="async">
       </div>
     </div>
   </section>
