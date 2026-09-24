@@ -1,0 +1,1705 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Rayhan &amp; Yoland</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Courier+Prime&family=Homemade+Apple&family=Itim&family=Josefin+Sans:wght@300;400;600&family=Mea+Culpa&family=Mrs+Saint+Delafield&family=Playfair+Display:ital,wght@0,600;1,600&display=swap">
+<style>
+  /* Single-look letterpress invitation: painted explicitly, no dark variant. */
+  /* Amsterdam Two is not on Google Fonts: uses the installed copy, or a file in fonts/ next to this page. */
+  @font-face {
+    font-family: "Amsterdam Two";
+    src: local("Amsterdam Two"), local("AmsterdamTwo"),
+         url("fonts/AmsterdamTwo.woff2") format("woff2"),
+         url("fonts/AmsterdamTwo.ttf") format("truetype");
+    font-display: swap;
+  }
+  :root {
+    --taupe: #8a786c;
+    --taupe-light: #9c8b7e;
+    --paper: #e6e3db;
+    --card: #eeeade;
+    --ink: #241c18;
+    --ink-soft: #4a3e37;
+    --red: #941c21;
+    --box: #5e524c;
+    --wood: #5b3725;
+    --wood-dark: #38200f;
+    --nav-ink: #1e2633;
+    --nav-mute: #7b8189;
+    --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .22 0 0 0 0 .17 0 0 0 0 .13 0 0 0 .10 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --serif: "Cormorant Garamond", Garamond, "Times New Roman", serif;
+    --display: "Playfair Display", Georgia, serif;
+    --script: "Mrs Saint Delafield", "Brush Script MT", cursive;
+    --hand: "Mea Culpa", "Brush Script MT", cursive;
+    /* section titles: MV Boli ships only with Windows, so phones fall back to Itim (a close, rounded Google font) */
+    --title: "MV Boli", "Itim", "Comic Sans MS", cursive;
+    --sans: "Josefin Sans", "Gill Sans", "Trebuchet MS", sans-serif;
+    --mono: "Courier Prime", "Courier New", monospace;
+    /* 1/400 of the screen width: a 400px-wide design that grows and shrinks with the phone */
+    --u: clamp(.8px, 100vw / 400, 2px);
+  }
+  html { scroll-behavior: smooth; }
+  /* no sideways scrolling: clip anything that pokes past the screen edge (lotus, 100vw pieces) */
+  html { overflow-x: hidden; overflow-x: clip; }
+  body { overflow-x: clip; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+  body {
+    margin: 0;
+    background: var(--paper) var(--noise);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, p { margin: 0; }
+  a { color: inherit; }
+  :focus-visible { outline: 2px solid var(--red); outline-offset: 3px; }
+
+  .band { padding-inline: 16px; }
+  .col { max-width: 420px; margin-inline: auto; }
+  .center { text-align: center; }
+  [id] { scroll-margin-top: 64px; }
+
+  /* ---------- top bar ---------- */
+  .topbar {
+    position: sticky;
+    top: env(safe-area-inset-top, 0px);
+    z-index: 10;
+    background: var(--paper);
+    border-bottom: 1px solid rgba(36, 28, 24, .06);
+  }
+  .topbar nav {
+    display: flex;
+    justify-content: flex-end;
+    gap: 24px;
+    height: 56px;
+    align-items: center;
+    max-width: 1100px;
+    margin-inline: auto;
+    font-family: var(--mono);
+    font-size: 21px;
+  }
+  .topbar a { text-decoration: none; color: var(--nav-mute); }
+  .topbar a:first-child { color: var(--nav-ink); }
+  .topbar a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+  /* ---------- taupe opening: envelope, card, verse ---------- */
+  .taupe {
+    background: var(--taupe) var(--noise);
+    padding-block: 28px 64px;
+    overflow: hidden;
+    overflow: clip;
+  }
+  /* ---------- envelope intro (shown only when JS runs) ---------- */
+  .sealed, .sealed body { overflow: hidden; }
+  .intro { display: none; }
+  .sealed .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    display: grid;
+    align-content: center;
+    justify-items: center;
+    gap: 28px;
+    padding: calc(24px + env(safe-area-inset-top, 0px)) 16px calc(24px + env(safe-area-inset-bottom, 0px));
+    background: var(--taupe) var(--noise);
+    text-align: center;
+    color: #f3eee2;
+    transition: opacity .65s ease;
+  }
+  .intro-head, .intro-to { transition: opacity .35s ease, transform .35s ease; }
+  .intro-eyebrow { font-weight: 700; font-size: 13px; letter-spacing: .35em; padding-left: .35em; opacity: .85; }
+  .intro-names { font-family: var(--display); font-style: italic; font-weight: 600; font-size: clamp(36px, 10.5vw, 48px); line-height: 1.1; margin-top: 4px; }
+  .intro-to { font-size: 18px; line-height: 1.4; }
+
+  .env {
+    position: relative;
+    width: min(78vw, 380px);
+    aspect-ratio: 3 / 2;
+    perspective: 1100px;
+    transition: transform .7s cubic-bezier(.2, .7, .2, 1), opacity .6s ease;
+    animation: bob 3.6s ease-in-out infinite;
+  }
+  @keyframes bob { 50% { translate: 0 -5px; } }
+  .env-back {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background: #ddd5b8;
+    box-shadow: 0 14px 30px rgba(40, 24, 14, .32);
+  }
+  .letter {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    top: 7%;
+    height: 86%;
+    z-index: 2;
+    box-sizing: border-box;
+    padding: 18px 12px;
+    background: #f8f4ea var(--noise);
+    color: var(--ink);
+    box-shadow: 0 2px 6px rgba(40, 24, 14, .15), inset 0 0 0 6px #f8f4ea, inset 0 0 0 7px #cbbfa5;
+    transition: transform .85s cubic-bezier(.3, .7, .2, 1);
+  }
+  .letter-caps { font-weight: 700; font-size: 10px; letter-spacing: .3em; padding-left: .3em; margin-top: 6px; }
+  .letter-names { font-family: var(--display); font-style: italic; font-weight: 600; font-size: clamp(22px, 7vw, 30px); line-height: 1.15; margin-top: 6px; }
+  .letter-date { font-weight: 700; font-size: 11px; letter-spacing: .3em; padding-left: .3em; margin-top: 6px; color: var(--red); }
+  .env-pocket { position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; display: block; }
+  .flap-wrap {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 60%;
+    z-index: 4;
+    transform-origin: 50% 0;
+    filter: drop-shadow(0 3px 3px rgba(60, 40, 20, .18));
+  }
+  .flap {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(180deg, #e6dfc3, #efe9d2);
+    clip-path: polygon(0 0, 100% 0, 52% 97%, 50% 100%, 48% 97%);
+  }
+  .seal {
+    position: absolute;
+    left: 50%;
+    top: 60%;
+    z-index: 5;
+    width: 58px;
+    height: 58px;
+    margin: -29px 0 0 -29px;
+    display: grid;
+    place-items: center;
+    border-radius: 48% 52% 50% 50% / 52% 47% 53% 48%;
+    background: radial-gradient(circle at 38% 34%, #c23a3f, #8e171d 60%, #6c0f14);
+    box-shadow: 0 3px 6px rgba(60, 10, 10, .35), inset 0 0 0 5px rgba(0, 0, 0, .12), inset 0 0 0 7px rgba(255, 190, 170, .18);
+    font-family: var(--script);
+    font-size: 24px;
+    color: rgba(255, 222, 205, .85);
+    transition: opacity .3s ease .3s, transform .3s ease .3s;
+  }
+  .open-btn {
+    position: absolute;
+    left: 50%;
+    /* fixed 12px gap below the seal at every screen size: seal centre (60%) + seal radius (29px) + gap */
+    top: calc(60% + 29px + 12px);
+    z-index: 6;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    background: rgba(255, 255, 255, .28);
+    border: 1.5px solid #3b3833;
+    color: #2d2a26;
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 14px;
+    letter-spacing: .12em;
+    line-height: 1;
+    padding: 11px 22px 9px;
+    cursor: pointer;
+    transition: background-color .2s ease, color .2s ease, opacity .3s ease;
+  }
+  .open-btn:hover { background: #3b3833; color: #efead3; }
+
+  /* opening sequence: grow → seal breaks → flap opens → letter rises → all fades */
+  .intro.is-opening .intro-head { opacity: 0; transform: translateY(-12px); }
+  .intro.is-opening .intro-to { opacity: 0; transform: translateY(12px); }
+  .intro.is-opening .open-btn { opacity: 0; pointer-events: none; }
+  .intro.is-opening .env { transform: scale(1.18); animation: none; }
+  .intro.is-opening .seal { opacity: 0; transform: scale(1.5); }
+  .intro.is-opening .flap-wrap {
+    transform: rotateX(180deg);
+    z-index: 1;
+    transition: transform .75s cubic-bezier(.45, .05, .3, 1) .55s, z-index 0s linear .95s;
+  }
+  .intro.is-opening .letter { transform: translateY(-62%); transition-delay: 1.2s; }
+  .intro.is-leaving { opacity: 0; pointer-events: none; }
+  .intro.is-leaving .env { transform: scale(1.7); opacity: 0; }
+  @media (prefers-reduced-motion: reduce) {
+    .env { animation: none; }
+    .sealed .intro { transition-duration: .2s; }
+  }
+
+  .card:focus { outline: none; }
+  /* full-bleed cover: cancel the section's side and top padding */
+  .card {
+    margin: -28px -16px 0;
+    background: var(--card) var(--noise);
+    box-shadow: 0 12px 30px rgba(35, 20, 10, .32);
+  }
+  .card svg, .card img { display: block; width: 100%; height: auto; }
+  /* full-page cover: fills the screen, fades out as the guest scrolls (opacity/--cover-* set by JS) */
+  #undangan {
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+    will-change: opacity;
+  }
+  #undangan img {
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 50%;
+    transform: translateY(var(--cover-shift, 0px)) scale(var(--cover-scale, 1));
+    will-change: transform;
+  }
+
+  /* ---------- verse door + couple: layout sized in --u (1/400 of the screen width) so it scales with the phone; text stays at the page-wide sizes ---------- */
+  .door-wrap { position: relative; max-width: calc(360 * var(--u)); margin: calc(56 * var(--u)) auto 0; }
+  .door {
+    padding: calc(24 * var(--u)) calc(22 * var(--u)) calc(22 * var(--u));
+    border-radius: 3px;
+    background:
+      radial-gradient(circle, rgba(255, 214, 170, .16) 1.1px, transparent 1.6px) 0 0 / 9px 9px,
+      repeating-linear-gradient(90deg, rgba(0, 0, 0, .10) 0 2px, transparent 2px 7px),
+      linear-gradient(170deg, #704634, #4d2d1e);
+    box-shadow:
+      0 12px 28px rgba(30, 15, 8, .38),
+      inset 0 0 0 3px var(--wood-dark),
+      inset 0 0 0 8px #7c5139,
+      inset 0 0 0 10px var(--wood-dark);
+  }
+  .opening {
+    background: var(--paper) var(--noise);
+    border-radius: 50% 50% 4px 4px / calc(118 * var(--u)) calc(118 * var(--u)) 4px 4px;
+    padding: calc(78 * var(--u)) calc(30 * var(--u)) calc(30 * var(--u));
+    text-align: center;
+    color: #1c1511;
+    font-size: 17px;
+    line-height: 1.42;
+    box-shadow:
+      inset 0 0 0 2px var(--wood-dark),
+      inset 0 0 0 6px #8d6045,
+      inset 0 0 0 8px var(--wood-dark),
+      inset 0 10px 18px rgba(30, 15, 8, .25);
+  }
+  .opening cite { display: block; margin-top: calc(14 * var(--u)); font-style: normal; font-weight: 700; font-size: 15px; letter-spacing: .04em; }
+  .lotus-left { position: absolute; left: calc(-26 * var(--u)); bottom: calc(-26 * var(--u)); width: calc(132 * var(--u)); pointer-events: none; }
+  .lotus-right { position: absolute; right: calc(-30 * var(--u)); top: 42%; width: calc(78 * var(--u)); pointer-events: none; }
+
+  /* ---------- paper sections ---------- */
+  .paper { padding-block: 40px; }
+  .garland-wrap { position: relative; padding-top: 76px; }
+  /* two halves pinned to the screen edges and the section top, outside the padding (.paper: 40px) */
+  .garland { position: absolute; top: -40px; width: min(50vw, 220px); height: auto; pointer-events: none; }
+  .garland-l { left: calc(50% - 50vw); }
+  .garland-r { right: calc(50% - 50vw); }
+  .garland-text { padding-inline: 15%; text-align: center; position: relative; }
+  /* the couple section scales with the screen width */
+  #mempelai { padding: calc(40 * var(--u)) calc(16 * var(--u)); }
+  #mempelai .col { max-width: calc(368 * var(--u)); }
+  #mempelai .garland-wrap { padding-top: calc(64 * var(--u)); }
+  #mempelai .garland { top: calc(-40 * var(--u)); width: calc(200 * var(--u)); }
+  .bismillah {
+    font-family: "Amiri", "Traditional Arabic", serif;
+    font-size: 26px;
+    line-height: 1.6;
+    margin-bottom: calc(14 * var(--u));
+    font-weight: 400;
+  }
+  .lead { font-size: 18.5px; line-height: 1.5; text-wrap: balance; }
+
+  /* staggered couple: each photo spans two rows so the other side's text tucks in beside it */
+  .couple {
+    display: grid;
+    grid-template-columns: 36% 1fr 36%;
+    grid-template-areas:
+      "p1  t1  t1"
+      "p1  amp p2"
+      "t2  t2  p2";
+    column-gap: calc(16 * var(--u));
+    row-gap: calc(22 * var(--u));
+    align-items: center;
+    padding-top: calc(32 * var(--u));
+  }
+  .c-p1 { grid-area: p1; }
+  .c-t1 { grid-area: t1; align-self: start; padding-top: calc(28 * var(--u)); }
+  .c-amp { grid-area: amp; }
+  .c-t2 { grid-area: t2; align-self: end; padding-bottom: calc(28 * var(--u)); }
+  .c-p2 { grid-area: p2; }
+  .oval {
+    aspect-ratio: 3 / 5;
+    max-width: 100%;
+    border-radius: 999px; /* capsule: straight sides, round top and bottom */
+    border: 2.5px solid var(--red);
+    overflow: hidden;
+    background: #7b6c62 var(--noise);
+    box-shadow: 0 8px 18px rgba(70, 20, 15, .22);
+    display: grid;
+    place-items: center;
+  }
+  .oval img, .couple-photo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); display: block; }
+  .oval > svg, .couple-photo > svg { width: 100%; height: 100%; display: block; }
+  .mono { font-family: var(--script); color: rgba(246, 240, 228, .78); font-size: clamp(58px, 17vw, 86px); line-height: 1; user-select: none; }
+  .who { text-align: center; }
+  .name {
+    font-family: "Homemade Apple", var(--hand);
+    font-weight: 400;
+    color: var(--red);
+    font-size: calc(22 * var(--u));
+    line-height: 1.4;
+    margin-bottom: calc(10 * var(--u));
+    text-wrap: balance;
+  }
+  .parents { font-size: min(calc(15 * var(--u)), 20px); line-height: 1.4; color: var(--ink-soft); text-wrap: balance; }
+  .amp { font-family: var(--display); font-weight: 600; color: var(--red); font-size: 32px; text-align: center; line-height: 1; margin: 0; }
+
+  /* full-bleed: reaches both screen edges, outside the column padding */
+  .scene { display: block; width: 100vw; height: auto; margin: calc(20 * var(--u)) 0 0 calc(50% - 50vw); }
+
+  .script-xl {
+    font-family: var(--title);
+    font-weight: 400;
+    color: var(--red);
+    font-size: clamp(32px, 9.5vw, 42px);
+    line-height: 1.2;
+  }
+  .event {
+    font-weight: 600;
+    font-size: 23px;
+    text-decoration: underline;
+    text-decoration-thickness: 1.5px;
+    text-underline-offset: 5px;
+    margin-top: 8px;
+  }
+  .when { font-size: 24px; line-height: 1.45; margin-top: 6px; }
+  .where { font-size: 16.5px; margin-top: 12px; color: var(--ink-soft); }
+  .pin {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    margin-top: 14px;
+    text-decoration: none;
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .pin svg { width: 120px; height: auto; transition: transform .25s ease; }
+  .pin:hover svg { transform: translateY(-3px); }
+  .pin span { border-bottom: 1px solid currentColor; padding-bottom: 1px; }
+
+  .countdown-title { margin-top: 26px; }
+  .count { display: flex; justify-content: center; gap: clamp(12px, 5vw, 24px); margin-top: 18px; }
+  .unit {
+    flex: 1 1 0;
+    max-width: 96px;
+    background: var(--box);
+    color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 6px 14px rgba(40, 28, 22, .22);
+  }
+  .num {
+    font-family: var(--display);
+    font-weight: 600;
+    font-size: clamp(38px, 12vw, 50px);
+    line-height: 1;
+    padding: 18px 0 14px;
+    font-variant-numeric: lining-nums tabular-nums;
+    border-bottom: 1.5px dashed rgba(255, 255, 255, .72);
+  }
+  .lbl {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: .3em;
+    padding: 11px 0 10px .3em;
+  }
+  .arrived { margin-top: 16px; font-style: italic; font-size: 19px; color: var(--red); }
+
+  /* ---------- passing photo gallery ---------- */
+  .gallery { padding-block: 8px 40px; overflow: hidden; overflow: clip; }
+  .gallery-title {
+    font-family: var(--title);
+    font-weight: 400;
+    color: var(--red);
+    font-size: clamp(32px, 9.5vw, 42px);
+    line-height: 1.2;
+    text-align: center;
+    padding-inline: 16px;
+    margin-bottom: 8px;
+  }
+  .gallery .group { gap: 18px; padding-right: 18px; padding-block: 12px; }
+  .shot {
+    flex: none;
+    box-sizing: border-box;
+    width: 148px;
+    height: 222px;
+    margin: 0;
+    padding: 7px;
+    background: #f7f4ec;
+    box-shadow: 0 6px 14px rgba(40, 24, 14, .22);
+    transform: rotate(var(--r, 0deg));
+  }
+  .shot:nth-child(odd) { --r: -2deg; }
+  .shot:nth-child(even) { --r: 1.6deg; }
+  .shot:nth-child(3n) { --r: .5deg; }
+  .shot svg, .shot img { display: block; width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) sepia(.2) contrast(1.03); }
+  .shot { cursor: zoom-in; transition: transform .25s ease, box-shadow .25s ease; }
+  .shot:hover, .shot:focus-visible { transform: rotate(0deg) scale(1.05); box-shadow: 0 12px 24px rgba(40, 24, 14, .3); }
+  .lane:focus-within .track { animation-play-state: paused; }
+  .gallery-hint { text-align: center; font-family: var(--sans); font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: var(--ink-soft); padding-inline: 16px; margin-bottom: 6px; }
+
+  /* ---------- photo preview ---------- */
+  .lb-open { overflow: hidden; }
+  .lb-open .track { animation-play-state: paused; }
+  .lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "prev frame next";
+    align-items: center;
+    align-content: center;
+    gap: 14px;
+    padding: calc(64px + env(safe-area-inset-top, 0px)) 16px calc(28px + env(safe-area-inset-bottom, 0px));
+    background: rgba(28, 20, 16, .9);
+    opacity: 0;
+    transition: opacity .25s ease;
+  }
+  .lightbox.is-open { opacity: 1; }
+  .lb-frame {
+    grid-area: frame;
+    justify-self: center;
+    margin: 0;
+    width: min(100%, 460px, calc((100vh - 200px) * .667));
+    width: min(100%, 460px, calc((100dvh - 200px) * .667));
+    box-sizing: border-box;
+    padding: 12px 12px 14px;
+    background: #f7f4ec;
+    box-shadow: 0 22px 50px rgba(0, 0, 0, .45);
+    transform: scale(.94) rotate(-1deg);
+    transition: transform .3s cubic-bezier(.2, .7, .2, 1);
+    touch-action: pan-y;
+  }
+  .lightbox.is-open .lb-frame { transform: none; }
+  .lb-media { aspect-ratio: 2 / 3; overflow: hidden; background: #d8d2c6; }
+  /* preview shows the photo in its natural colour (the gallery strip stays toned) */
+  .lb-media > svg, .lb-media > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .lb-cap { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-top: 10px; }
+  .lb-title { font-family: var(--title); font-size: 22px; line-height: 1.3; color: var(--red); }
+  .lb-count { flex: none; font-family: var(--sans); font-size: 12px; letter-spacing: .2em; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+  .lb-btn {
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 1px solid rgba(243, 238, 226, .4);
+    background: rgba(243, 238, 226, .12);
+    color: #f3eee2;
+    cursor: pointer;
+    transition: background-color .2s ease;
+  }
+  .lb-btn:hover { background: rgba(243, 238, 226, .26); }
+  .lb-btn svg { width: 20px; height: 20px; }
+  .lb-prev { grid-area: prev; }
+  .lb-next { grid-area: next; }
+  .lb-close { position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); right: 16px; }
+  @media (max-width: 600px) {
+    .lightbox { grid-template-columns: 1fr 1fr; grid-template-areas: "frame frame" "prev next"; row-gap: 18px; }
+    .lb-frame { width: min(100%, 460px, calc((100vh - 240px) * .667)); width: min(100%, 460px, calc((100dvh - 240px) * .667)); }
+    .lb-prev { justify-self: end; margin-right: 10px; }
+    .lb-next { justify-self: start; margin-left: 10px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .lightbox, .lb-frame, .shot { transition: none; }
+  }
+  .g-mono { font-family: var(--script); font-size: 44px; fill: #3a3a3a; }
+  .g-date { font-family: var(--serif); font-weight: 700; font-size: 9px; letter-spacing: 2px; fill: #555; }
+
+  /* ---------- passing wishes ---------- */
+  .wishes {
+    background: var(--taupe) var(--noise);
+    padding-block: 44px 50px;
+    overflow: hidden;
+    overflow: clip;
+  }
+  .wishes-title {
+    font-family: var(--title);
+    font-weight: 400;
+    color: #f3eee2;
+    font-size: clamp(32px, 9.5vw, 42px);
+    line-height: 1.2;
+    text-align: center;
+    padding-inline: 16px;
+    margin-bottom: 24px;
+  }
+  .lanes {
+    display: grid;
+    gap: 14px;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  }
+  .track {
+    display: flex;
+    width: max-content;
+    animation: drift var(--dur, 44s) linear infinite;
+  }
+  .lane.rev .track { animation-direction: reverse; }
+  .lane:hover .track { animation-play-state: paused; }
+  .group { display: flex; gap: 12px; padding-right: 12px; }
+  .wish {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    white-space: nowrap;
+    background: #f2ede1 var(--noise);
+    color: var(--ink);
+    font-style: italic;
+    font-size: 18px;
+    line-height: 1.3;
+    padding: 8px 20px 8px 15px;
+    border-radius: 999px;
+    box-shadow: 0 3px 8px rgba(40, 24, 14, .18);
+  }
+  .wish::before {
+    content: "";
+    flex: none;
+    width: 7px;
+    height: 7px;
+    background: var(--red);
+    transform: rotate(45deg);
+  }
+  .wish.ar { font-family: "Amiri", "Traditional Arabic", serif; font-style: normal; font-size: 19px; }
+  @keyframes drift { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) {
+    .lanes { -webkit-mask-image: none; mask-image: none; }
+    .track { animation: none; width: auto; }
+    .group { flex-wrap: wrap; justify-content: center; padding-inline: 16px; }
+    .group[aria-hidden="true"] { display: none; }
+    .wish { white-space: normal; }
+  }
+
+  /* ---------- wish form ---------- */
+  .wish-form {
+    box-sizing: border-box;
+    max-width: 420px;
+    margin: 34px auto 0;
+    margin-inline: max(16px, calc((100% - 420px) / 2));
+    padding: 24px 22px 22px;
+    background: #f7f4ea var(--noise);
+    box-shadow: 0 10px 24px rgba(40, 24, 14, .22), inset 0 0 0 6px #f7f4ea, inset 0 0 0 7px #cbbfa5;
+    color: var(--ink);
+    display: grid;
+    gap: 14px;
+  }
+  .wish-form h3 { font-family: "Amsterdam Two", var(--hand); font-weight: 400; color: var(--red); font-size: 36px; line-height: 1.3; text-align: center; }
+  .field { display: grid; gap: 6px; }
+  .field label, .field .count {
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 11px;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .field-top { display: flex; justify-content: space-between; align-items: baseline; }
+  .field .count { font-weight: 400; letter-spacing: .08em; font-variant-numeric: tabular-nums; }
+  .field input, .field textarea {
+    box-sizing: border-box;
+    width: 100%;
+    font: 500 18px/1.4 var(--serif);
+    color: var(--ink);
+    background: #fffdf8;
+    border: 1px solid #cbbfa5;
+    border-radius: 2px;
+    padding: 10px 12px;
+  }
+  .field textarea { resize: vertical; min-height: 92px; }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 2px rgba(148, 28, 33, .15); }
+  .form-err { color: var(--red); font-size: 16px; }
+  .form-ok { color: var(--ink); font-size: 17px; font-style: italic; text-align: center; }
+  .submit-btn {
+    background: #3b3833;
+    color: #efead3;
+    border: 1.5px solid #3b3833;
+    font-family: var(--sans);
+    font-size: 13px;
+    letter-spacing: .14em;
+    line-height: 1;
+    padding: 13px 16px 11px;
+    cursor: pointer;
+    transition: background-color .2s ease;
+  }
+  .submit-btn:hover { background: var(--red); border-color: var(--red); }
+  .submit-btn:disabled { opacity: .65; cursor: progress; }
+  .form-note { font-size: 14.5px; color: var(--ink-soft); text-align: center; line-height: 1.35; }
+  .wish.is-mine { background: #fbeee8; box-shadow: 0 0 0 2px var(--red), 0 3px 8px rgba(40, 24, 14, .18); }
+  .wish-from { font-style: normal; font-weight: 700; }
+
+  /* ---------- wedding gift ---------- */
+  .gift-lead { font-size: 18.5px; line-height: 1.5; margin-top: 10px; text-wrap: balance; }
+  .gift-list { display: grid; gap: 14px; margin-top: 24px; text-align: left; }
+  .acct {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 6px 14px;
+    padding: 18px 20px;
+    background: #f7f4ea var(--noise);
+    box-shadow: 0 6px 16px rgba(40, 24, 14, .12), inset 0 0 0 6px #f7f4ea, inset 0 0 0 7px #cbbfa5;
+  }
+  .acct-bank {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .acct-bank::before { content: ""; width: 7px; height: 7px; background: var(--red); transform: rotate(45deg); flex: none; }
+  .acct-no {
+    font-family: var(--mono);
+    font-size: 20px;
+    letter-spacing: .06em;
+    color: var(--ink);
+    margin-top: 6px;
+    font-variant-numeric: tabular-nums;
+    overflow-wrap: anywhere;
+  }
+  .acct-name { font-size: 17px; color: var(--ink-soft); }
+  .acct-info { min-width: 0; }
+  .copy-btn {
+    background: transparent;
+    border: 1.5px solid #3b3833;
+    color: #2d2a26;
+    font-family: var(--sans);
+    font-weight: 400;
+    font-size: 12px;
+    letter-spacing: .14em;
+    line-height: 1;
+    padding: 11px 14px 9px;
+    min-width: 96px;
+    cursor: pointer;
+    transition: background-color .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .copy-btn:hover { background: #3b3833; color: #efead3; }
+  .copy-btn.is-done { background: var(--red); border-color: var(--red); color: #f7efe6; }
+  @media (max-width: 360px) {
+    .acct { grid-template-columns: 1fr; }
+    .copy-btn { justify-self: start; margin-top: 6px; }
+  }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  .closing { font-size: 18.5px; line-height: 1.5; text-wrap: pretty; }
+  .sign-pre { font-family: var(--title); color: var(--red); font-size: clamp(20px, 5.5vw, 24px); line-height: 1.3; margin-top: 26px; }
+  .sign { font-family: var(--title); color: var(--red); font-size: clamp(32px, 9.5vw, 42px); line-height: 1.2; }
+  .couple-photo {
+    margin-top: 18px;
+    aspect-ratio: 5 / 6;
+    max-width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #6f625a var(--noise);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 10px 24px rgba(40, 28, 22, .22);
+  }
+
+  .foot {
+    padding-block: 34px 44px;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: .3em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- falling melati (jasmine) petals ---------- */
+  .melati-rain {
+    position: fixed;
+    inset: 0;
+    z-index: 55;
+    pointer-events: none;
+    overflow: hidden;
+    transition: opacity 1.4s ease;
+  }
+  /* petals wait until the envelope has been opened */
+  .sealed .melati-rain { opacity: 0; visibility: hidden; }
+  .melati {
+    position: absolute;
+    top: 0;
+    left: var(--x);
+    width: var(--s);
+    animation: melati-fall var(--fall) linear var(--delay) infinite;
+    will-change: transform;
+  }
+  .melati > span {
+    display: block;
+    animation: melati-sway var(--sway) ease-in-out var(--delay) infinite alternate;
+  }
+  .melati svg {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    filter: drop-shadow(0 1px 1.5px rgba(60, 40, 20, .2));
+    animation: melati-flip var(--flip) ease-in-out var(--delay) infinite alternate;
+  }
+  @keyframes melati-fall { from { transform: translateY(-10vh); } to { transform: translateY(110vh); } }
+  @keyframes melati-sway {
+    from { transform: translateX(calc(var(--drift) * -1)) rotate(var(--r0)); }
+    to { transform: translateX(var(--drift)) rotate(var(--r1)); }
+  }
+  @keyframes melati-flip { from { transform: rotateY(0deg) rotateX(10deg); } to { transform: rotateY(70deg) rotateX(35deg); } }
+  @media (prefers-reduced-motion: reduce) { .melati-rain { display: none; } }
+
+  /* ---------- music toggle ---------- */
+  .music-btn {
+    position: fixed;
+    right: 16px;
+    bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+    z-index: 58;
+    width: 46px;
+    height: 46px;
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border: 2px solid #efead3;
+    border-radius: 50%;
+    background: #3b3833;
+    color: #efead3;
+    box-shadow: 0 6px 16px rgba(30, 20, 14, .35);
+    cursor: pointer;
+  }
+  .music-btn svg { width: 22px; height: 22px; }
+  .music-btn[aria-pressed="true"] .ic-off { display: none; }
+  .music-btn[aria-pressed="true"] svg { animation: music-spin 4s linear infinite; }
+  @keyframes music-spin { to { transform: rotate(360deg); } }
+  .sealed .music-btn { display: none; }
+  @media (prefers-reduced-motion: reduce) { .music-btn[aria-pressed="true"] svg { animation: none; } }
+
+  /* ---------- phone-only layout ---------- */
+  /* desktop / laptop (wide screen + mouse): cover everything with a notice */
+  .desktop-block { display: none; }
+  @media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+    html, body { overflow: hidden; }
+    .desktop-block {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: grid;
+      place-content: center;
+      justify-items: center;
+      gap: 18px;
+      padding: 24px;
+      background: var(--taupe) var(--noise);
+      color: #f3eee2;
+      text-align: center;
+    }
+    .desktop-block svg { width: 64px; height: auto; opacity: .9; }
+    .desktop-block h2 { font-family: var(--display); font-style: italic; font-weight: 600; font-size: 40px; line-height: 1.1; }
+    .desktop-block p { max-width: 380px; font-size: 19px; line-height: 1.5; }
+    .desktop-block .db-names { font-family: var(--sans); font-size: 13px; letter-spacing: .35em; opacity: .8; margin-top: 8px; }
+  }
+</style>
+<script>document.documentElement.classList.add('sealed');</script>
+
+<!-- Shared drawing parts (original illustrations) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <path id="petal" d="M0 0 C-8 -11 -8 -27 0 -36 C8 -27 8 -11 0 0Z"/>
+    <g id="lotus" stroke-width=".9">
+      <use href="#petal" transform="rotate(-64) scale(.78)" fill="#f3cfc1" stroke="#cf8574"/>
+      <use href="#petal" transform="rotate(64) scale(.78)" fill="#f3cfc1" stroke="#cf8574"/>
+      <use href="#petal" transform="rotate(-33) scale(.92)" fill="#efb4a2" stroke="#c97a68"/>
+      <use href="#petal" transform="rotate(33) scale(.92)" fill="#efb4a2" stroke="#c97a68"/>
+      <use href="#petal" fill="#e69884" stroke="#bf6a58"/>
+      <path d="M-11 -2 Q0 5 11 -2" fill="none" stroke="#a9644f" stroke-width="1"/>
+    </g>
+    <g id="pad">
+      <ellipse rx="26" ry="7.5" fill="#5f7f47"/>
+      <ellipse rx="20" ry="5" fill="#6f9055"/>
+      <path d="M0 0 L-9 -6" stroke="#44603a" stroke-width="1.3"/>
+    </g>
+    <path id="leaf" d="M0 0 C7 -10 7 -24 0 -34 C-7 -24 -7 -10 0 0Z"/>
+    <g id="melati-petal">
+      <path d="M0 0 C-6 -3 -7 -15 -3 -20 C-1 -22 1 -22 3 -20 C7 -15 6 -3 0 0Z" fill="#fffdf6" stroke="#e0d6bf" stroke-width=".6"/>
+      <path d="M0 -2 Q.6 -10 0 -17" fill="none" stroke="#ece3cd" stroke-width=".7"/>
+    </g>
+    <g id="melati-bloom">
+      <use href="#melati-petal"/>
+      <use href="#melati-petal" transform="rotate(72)"/>
+      <use href="#melati-petal" transform="rotate(144)"/>
+      <use href="#melati-petal" transform="rotate(216)"/>
+      <use href="#melati-petal" transform="rotate(288)"/>
+      <circle r="3" fill="#f1e7b8" stroke="#dccb86" stroke-width=".6"/>
+    </g>
+    <g id="frond">
+      <path d="M0 0 C16 -24 18 -64 5 -98 C-9 -66 -13 -26 0 0Z"/>
+      <path d="M0 0 C3 -30 4 -60 5 -96" fill="none" stroke="#3f5a31" stroke-width="1.2" opacity=".55"/>
+    </g>
+    <g id="bush">
+      <circle r="14"/><circle cx="12" cy="-6" r="12"/><circle cx="-12" cy="-4" r="11"/>
+      <circle cx="4" cy="-15" r="11"/><circle cx="-7" cy="-17" r="9"/>
+    </g>
+    <g id="blossom">
+      <path d="M0 -3 L0 6" stroke="#6f5a45" stroke-width="1"/>
+      <path d="M0 4 C-6 9 -6 17 0 22 C6 17 6 9 0 4Z" fill="#c0436a"/>
+      <path d="M0 7 L-8 2 M0 7 L8 2" stroke="#8e2447" stroke-width="2.2" stroke-linecap="round"/>
+    </g>
+    <g id="magnolia" stroke="#d3ccb9" stroke-width=".8">
+      <ellipse cx="-6" cy="-3" rx="8" ry="4.5" transform="rotate(-30 -6 -3)" fill="#fbfaf4"/>
+      <ellipse cx="6" cy="-3" rx="8" ry="4.5" transform="rotate(30 6 -3)" fill="#fbfaf4"/>
+      <ellipse cx="0" cy="-7" rx="4.5" ry="9" fill="#ffffff"/>
+      <circle cy="-2" r="1.8" fill="#d9c27a" stroke="none"/>
+    </g>
+    <g id="tassel">
+      <line y2="30" stroke="#d6cb6a" stroke-width="3" stroke-dasharray="3.5 1.5"/>
+      <path d="M-3 30 L3 30 L0 38Z" fill="#a89f3f"/>
+    </g>
+    <g id="lantern">
+      <line y1="-40" y2="0" stroke="#9c8a3a" stroke-width="1"/>
+      <path d="M-6 0 H6 L10 9 L6 20 H-6 L-10 9Z" fill="#d6b04a" stroke="#95772a" stroke-width="1"/>
+      <path d="M-10 9 H10" stroke="#95772a" stroke-width=".8"/>
+      <line y1="20" y2="32" stroke="#d6b04a" stroke-width="2"/>
+    </g>
+    <g id="joglo">
+      <rect x="-48" y="-4" width="96" height="7" fill="#6d5a4a"/>
+      <rect x="-40" y="-27" width="80" height="23" fill="#b88a64"/>
+      <path d="M-31 -27 V-4 M-15 -27 V-4 M15 -27 V-4 M31 -27 V-4" stroke="#7b5238" stroke-width="2"/>
+      <rect x="-7" y="-21" width="14" height="17" fill="#6e4430"/>
+      <path d="M-62 -24 L-36 -39 H36 L62 -24Z" fill="#7d4f38"/>
+      <path d="M-36 -39 L-15 -63 H15 L36 -39Z" fill="#6b3f2c"/>
+      <path d="M-28 -46 H28 M-22 -53 H22" stroke="#512f20" stroke-width=".8" opacity=".6"/>
+      <path d="M-18 -63 H18" stroke="#44261a" stroke-width="2.6" stroke-linecap="round"/>
+    </g>
+    <g id="garland">
+      <path d="M16 18 V136 M34 18 V110 M54 22 V86" stroke="#7a6a52" stroke-width=".8" fill="none"/>
+      <use href="#leaf" transform="translate(16 48) rotate(-38) scale(.42)" fill="#6c8b4c"/>
+      <use href="#leaf" transform="translate(16 70) rotate(38) scale(.42)" fill="#58773f"/>
+      <use href="#leaf" transform="translate(16 94) rotate(-38) scale(.42)" fill="#6c8b4c"/>
+      <use href="#leaf" transform="translate(16 116) rotate(38) scale(.36)" fill="#58773f"/>
+      <use href="#blossom" transform="translate(16 134)"/>
+      <use href="#leaf" transform="translate(34 42) rotate(38) scale(.4)" fill="#58773f"/>
+      <use href="#leaf" transform="translate(34 64) rotate(-38) scale(.4)" fill="#6c8b4c"/>
+      <use href="#leaf" transform="translate(34 86) rotate(38) scale(.36)" fill="#58773f"/>
+      <use href="#blossom" transform="translate(34 108) scale(.9)"/>
+      <use href="#leaf" transform="translate(54 44) rotate(-38) scale(.36)" fill="#6c8b4c"/>
+      <use href="#leaf" transform="translate(54 64) rotate(38) scale(.34)" fill="#58773f"/>
+      <path d="M50 96 L54 86 L58 96Z" fill="#7b9a58"/>
+      <use href="#bush" transform="translate(12 6) scale(1.35)" fill="#56753e"/>
+      <use href="#bush" transform="translate(44 2) scale(1.1)" fill="#6a8b4d"/>
+      <use href="#bush" transform="translate(76 4) scale(.8)" fill="#7e9b5f"/>
+      <use href="#leaf" transform="translate(94 10) rotate(78) scale(.6)" fill="#6c8b4c"/>
+      <use href="#leaf" transform="translate(100 18) rotate(112) scale(.5)" fill="#58773f"/>
+      <use href="#leaf" transform="translate(86 20) rotate(140) scale(.45)" fill="#7e9b5f"/>
+      <use href="#blossom" transform="translate(62 12)"/>
+      <use href="#blossom" transform="translate(88 18) scale(.9)"/>
+      <use href="#blossom" transform="translate(112 8) scale(.85)"/>
+    </g>
+    <!-- gallery parts -->
+    <linearGradient id="sky-day" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dcdcdc"/><stop offset=".6" stop-color="#9a9a9a"/><stop offset="1" stop-color="#4a4a4a"/></linearGradient>
+    <linearGradient id="sky-dusk" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5e5e5e"/><stop offset=".6" stop-color="#c4c4c4"/><stop offset="1" stop-color="#e4e4e4"/></linearGradient>
+    <radialGradient id="sky-night" cx=".5" cy=".3" r=".85"><stop offset="0" stop-color="#4a4a4a"/><stop offset="1" stop-color="#0e0e0e"/></radialGradient>
+    <radialGradient id="glow"><stop offset="0" stop-color="#ffffff" stop-opacity=".9"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient>
+    <filter id="soft5" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="5"/></filter>
+    <filter id="to-shadow"><feColorMatrix values="0 0 0 0 .08 0 0 0 0 .08 0 0 0 0 .08 0 0 0 1 0"/></filter>
+    <g id="fig-groom">
+      <rect x="-13" y="-88" width="11" height="86" fill="#1f1f1f"/>
+      <rect x="2" y="-88" width="11" height="86" fill="#1b1b1b"/>
+      <path d="M-15 -3 h14 v4 h-16z M1 -3 h14 v4 h-16z" fill="#0e0e0e"/>
+      <path d="M-20 -178 C-16 -184 -8 -186 0 -186 C8 -186 16 -184 20 -178 L24 -84 H-24Z" fill="#e6e6e6"/>
+      <path d="M-20 -174 L-26 -92 M20 -174 L26 -92" stroke="#cfcfcf" stroke-width="10" stroke-linecap="round"/>
+      <rect x="-6" y="-196" width="12" height="14" fill="#8e8e8e"/>
+      <ellipse cy="-208" rx="14" ry="17" fill="#a3a3a3"/>
+      <path d="M-14 -212 C-14 -228 14 -228 14 -212 C8 -219 -8 -219 -14 -212Z" fill="#1d1d1d"/>
+    </g>
+    <g id="fig-bride">
+      <path d="M-20 -180 C-16 -188 -8 -190 0 -190 C8 -190 16 -188 20 -180 L44 0 H-44Z" fill="#ececec"/>
+      <path d="M-18 -172 C-28 -194 -22 -222 0 -226 C22 -222 28 -194 18 -172 C14 -164 -14 -164 -18 -172Z" fill="#f6f6f6"/>
+      <ellipse cy="-202" rx="12" ry="15" fill="#a8a8a8"/>
+      <g transform="translate(-4 -122)">
+        <circle r="9" fill="#ffffff"/><circle cx="11" cy="-5" r="8" fill="#e4e4e4"/><circle cx="8" cy="7" r="8" fill="#f7f7f7"/><circle cx="-7" cy="8" r="6" fill="#d8d8d8"/>
+        <path d="M2 12 L-2 38 M6 12 L8 36" stroke="#8a8a8a" stroke-width="2"/>
+      </g>
+    </g>
+    <g id="lotus-cluster">
+      <use href="#pad" transform="translate(-22 0) scale(.9)"/>
+      <use href="#pad" transform="translate(26 6) scale(.75)"/>
+      <path d="M-4 -4 V-26 M22 2 V-12" stroke="#4f6d3b" stroke-width="1.6"/>
+      <use href="#lotus" transform="translate(-4 -26) scale(1.05)"/>
+      <use href="#lotus" transform="translate(22 -12) scale(.7)"/>
+      <use href="#leaf" transform="translate(-40 -2) rotate(-50) scale(.8)" fill="#6c8b4c"/>
+    </g>
+  </defs>
+</svg>
+
+<!-- Shown only on desktop/laptop screens: the invitation is made for phones -->
+<div class="desktop-block" role="alert">
+  <svg viewBox="0 0 40 64" aria-hidden="true">
+    <rect x="2" y="2" width="36" height="60" rx="7" fill="none" stroke="currentColor" stroke-width="3"/>
+    <path d="M15 8 H25" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="20" cy="54" r="3" fill="currentColor"/>
+  </svg>
+  <h2>Silakan buka di HP</h2>
+  <p>Undangan ini dirancang khusus untuk layar ponsel dan tidak kompatibel dengan ukuran layar desktop. Mohon buka tautan ini melalui HP Anda.</p>
+  <p class="db-names">RAYHAN &amp; YOLAND · 21.11.2026</p>
+</div>
+
+<!-- Envelope cover: the whole invitation stays sealed until "Buka Undangan" -->
+<div class="intro" id="intro" role="dialog" aria-modal="true" aria-labelledby="intro-title">
+  <div class="intro-head">
+    <p class="intro-eyebrow">THE WEDDING OF</p>
+    <h1 class="intro-names" id="intro-title">Rayhan &amp; Yoland</h1>
+  </div>
+  <div class="env">
+    <div class="env-back"></div>
+    <div class="letter" aria-hidden="true">
+      <p class="letter-caps">ANNOUNCING THE MARRIAGE OF</p>
+      <p class="letter-names">Rayhan &amp; Yoland</p>
+      <p class="letter-date">21 · 11 · 2026</p>
+    </div>
+    <svg class="env-pocket" viewBox="0 0 360 240" preserveAspectRatio="none" aria-hidden="true">
+      <path d="M0 0 L176 130 L0 240Z" fill="#ebe5cc" stroke="#d6ceb1" stroke-width="1"/>
+      <path d="M360 0 L184 130 L360 240Z" fill="#ebe5cc" stroke="#d6ceb1" stroke-width="1"/>
+      <path d="M0 240 L172 118 Q180 112 188 118 L360 240Z" fill="#f1ecd7" stroke="#d6ceb1" stroke-width="1"/>
+    </svg>
+    <div class="flap-wrap"><div class="flap"></div></div>
+    <div class="seal" aria-hidden="true"></div>
+    <button class="open-btn" id="open-btn" type="button">BUKA UNDANGAN</button>
+  </div>
+  <p class="intro-to">Kepada Yth.<br><span id="guest-name">Bapak/Ibu/Saudara/i</span></p>
+</div>
+
+<main>
+  <!-- Envelope, announcement card and verse -->
+  <section class="taupe band" id="sampul">
+    <article class="card" id="undangan" tabindex="-1">
+      <img src="pict/page/cover.jpeg" width="1366" height="1804" alt="The wedding of Rayhan &amp; Yoland, 21.11.2026. Kepada Yth. Bapak/Ibu/Saudara/i">
+    </article>
+
+    <div class="door-wrap">
+      <div class="door">
+        <blockquote class="opening">
+          <p>Di antara tanda-tanda (kebesaran)-Nya ialah bahwa Dia menciptakan pasangan-pasangan untukmu dari (jenis) dirimu sendiri agar kamu merasa tenteram kepadanya. Dia menjadikan di antaramu rasa cinta dan kasih sayang. Sesungguhnya pada yang demikian itu benar-benar terdapat tanda-tanda (kebesaran Allah) bagi kaum yang berpikir.</p>
+          <cite>QS. Ar-Rum : 21</cite>
+        </blockquote>
+      </div>
+      <svg class="lotus-left" viewBox="-60 -64 120 80" aria-hidden="true"><use href="#lotus-cluster"/></svg>
+      <svg class="lotus-right" viewBox="-40 -50 80 64" aria-hidden="true">
+        <use href="#pad" transform="translate(0 4) scale(.8)"/>
+        <path d="M0 0 V-14" stroke="#4f6d3b" stroke-width="1.6"/>
+        <use href="#lotus" transform="translate(0 -14) scale(.9)"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Greeting and the couple -->
+  <section class="paper band" id="mempelai">
+    <div class="col">
+      <div class="garland-wrap">
+        <svg class="garland garland-l" viewBox="0 0 200 150" aria-hidden="true">
+          <use href="#garland"/>
+        </svg>
+        <svg class="garland garland-r" viewBox="0 0 200 150" aria-hidden="true">
+          <use href="#garland" transform="translate(200 0) scale(-1 1)"/>
+        </svg>
+        <div class="garland-text">
+          <p class="bismillah" lang="ar" dir="rtl">بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيْم</p>
+          <p class="lead">Tanpa mengurangi rasa hormat, kami bermaksud mengundang Bapak/Ibu/Saudara/i untuk menghadiri acara pernikahan kami,</p>
+        </div>
+      </div>
+
+      <!-- staggered: groom top-left, bride bottom-right, "&" between the two photos -->
+      <div class="couple">
+        <div class="oval c-p1" data-photo="groom">
+          <img src="pict/my/web/rayhan.jpg" width="540" height="900" alt="Huda Nur Rayhan">
+        </div>
+        <div class="who c-t1">
+          <h2 class="name">Huda Nur<br>Rayhan</h2>
+          <p class="parents">Putra Kedua dari<br>Ibu Tri Asih S &<br>Bapak Mohammad Holil </p>
+        </div>
+        <p class="amp c-amp" aria-hidden="true">&amp;</p>
+        <div class="who c-t2">
+          <h2 class="name">Yoland Alifia Az Zahra</h2>
+          <p class="parents">Putri Pertama dari<br>Ibu Lasmini S &<br>Bapak Aris Munandar</p>
+        </div>
+        <div class="oval c-p2" data-photo="bride">
+          <img src="pict/my/web/yoland.jpg" width="540" height="900" alt="Yoland Alifia Az Zahra">
+        </div>
+      </div>
+
+      <svg class="scene" viewBox="0 0 400 190" aria-hidden="true">
+        <use href="#frond" transform="translate(300 184) rotate(-30) scale(1.3)" fill="#86a167"/>
+        <use href="#frond" transform="translate(326 184) rotate(-6) scale(1.6)" fill="#6f8c55"/>
+        <use href="#frond" transform="translate(356 184) rotate(24) scale(1.4)" fill="#7f9a62"/>
+        <use href="#frond" transform="translate(378 184) rotate(50) scale(1.1)" fill="#6f8c55"/>
+        <use href="#frond" transform="translate(40 184) rotate(18) scale(1.2)" fill="#86a167"/>
+        <use href="#frond" transform="translate(64 184) rotate(-20) scale(1)" fill="#6f8c55"/>
+        <use href="#joglo" transform="translate(200 176) scale(1.5)"/>
+        <path d="M0 176 Q200 166 400 176 V190 H0Z" fill="#d3c8b0"/>
+        <use href="#magnolia" transform="translate(300 176) scale(1.5)"/>
+        <use href="#magnolia" transform="translate(322 182) scale(1.2)"/>
+        <use href="#magnolia" transform="translate(280 184)"/>
+        <use href="#pad" transform="translate(40 180)"/>
+        <use href="#pad" transform="translate(96 186) scale(.9)"/>
+        <use href="#pad" transform="translate(146 188) scale(.6)"/>
+        <path d="M58 158 V178 M104 164 V184 M26 166 V176" stroke="#4f6d3b" stroke-width="1.8"/>
+        <use href="#lotus" transform="translate(58 158) scale(1.3)"/>
+        <use href="#lotus" transform="translate(104 164) scale(1)"/>
+        <use href="#lotus" transform="translate(26 166) scale(.8)"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Passing photo gallery: web-sized copies of pict/slide (originals kept untouched) -->
+  <section class="gallery" id="galeri" aria-labelledby="galeri-title">
+    <h2 class="gallery-title" id="galeri-title">Our moments</h2>
+    <p class="gallery-hint">Ketuk foto untuk melihat lebih dekat</p>
+    <div class="lanes">
+      <div class="lane" style="--dur: 52s">
+        <div class="track">
+          <div class="group">
+            <figure class="shot"><img src="pict/slide/web/DSC04326.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC04349.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC04418.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC04605.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08618.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08678.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08703.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+          </div>
+        </div>
+      </div>
+      <div class="lane rev" style="--dur: 56s">
+        <div class="track">
+          <div class="group">
+            <figure class="shot"><img src="pict/slide/web/DSC04339.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC04389.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC04585.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08608.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08637.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08682.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08715.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Date, place, countdown -->
+  <section class="paper band" id="acara">
+    <div class="col center">
+      <h2 class="script-xl">Save the date!</h2>
+      <h3 class="event">Akad dan Resepsi</h3>
+      <p class="when">Sabtu, 21 November 2026<br>Pukul 08.00-selesai</p>
+      <p class="where">Desa Sempor Lor 01/04, Kaligondang, Purbalingga</p>
+      <a class="pin" href="https://www.google.com/maps/search/?api=1&amp;query=Sempor%20Lor%2C%20Kaligondang%2C%20Purbalingga" target="_blank" rel="noopener">
+        <svg viewBox="0 0 120 92" aria-hidden="true">
+          <path d="M8 62 L38 50 L68 62 L100 50 L114 78 L82 90 L50 78 L20 90Z" fill="#efe6cf" stroke="#b9ab8c" stroke-width="1"/>
+          <path d="M22 74 L60 66 L100 72" stroke="#9fbf8a" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+          <path d="M40 58 L54 86 M80 58 L72 84" stroke="#cdc5ad" stroke-width="2" fill="none"/>
+          <path d="M60 62 C48 44 43 34 43 26 A17 17 0 0 1 77 26 C77 34 72 44 60 62Z" fill="#c62f2a"/>
+          <circle cx="60" cy="26" r="6.5" fill="#f5ebe3"/>
+        </svg>
+        <span>Lihat lokasi</span>
+      </a>
+
+      <h2 class="script-xl countdown-title">Count the date</h2>
+      <div class="count" role="timer" aria-label="Hitung mundur ke 21 November 2026 pukul 08.00 WIB">
+        <div class="unit"><div class="num" id="cd-d">00</div><div class="lbl">HARI</div></div>
+        <div class="unit"><div class="num" id="cd-h">00</div><div class="lbl">JAM</div></div>
+        <div class="unit"><div class="num" id="cd-m">00</div><div class="lbl">MENIT</div></div>
+      </div>
+      <p class="arrived" id="cd-done" hidden>Hari bahagia telah tiba.</p>
+    </div>
+  </section>
+
+  <!-- Passing wishes -->
+  <section class="wishes" id="ucapan" aria-labelledby="ucapan-title">
+    <h2 class="wishes-title" id="ucapan-title">Ucapan &amp; Doa</h2>
+    <div class="lanes">
+      <div class="lane" style="--dur: 42s">
+        <div class="track">
+          <div class="group">
+            <p class="wish">Selamat menempuh hidup baru, Rayhan &amp; Yoland</p>
+            <p class="wish">Semoga menjadi keluarga sakinah, mawaddah, warahmah</p>
+            <p class="wish ar" lang="ar" dir="rtl">بَارَكَ اللهُ لَكُمَا وَبَارَكَ عَلَيْكُمَا</p>
+            <p class="wish">Selamat berbahagia untuk kedua mempelai</p>
+          </div>
+        </div>
+      </div>
+      <div class="lane rev" style="--dur: 50s">
+        <div class="track">
+          <div class="group">
+            <p class="wish">Barakallahu lakuma wa baraka &#8216;alaikuma wa jama&#8216;a bainakuma fii khair</p>
+            <p class="wish">Happy wedding!</p>
+            <p class="wish">Semoga langgeng hingga ke jannah-Nya</p>
+            <p class="wish">Semoga dilimpahi keberkahan dan rezeki yang baik</p>
+          </div>
+        </div>
+      </div>
+      <div class="lane" style="--dur: 46s">
+        <div class="track">
+          <div class="group">
+            <p class="wish">Turut berbahagia atas pernikahan kalian</p>
+            <p class="wish">Semoga cinta kalian terus tumbuh setiap hari</p>
+            <p class="wish">Selamat &amp; sukses di babak baru kehidupan</p>
+            <p class="wish">Doa terbaik untuk Rayhan &amp; Yoland</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <form class="wish-form" id="wish-form" novalidate>
+      <h3>Tulis ucapan</h3>
+      <div class="field">
+        <label for="w-name">Nama</label>
+        <input id="w-name" name="name" type="text" maxlength="40" autocomplete="name" placeholder="Nama Anda">
+      </div>
+      <div class="field">
+        <div class="field-top"><label for="w-msg">Ucapan &amp; doa</label><span class="count" id="w-count">0/160</span></div>
+        <textarea id="w-msg" name="message" maxlength="160" rows="3" placeholder="Tulis ucapan dan doa untuk kedua mempelai"></textarea>
+      </div>
+      <p class="form-err" id="w-err" role="alert" hidden></p>
+      <button class="submit-btn" type="submit">TAMBAHKAN UCAPAN</button>
+      <p class="form-ok" id="w-ok" aria-live="polite" hidden></p>
+      <p class="form-note">Ucapan Anda akan tampil untuk semua tamu undangan.</p>
+    </form>
+  </section>
+
+  <!-- Wedding gift: ganti XXXX dan "Nama pemilik rekening" dengan data asli -->
+  <section class="paper band" id="gift" aria-labelledby="gift-title">
+    <div class="col center">
+      <h2 class="script-xl" id="gift-title">Wedding Gift</h2>
+      <p class="gift-lead">Doa restu Anda merupakan karunia yang sangat berarti bagi kami. Jika Bapak/Ibu/Saudara/i ingin memberikan tanda kasih, dapat melalui rekening berikut:</p>
+      <div class="gift-list">
+        <article class="acct">
+          <div class="acct-info">
+            <h3 class="acct-bank">Bank BCA</h3>
+            <p class="acct-no" id="acct-bca">XXXX XXXX XX</p>
+            <p class="acct-name">a.n. Nama pemilik rekening</p>
+          </div>
+          <button class="copy-btn" type="button" data-copy="acct-bca" aria-label="Salin nomor rekening BCA">SALIN</button>
+        </article>
+        <article class="acct">
+          <div class="acct-info">
+            <h3 class="acct-bank">Bank Mandiri</h3>
+            <p class="acct-no" id="acct-mandiri">XXX XX XXXXXXX X</p>
+            <p class="acct-name">a.n. Nama pemilik rekening</p>
+          </div>
+          <button class="copy-btn" type="button" data-copy="acct-mandiri" aria-label="Salin nomor rekening Mandiri">SALIN</button>
+        </article>
+        <article class="acct">
+          <div class="acct-info">
+            <h3 class="acct-bank">Bank BNI</h3>
+            <p class="acct-no" id="acct-bni">XXXX XXXX XX</p>
+            <p class="acct-name">a.n. Nama pemilik rekening</p>
+          </div>
+          <button class="copy-btn" type="button" data-copy="acct-bni" aria-label="Salin nomor rekening BNI">SALIN</button>
+        </article>
+      </div>
+      <p class="sr-only" id="copy-status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <!-- Closing -->
+  <section class="paper band" id="bahagia">
+    <div class="col center">
+      <div class="garland-wrap">
+        <svg class="garland garland-l" viewBox="0 0 200 150" aria-hidden="true">
+          <use href="#garland"/>
+        </svg>
+        <svg class="garland garland-r" viewBox="0 0 200 150" aria-hidden="true">
+          <use href="#garland" transform="translate(200 0) scale(-1 1)"/>
+        </svg>
+        <div class="garland-text">
+          <p class="closing">Besar harapan kami agar Bapak/Ibu/Saudara/i berkenan hadir untuk turut berbagi kebahagiaan bersama kami. Atas waktu, perhatian, dan doa-doa baik yang diberikan, kami mengucapkan terima kasih.</p>
+        </div>
+      </div>
+      <p class="sign-pre">Kami yang berbahagia,</p>
+      <p class="sign">Rayhan &amp; Yoland</p>
+      <!-- Foto contoh (dummy): ganti dengan <img src="..." alt="Rayhan & Yoland"> -->
+      <div class="couple-photo" data-photo="couple">
+        <svg viewBox="0 0 300 360" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Foto contoh Rayhan dan Yoland">
+          <defs>
+            <linearGradient id="cp-sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d6d6d6"/><stop offset=".55" stop-color="#8f8f8f"/><stop offset="1" stop-color="#3c3c3c"/></linearGradient>
+            <linearGradient id="cp-dress" x1="0" x2="1"><stop offset="0" stop-color="#f4f4f4"/><stop offset=".7" stop-color="#dcdcdc"/><stop offset="1" stop-color="#b4b4b4"/></linearGradient>
+            <linearGradient id="cp-shirt" x1="0" x2="1"><stop offset="0" stop-color="#f0f0f0"/><stop offset="1" stop-color="#bdbdbd"/></linearGradient>
+            <filter id="cp-blur"><feGaussianBlur stdDeviation="5"/></filter>
+            <filter id="cp-grain"><feTurbulence type="fractalNoise" baseFrequency=".85" numOctaves="2"/><feColorMatrix type="saturate" values="0"/></filter>
+          </defs>
+          <rect width="300" height="360" fill="url(#cp-sky)"/>
+          <g filter="url(#cp-blur)">
+            <circle cx="30" cy="120" r="54" fill="#5f5f5f"/><circle cx="96" cy="84" r="46" fill="#777"/>
+            <circle cx="214" cy="92" r="50" fill="#6c6c6c"/><circle cx="282" cy="130" r="58" fill="#525252"/>
+            <path d="M150 40 C170 90 176 150 168 220" stroke="#6a6a6a" stroke-width="10" fill="none"/>
+            <path d="M240 60 C230 120 250 180 236 240 M40 70 C60 130 44 190 60 250" stroke="#4b4b4b" stroke-width="14" fill="none"/>
+            <rect y="210" width="300" height="60" fill="#474747"/>
+          </g>
+          <path d="M0 262 H300 V360 H0Z" fill="#2f2f2f"/>
+          <path d="M8 262 V244 M24 262 V238 M40 262 V248 M58 262 V240 M246 262 V242 M262 262 V236 M280 262 V246 M296 262 V240" stroke="#3d3d3d" stroke-width="3"/>
+          <ellipse cx="150" cy="324" rx="92" ry="10" fill="#1e1e1e" opacity=".7"/>
+          <rect x="103" y="232" width="11" height="88" fill="#1f1f1f"/><rect x="118" y="232" width="11" height="88" fill="#1b1b1b"/>
+          <path d="M100 318 h16 v6 h-18z M116 318 h16 v6 h-18z" fill="#0e0e0e"/>
+          <path d="M96 142 C100 136 108 134 116 134 C124 134 132 136 136 142 L140 236 H92Z" fill="url(#cp-shirt)"/>
+          <path d="M96 146 L90 228 M136 146 L142 228" stroke="#cfcfcf" stroke-width="10" stroke-linecap="round"/>
+          <rect x="110" y="124" width="12" height="14" fill="#8e8e8e"/>
+          <ellipse cx="116" cy="112" rx="14" ry="17" fill="#a3a3a3"/>
+          <path d="M102 108 C102 92 130 92 130 108 C124 101 108 101 102 108Z" fill="#1d1d1d"/>
+          <path d="M164 142 C168 134 176 132 184 132 C192 132 200 134 204 142 L228 322 H140Z" fill="url(#cp-dress)"/>
+          <path d="M166 150 C156 128 162 100 184 96 C206 100 212 128 202 150 C198 158 170 158 166 150Z" fill="#ededed"/>
+          <ellipse cx="184" cy="120" rx="12" ry="15" fill="#a8a8a8"/>
+          <g><circle cx="178" cy="198" r="9" fill="#ffffff"/><circle cx="189" cy="193" r="8" fill="#e4e4e4"/><circle cx="186" cy="205" r="8" fill="#f7f7f7"/><circle cx="171" cy="206" r="6" fill="#d8d8d8"/><path d="M180 210 L176 236 M184 210 L186 234" stroke="#8a8a8a" stroke-width="2"/></g>
+          <rect width="300" height="360" filter="url(#cp-grain)" opacity=".14"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="foot band">Rayhan &amp; Yoland · 21.11.2026</footer>
+
+<!-- Falling melati petals (decorative) -->
+<div class="melati-rain" id="melati-rain" aria-hidden="true"></div>
+
+<!-- Background music: starts with "Buka Undangan", toggled by the floating button -->
+<audio id="bgm" src="music/Kusuma_Wijaya.mp3" loop preload="auto"></audio>
+<button class="music-btn" id="music-btn" type="button" aria-pressed="false" aria-label="Putar musik">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path class="ic-note" d="M9 17.5V6l10-2v11.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    <circle cx="6.5" cy="17.5" r="2.5" fill="currentColor"/>
+    <circle cx="16.5" cy="15.5" r="2.5" fill="currentColor"/>
+    <path class="ic-off" d="M4 4 L20 20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+  </svg>
+</button>
+
+<!-- Photo preview for Our moments -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau foto" hidden>
+  <button class="lb-btn lb-close" id="lb-close" type="button" aria-label="Tutup pratinjau">
+    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 4 L16 16 M16 4 L4 16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+  </button>
+  <button class="lb-btn lb-prev" id="lb-prev" type="button" aria-label="Foto sebelumnya">
+    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4 L6.5 10 L12.5 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <figure class="lb-frame" id="lb-frame">
+    <div class="lb-media" id="lb-media"></div>
+    <figcaption class="lb-cap"><span class="lb-title" id="lb-title"></span><span class="lb-count" id="lb-count"></span></figcaption>
+  </figure>
+  <button class="lb-btn lb-next" id="lb-next" type="button" aria-label="Foto berikutnya">
+    <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7.5 4 L13.5 10 L7.5 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+</div>
+
+<script>
+  (function () {
+    var target = Date.parse('2026-11-21T08:00:00+07:00');
+    var d = document.getElementById('cd-d');
+    var h = document.getElementById('cd-h');
+    var m = document.getElementById('cd-m');
+    var done = document.getElementById('cd-done');
+    function pad(n) { return n < 10 ? '0' + n : String(n); }
+    function tick() {
+      var left = Math.max(0, target - Date.now());
+      d.textContent = pad(Math.floor(left / 864e5));
+      h.textContent = pad(Math.floor(left % 864e5 / 36e5));
+      m.textContent = pad(Math.floor(left % 36e5 / 6e4));
+      done.hidden = left > 0;
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    // Melati petals: a light, endless shower; every few is a whole floret.
+    var rain = document.getElementById('melati-rain');
+    var svgNS = 'http://www.w3.org/2000/svg';
+    function rand(a, b) { return a + Math.random() * (b - a); }
+    for (var p = 0; p < 18; p++) {
+      var bloom = p % 6 === 0;
+      var fall = rand(11, 19);
+      var petal = document.createElement('span');
+      petal.className = 'melati';
+      petal.style.setProperty('--x', rand(-2, 96).toFixed(1) + '%');
+      petal.style.setProperty('--s', (bloom ? rand(20, 28) : rand(9, 15)).toFixed(1) + 'px');
+      petal.style.setProperty('--fall', fall.toFixed(1) + 's');
+      petal.style.setProperty('--delay', (-rand(0, fall)).toFixed(1) + 's');
+      petal.style.setProperty('--sway', rand(2.4, 4.2).toFixed(1) + 's');
+      petal.style.setProperty('--flip', rand(1.6, 3).toFixed(1) + 's');
+      petal.style.setProperty('--drift', rand(14, 38).toFixed(0) + 'px');
+      petal.style.setProperty('--r0', rand(-60, 20).toFixed(0) + 'deg');
+      petal.style.setProperty('--r1', rand(40, 160).toFixed(0) + 'deg');
+      var svg = document.createElementNS(svgNS, 'svg');
+      svg.setAttribute('viewBox', bloom ? '-24 -24 48 48' : '-8 -23 16 24');
+      var use = document.createElementNS(svgNS, 'use');
+      use.setAttribute('href', bloom ? '#melati-bloom' : '#melati-petal');
+      svg.appendChild(use);
+      var sway = document.createElement('span');
+      sway.appendChild(svg);
+      petal.appendChild(sway);
+      rain.appendChild(petal);
+    }
+
+    // Gallery photos: number them and make each one open the preview.
+    var shots = Array.prototype.slice.call(document.querySelectorAll('#galeri .shot'));
+    function captionOf(shot) {
+      var media = shot.firstElementChild;
+      var text = shot.getAttribute('data-caption') ||
+        (media && (media.getAttribute('aria-label') || media.getAttribute('alt'))) || '';
+      text = text.replace(/^Foto contoh:\s*/i, '');
+      return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+    shots.forEach(function (shot, i) {
+      shot.setAttribute('data-index', i);
+      shot.setAttribute('role', 'button');
+      shot.setAttribute('tabindex', '0');
+      shot.setAttribute('aria-label', 'Lihat foto: ' + captionOf(shot));
+    });
+
+    // Duplicate each lane once so the drift loops without a gap.
+    Array.prototype.forEach.call(document.querySelectorAll('.track'), function (track) {
+      var copy = track.firstElementChild.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      Array.prototype.forEach.call(copy.querySelectorAll('[tabindex]'), function (el) {
+        el.setAttribute('tabindex', '-1');
+      });
+      track.appendChild(copy);
+    });
+
+    // Wishes are shared through Supabase (table log_ucapan: nama, isi_text, inserted_at).
+    // The anon key is the public client key; access is governed by the table's RLS policies.
+    var SB_URL = 'https://qrlympptmmfafwvdhhkt.supabase.co/rest/v1/log_ucapan';
+    var SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFybHltcHB0bW1mYWZ3dmRoaGt0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyOTI4MzUsImV4cCI6MjA5Mzg2ODgzNX0.9e5I4xjqw5C-SUKUXCDypdNnlxkSLTV33uS_8t_QPpQ';
+    function sbHeaders() {
+      return { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json' };
+    }
+
+    function wishPill(name, msg, mine) {
+      var pill = document.createElement('p');
+      pill.className = mine ? 'wish is-mine' : 'wish';
+      var from = document.createElement('span');
+      from.className = 'wish-from';
+      from.textContent = name + ':';
+      pill.appendChild(from);
+      pill.appendChild(document.createTextNode(' ' + msg));
+      return pill;
+    }
+    // Rebuild a lane from a list of pills: one visible group plus its hidden copy for the seamless loop.
+    function fillLane(track, pills) {
+      var group = document.createElement('div');
+      group.className = 'group';
+      pills.forEach(function (pill) { group.appendChild(pill); });
+      var copy = group.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      track.innerHTML = '';
+      track.appendChild(group);
+      track.appendChild(copy);
+      // longer lanes drift for longer so every lane keeps roughly the same speed
+      track.parentElement.style.setProperty('--dur', Math.max(40, pills.length * 11) + 's');
+    }
+
+    var wishLanes = Array.prototype.slice.call(document.querySelectorAll('#ucapan .track'));
+    // the built-in wishes stay as filler until enough guests have written
+    var sampleWishes = wishLanes.map(function (track) {
+      return Array.prototype.slice.call(track.firstElementChild.children);
+    }).reduce(function (all, lane) { return all.concat(lane); }, []);
+
+    function showGuestWishes(rows) {
+      var pills = rows.map(function (row) {
+        return wishPill(row.nama || 'Tamu', row.isi_text || '', false);
+      });
+      for (var i = 0; pills.length < 12 && i < sampleWishes.length; i++) {
+        pills.push(sampleWishes[i].cloneNode(true));
+      }
+      var perLane = wishLanes.map(function () { return []; });
+      pills.forEach(function (pill, i) { perLane[i % wishLanes.length].push(pill); });
+      wishLanes.forEach(function (track, i) { fillLane(track, perLane[i]); });
+    }
+
+    fetch(SB_URL + '?select=nama,isi_text,inserted_at&order=inserted_at.desc&limit=15', { headers: sbHeaders() })
+      .then(function (res) {
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        return res.json();
+      })
+      .then(function (rows) {
+        rows = rows.filter(function (row) { return row.isi_text && String(row.isi_text).trim(); });
+        if (rows.length) showGuestWishes(rows);
+      })
+      .catch(function (err) {
+        // keep the built-in wishes if the list can't be loaded
+        if (window.console) console.error('Gagal memuat ucapan:', err);
+      });
+
+    // Wish form: saves the wish to Supabase, then drops it into a passing lane.
+    var wForm = document.getElementById('wish-form');
+    var wName = document.getElementById('w-name');
+    var wMsg = document.getElementById('w-msg');
+    var wCount = document.getElementById('w-count');
+    var wErr = document.getElementById('w-err');
+    var wOk = document.getElementById('w-ok');
+    var wBtn = wForm.querySelector('.submit-btn');
+    var nextLane = 0;
+    wMsg.addEventListener('input', function () { wCount.textContent = wMsg.value.length + '/160'; });
+    wForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var name = wName.value.trim();
+      var msg = wMsg.value.trim();
+      wOk.hidden = true;
+      if (!name || !msg) {
+        wErr.textContent = !name && !msg ? 'Isi nama dan ucapan terlebih dahulu.' : (!name ? 'Isi nama Anda terlebih dahulu.' : 'Tulis ucapan Anda terlebih dahulu.');
+        wErr.hidden = false;
+        (!name ? wName : wMsg).focus();
+        return;
+      }
+      wErr.hidden = true;
+      wBtn.disabled = true;
+      wBtn.textContent = 'MENGIRIM…';
+      fetch(SB_URL, { method: 'POST', headers: sbHeaders(), body: JSON.stringify({ nama: name, isi_text: msg }) })
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP ' + res.status);
+          addMyWish(name, msg);
+        })
+        .catch(function (err) {
+          if (window.console) console.error('Gagal mengirim ucapan:', err);
+          wErr.textContent = 'Ucapan belum terkirim. Periksa koneksi Anda lalu coba lagi.';
+          wErr.hidden = false;
+        })
+        .then(function () {
+          wBtn.disabled = false;
+          wBtn.textContent = 'TAMBAHKAN UCAPAN';
+        });
+    });
+
+    function addMyWish(name, msg) {
+      // new wishes go into the left-moving lanes so they drift in from the right side
+      var wishTracks = document.querySelectorAll('#ucapan .lane:not(.rev) .track');
+      var track = wishTracks[nextLane % wishTracks.length];
+      nextLane++;
+      Array.prototype.forEach.call(track.children, function (group) {
+        group.insertBefore(wishPill(name, msg, true), group.firstChild);
+      });
+      // restart the lane so the new wish starts just right of centre and drifts across
+      var lane = track.parentElement;
+      var dur = parseFloat(getComputedStyle(lane).getPropertyValue('--dur')) || 44;
+      var half = track.scrollWidth / 2;
+      var shift = half - 0.5 * document.getElementById('ucapan').clientWidth;
+      if (shift < 0) shift += half;
+      track.style.animation = 'none';
+      void track.offsetWidth;
+      track.style.animation = '';
+      track.style.animationDelay = (-(shift / half) * dur).toFixed(2) + 's';
+      wMsg.value = '';
+      wCount.textContent = '0/160';
+      wOk.textContent = 'Terima kasih, ' + name + '! Ucapan Anda sudah terkirim dan ikut berjalan di atas.';
+      wOk.hidden = false;
+      var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      document.getElementById('ucapan-title').scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    }
+
+    // Wedding gift: copy account numbers (digits only)
+    var copyStatus = document.getElementById('copy-status');
+    Array.prototype.forEach.call(document.querySelectorAll('.copy-btn'), function (btn) {
+      btn.addEventListener('click', function () {
+        var el = document.getElementById(btn.getAttribute('data-copy'));
+        var value = el.textContent.replace(/\s+/g, '');
+        var bank = btn.closest('.acct').querySelector('.acct-bank').textContent;
+        function done(label, msg) {
+          btn.textContent = label;
+          btn.classList.add('is-done');
+          copyStatus.textContent = msg;
+          clearTimeout(btn._t);
+          btn._t = setTimeout(function () { btn.textContent = 'SALIN'; btn.classList.remove('is-done'); }, 2200);
+        }
+        function manual() {
+          var range = document.createRange();
+          range.selectNodeContents(el);
+          var sel = window.getSelection();
+          sel.removeAllRanges();
+          sel.addRange(range);
+          var ok = false;
+          try { ok = document.execCommand('copy'); } catch (err) { ok = false; }
+          if (ok) done('TERSALIN', 'Nomor rekening ' + bank + ' tersalin');
+          else done('SALIN MANUAL', 'Nomor rekening ' + bank + ' sudah dipilih, salin secara manual');
+        }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(value).then(function () {
+            done('TERSALIN', 'Nomor rekening ' + bank + ' tersalin');
+          }, manual);
+        } else {
+          manual();
+        }
+      });
+    });
+
+    // Photo preview (lightbox)
+    var lb = document.getElementById('lightbox');
+    var lbMedia = document.getElementById('lb-media');
+    var lbTitle = document.getElementById('lb-title');
+    var lbCount = document.getElementById('lb-count');
+    var lbFrame = document.getElementById('lb-frame');
+    var current = 0;
+    var opener = null;
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function show(i, dir) {
+      current = (i + shots.length) % shots.length;
+      var shot = shots[current];
+      var media = shot.firstElementChild.cloneNode(true);
+      media.removeAttribute('tabindex');
+      lbMedia.innerHTML = '';
+      lbMedia.appendChild(media);
+      lbTitle.textContent = captionOf(shot);
+      lbCount.textContent = (current + 1) + ' / ' + shots.length;
+      if (dir && !reduceMotion && lbMedia.animate) {
+        lbMedia.animate(
+          [{ opacity: 0, transform: 'translateX(' + (dir * 18) + 'px)' }, { opacity: 1, transform: 'none' }],
+          { duration: 260, easing: 'ease-out' }
+        );
+      }
+    }
+    function openPreview(i, from) {
+      opener = from || null;
+      show(i, 0);
+      lb.hidden = false;
+      root.classList.add('lb-open');
+      requestAnimationFrame(function () { requestAnimationFrame(function () { lb.classList.add('is-open'); }); });
+      document.getElementById('lb-close').focus({ preventScroll: true });
+    }
+    function closePreview() {
+      lb.classList.remove('is-open');
+      root.classList.remove('lb-open');
+      setTimeout(function () {
+        lb.hidden = true;
+        lbMedia.innerHTML = '';
+      }, reduceMotion ? 0 : 250);
+      if (opener && opener.getAttribute('tabindex') === '0') opener.focus({ preventScroll: true });
+    }
+
+    document.getElementById('galeri').addEventListener('click', function (e) {
+      var shot = e.target.closest('.shot');
+      if (shot) openPreview(+shot.getAttribute('data-index'), shot);
+    });
+    document.getElementById('galeri').addEventListener('keydown', function (e) {
+      var shot = e.target.closest('.shot');
+      if (shot && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault();
+        openPreview(+shot.getAttribute('data-index'), shot);
+      }
+    });
+    document.getElementById('lb-close').addEventListener('click', closePreview);
+    document.getElementById('lb-prev').addEventListener('click', function () { show(current - 1, -1); });
+    document.getElementById('lb-next').addEventListener('click', function () { show(current + 1, 1); });
+    lb.addEventListener('click', function (e) { if (e.target === lb) closePreview(); });
+    document.addEventListener('keydown', function (e) {
+      if (lb.hidden) return;
+      if (e.key === 'Escape') closePreview();
+      else if (e.key === 'ArrowLeft') show(current - 1, -1);
+      else if (e.key === 'ArrowRight') show(current + 1, 1);
+      else if (e.key === 'Tab') {
+        // keep focus inside the preview
+        var f = lb.querySelectorAll('button');
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+    // swipe left/right on the photo
+    var startX = null;
+    lbFrame.addEventListener('pointerdown', function (e) { startX = e.clientX; });
+    lbFrame.addEventListener('pointerup', function (e) {
+      if (startX === null) return;
+      var dx = e.clientX - startX;
+      startX = null;
+      if (Math.abs(dx) > 40) show(current + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
+    });
+
+    // Envelope cover: keep the page inert until the guest opens the invitation.
+    var root = document.documentElement;
+    var intro = document.getElementById('intro');
+    var behind = document.querySelectorAll('.topbar, main, .foot');
+    function setInert(on) {
+      Array.prototype.forEach.call(behind, function (el) {
+        if (on) el.setAttribute('inert', ''); else el.removeAttribute('inert');
+      });
+    }
+    // Background music (Kusuma Wijaya): the open tap counts as the user gesture browsers need.
+    var bgm = document.getElementById('bgm');
+    var musicBtn = document.getElementById('music-btn');
+    var musicWanted = false;
+    function setMusicBtn(on) {
+      musicBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+      musicBtn.setAttribute('aria-label', on ? 'Hentikan musik' : 'Putar musik');
+    }
+    function playMusic() {
+      musicWanted = true;
+      var p = bgm.play();
+      if (p && p.then) p.then(function () { setMusicBtn(true); }, function () { setMusicBtn(false); });
+      else setMusicBtn(true);
+    }
+    function pauseMusic() {
+      musicWanted = false;
+      bgm.pause();
+      setMusicBtn(false);
+    }
+    musicBtn.addEventListener('click', function () {
+      if (bgm.paused) playMusic(); else pauseMusic();
+    });
+    // pause while the guest switches apps or tabs, resume when they come back
+    document.addEventListener('visibilitychange', function () {
+      if (document.hidden) bgm.pause();
+      else if (musicWanted) bgm.play().catch(function () { setMusicBtn(false); });
+    });
+
+    // Guest name from the link, e.g. index.html?to=Budi+Santoso (textContent, so no HTML injection).
+    try {
+      var guest = (new URLSearchParams(window.location.search).get('to') || '').trim().slice(0, 80);
+      if (guest) document.getElementById('guest-name').textContent = guest;
+    } catch (e) {}
+
+    // Cover fades out (with a slow parallax drift) as it scrolls off the screen.
+    var cover = document.getElementById('undangan');
+    var coverTicking = false;
+    function updateCover() {
+      coverTicking = false;
+      var h = cover.offsetHeight || window.innerHeight;
+      var y = Math.max(window.scrollY || window.pageYOffset || 0, 0);
+      var p = Math.min(y / (h * 0.75), 1);
+      cover.style.opacity = (1 - p).toFixed(3);
+      var still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!still) {
+        cover.style.setProperty('--cover-shift', Math.min(y, h) * 0.35 + 'px');
+        cover.style.setProperty('--cover-scale', (1 + p * 0.06).toFixed(4));
+      }
+    }
+    window.addEventListener('scroll', function () {
+      if (!coverTicking) { coverTicking = true; requestAnimationFrame(updateCover); }
+    }, { passive: true });
+    window.addEventListener('resize', updateCover);
+    updateCover();
+
+    if (root.classList.contains('sealed') && intro) {
+      setInert(true);
+      document.getElementById('open-btn').addEventListener('click', function () {
+        playMusic();
+        var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        window.scrollTo(0, 0);
+        function finish() {
+          intro.remove();
+          root.classList.remove('sealed');
+          setInert(false);
+          window.scrollTo(0, 0);
+          document.getElementById('undangan').focus({ preventScroll: true });
+        }
+        if (reduce) {
+          intro.classList.add('is-leaving');
+          setTimeout(finish, 250);
+          return;
+        }
+        intro.classList.add('is-opening');
+        setTimeout(function () { intro.classList.add('is-leaving'); }, 2250);
+        setTimeout(finish, 2900);
+      });
+    }
+  })();
+</script>
+
+</body></html>
