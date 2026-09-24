@@ -2,7 +2,7 @@
 <title>Rayhan &amp; Yoland</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Courier+Prime&family=Homemade+Apple&family=Itim&family=Josefin+Sans:wght@300;400;600&family=Mea+Culpa&family=Mrs+Saint+Delafield&family=Playfair+Display:ital,wght@0,600;1,600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Amiri&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Courier+Prime&family=Homemade+Apple&family=Josefin+Sans:wght@300;400;600&family=Mea+Culpa&family=Mrs+Saint+Delafield&family=Playfair+Display:ital,wght@0,600;1,600&display=swap">
 <style>
   /* Single-look letterpress invitation: painted explicitly, no dark variant. */
   /* Amsterdam Two is not on Google Fonts: uses the installed copy, or a file in fonts/ next to this page. */
@@ -31,8 +31,6 @@
     --display: "Playfair Display", Georgia, serif;
     --script: "Mrs Saint Delafield", "Brush Script MT", cursive;
     --hand: "Mea Culpa", "Brush Script MT", cursive;
-    /* section titles: MV Boli ships only with Windows, so phones fall back to Itim (a close, rounded Google font) */
-    --title: "MV Boli", "Itim", "Comic Sans MS", cursive;
     --sans: "Josefin Sans", "Gill Sans", "Trebuchet MS", sans-serif;
     --mono: "Courier Prime", "Courier New", monospace;
     /* 1/400 of the screen width: a 400px-wide design that grows and shrinks with the phone */
@@ -350,11 +348,11 @@
   .scene { display: block; width: 100vw; height: auto; margin: calc(20 * var(--u)) 0 0 calc(50% - 50vw); }
 
   .script-xl {
-    font-family: var(--title);
+    font-family: var(--script);
     font-weight: 400;
     color: var(--red);
-    font-size: clamp(32px, 9.5vw, 42px);
-    line-height: 1.2;
+    font-size: clamp(58px, 17vw, 78px);
+    line-height: 1.05;
   }
   .event {
     font-weight: 600;
@@ -414,11 +412,11 @@
   /* ---------- passing photo gallery ---------- */
   .gallery { padding-block: 8px 40px; overflow: hidden; overflow: clip; }
   .gallery-title {
-    font-family: var(--title);
+    font-family: var(--script);
     font-weight: 400;
     color: var(--red);
-    font-size: clamp(32px, 9.5vw, 42px);
-    line-height: 1.2;
+    font-size: clamp(56px, 16vw, 76px);
+    line-height: 1.05;
     text-align: center;
     padding-inline: 16px;
     margin-bottom: 8px;
@@ -482,7 +480,7 @@
   /* preview shows the photo in its natural colour (the gallery strip stays toned) */
   .lb-media > svg, .lb-media > img { display: block; width: 100%; height: 100%; object-fit: cover; }
   .lb-cap { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-top: 10px; }
-  .lb-title { font-family: var(--title); font-size: 22px; line-height: 1.3; color: var(--red); }
+  .lb-title { font-family: "MV Boli", var(--hand); font-size: 22px; line-height: 1.3; color: var(--red); }
   .lb-count { flex: none; font-family: var(--sans); font-size: 12px; letter-spacing: .2em; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
   .lb-btn {
     width: 46px;
@@ -521,11 +519,11 @@
     overflow: clip;
   }
   .wishes-title {
-    font-family: var(--title);
+    font-family: var(--script);
     font-weight: 400;
     color: #f3eee2;
-    font-size: clamp(32px, 9.5vw, 42px);
-    line-height: 1.2;
+    font-size: clamp(54px, 15vw, 72px);
+    line-height: 1;
     text-align: center;
     padding-inline: 16px;
     margin-bottom: 24px;
@@ -692,8 +690,8 @@
   .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
   .closing { font-size: 18.5px; line-height: 1.5; text-wrap: pretty; }
-  .sign-pre { font-family: var(--title); color: var(--red); font-size: clamp(20px, 5.5vw, 24px); line-height: 1.3; margin-top: 26px; }
-  .sign { font-family: var(--title); color: var(--red); font-size: clamp(32px, 9.5vw, 42px); line-height: 1.2; }
+  .sign-pre { font-family: var(--hand); color: var(--red); font-size: clamp(30px, 8.5vw, 36px); line-height: 1.1; margin-top: 26px; }
+  .sign { font-family: var(--script); color: var(--red); font-size: clamp(46px, 13vw, 58px); line-height: 1.05; }
   .couple-photo {
     margin-top: 18px;
     aspect-ratio: 5 / 6;
@@ -1062,26 +1060,26 @@
       <div class="lane" style="--dur: 52s">
         <div class="track">
           <div class="group">
-            <figure class="shot"><img src="pict/slide/web/DSC04326.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
-            <figure class="shot"><img src="pict/slide/web/DSC04349.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
-            <figure class="shot"><img src="pict/slide/web/DSC04418.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
-            <figure class="shot"><img src="pict/slide/web/DSC04605.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
-            <figure class="shot"><img src="pict/slide/web/DSC08618.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
-            <figure class="shot"><img src="pict/slide/web/DSC08678.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
-            <figure class="shot"><img src="pict/slide/web/DSC08703.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC04326.jpg" width="900" height="1350" decoding="async" alt="Berhadapan di halaman pendopo"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC04349.jpg" width="900" height="1350" decoding="async" alt="Berdampingan di bawah payung"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC04418.jpg" width="900" height="1350" decoding="async" alt="Di teras Ndalem Biyung"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC04605.jpg" width="900" height="1350" decoding="async" alt="Di depan pendopo joglo"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08618.jpg" width="900" height="1350" decoding="async" alt="Duduk berdua di taman"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08678.jpg" width="900" height="1350" decoding="async" alt="Sang mempelai wanita dengan payung"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08703.jpg" width="900" height="1350" decoding="async" alt="Di gerbang kayu di antara bambu"></figure>
           </div>
         </div>
       </div>
       <div class="lane rev" style="--dur: 56s">
         <div class="track">
           <div class="group">
-            <figure class="shot"><img src="pict/slide/web/DSC04339.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
-            <figure class="shot"><img src="pict/slide/web/DSC04389.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
-            <figure class="shot"><img src="pict/slide/web/DSC04585.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
-            <figure class="shot"><img src="pict/slide/web/DSC08608.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
-            <figure class="shot"><img src="pict/slide/web/DSC08637.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
-            <figure class="shot"><img src="pict/slide/web/DSC08682.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
-            <figure class="shot"><img src="pict/slide/web/DSC08715.jpg" width="900" height="1350" decoding="async" alt="&nbsp;"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC04339.jpg" width="900" height="1350" decoding="async" alt="Berpayung berdua"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC04389.jpg" width="900" height="1350" decoding="async" alt="Di jalan setapak depan rumah merah"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC04585.jpg" width="900" height="1350" decoding="async" alt="Di depan gerbang kayu"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08608.jpg" width="900" height="1350" decoding="async" alt="Bersantai di rerumputan"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08637.jpg" width="900" height="1350" decoding="async" alt="Di balik payung"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08682.jpg" width="900" height="1350" decoding="async" alt="Melangkah bersama"></figure>
+            <figure class="shot"><img src="pict/slide/web/DSC08715.jpg" width="900" height="1350" decoding="async" alt="Di dalam pendopo"></figure>
           </div>
         </div>
       </div>
@@ -1415,7 +1413,7 @@
       wishLanes.forEach(function (track, i) { fillLane(track, perLane[i]); });
     }
 
-    fetch(SB_URL + '?select=nama,isi_text,inserted_at&order=inserted_at.desc&limit=15', { headers: sbHeaders() })
+    fetch(SB_URL + '?select=nama,isi_text,inserted_at&order=inserted_at.desc&limit=50', { headers: sbHeaders() })
       .then(function (res) {
         if (!res.ok) throw new Error('HTTP ' + res.status);
         return res.json();
