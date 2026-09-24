@@ -183,7 +183,8 @@
   .open-btn {
     position: absolute;
     left: 50%;
-    bottom: 11%;
+    /* fixed 12px gap below the seal at every screen size: seal centre (60%) + seal radius (29px) + gap */
+    top: calc(60% + 29px + 12px);
     z-index: 6;
     transform: translateX(-50%);
     white-space: nowrap;
