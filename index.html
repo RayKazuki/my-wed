@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html>
   <head>
     <meta charset="utf8" />
@@ -1573,6 +1573,24 @@
         transform: rotate(45deg);
         flex: none;
       }
+      /* bank logo (pict/assets/web/bank-*.svg) stands in for the diamond + name; the name stays for screen readers */
+      .acct-bank--logo::before,
+      .acct-bank--gift::before {
+        content: none;
+      }
+      .bank-logo {
+        display: block;
+        height: 26px;
+        width: auto;
+        max-width: 100%;
+      }
+      .acct-bank--gift svg {
+        width: 20px;
+        height: 20px;
+        flex: none;
+        color: var(--red);
+        margin-top: -3px;
+      }
       .acct-no {
         font-family: var(--mono);
         font-size: 20px;
@@ -2765,7 +2783,10 @@
               <div class="gift-list">
                 <article class="acct">
                   <div class="acct-info">
-                    <h3 class="acct-bank">Bank BCA</h3>
+                    <h3 class="acct-bank acct-bank--logo">
+                      <img class="bank-logo" src="pict/assets/web/bank-bca.svg" width="190" height="60" alt="" />
+                      <span class="sr-only">Bank BCA</span>
+                    </h3>
                     <p class="acct-no" id="acct-bca">0970804013</p>
                     <p class="acct-name">a.n. Huda Nur Rayhan</p>
                   </div>
@@ -2780,7 +2801,10 @@
                 </article>
                 <article class="acct">
                   <div class="acct-info">
-                    <h3 class="acct-bank">Bank BSI</h3>
+                    <h3 class="acct-bank acct-bank--logo">
+                      <img class="bank-logo" src="pict/assets/web/bank-bsi.svg" width="217" height="60" alt="" />
+                      <span class="sr-only">Bank BSI</span>
+                    </h3>
                     <p class="acct-no" id="acct-bsi">7297954487</p>
                     <p class="acct-name">a.n. Yoland Alifia Az Zahra</p>
                   </div>
@@ -2796,7 +2820,10 @@
                 <!-- gift parcel address: copied as one line, spaces kept (data-copy-kind="alamat") -->
                 <article class="acct">
                   <div class="acct-info">
-                    <h3 class="acct-bank">Kirim Kado</h3>
+                    <h3 class="acct-bank acct-bank--gift">
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round" d="M3.5 9h17v3.5h-17zM5 12.5h14V21H5zM12 9v12M12 9C10.5 6 7 5 6.5 7S9 9 12 9Zm0 0c1.5-3 5-4 5.5-2S15 9 12 9Z"/></svg>
+                      Kirim Kado
+                    </h3>
                     <address class="acct-addr" id="gift-addr">
                       <span class="addr-to">Yoland</span><br />
                       Desa Sempor Lor RT 01/04,<br />
