@@ -540,7 +540,7 @@
       will-change: transform;
     }
 
-    /* live text over the cover art (pict/page/cover.jpeg holds only the art): stays sharp and shows ?to= */
+    /* live text over the cover art (pict/page/cover.jpeg holds only the art): stays sharp and shows the guest name (?id=) */
     .cover-text {
       position: absolute;
       inset: 0;
@@ -3471,8 +3471,8 @@
         else if (musicWanted) playMusic();
       });
 
-      // Guest name from the link: index.html?id=12 looks the guest up in Supabase (list_pengunjung.Nama);
-      // index.html?to=Budi+Santoso still works as plain text. textContent, so no HTML injection.
+      // Guest name comes only from the link: index.html?id=12 looks the guest up in Supabase (list_pengunjung.Nama).
+      // No match (or no id) keeps the default "Bapak/Ibu/Saudara/i". textContent, so no HTML injection.
       function showGuest(name) {
         name = String(name || "")
           .trim()
@@ -3488,7 +3488,6 @@
       }
       try {
         var params = new URLSearchParams(window.location.search);
-        showGuest(params.get("to"));
         var guestId = (params.get("id") || "").trim();
         // id is a bigint: only digits are sent to Supabase
         if (/^\d{1,18}$/.test(guestId)) {
