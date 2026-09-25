@@ -326,11 +326,10 @@
     }
 
     .letter-names {
-      /* Railey (one weight): a touch larger than the old Playfair to read the same */
-      font-family: var(--title);
-      font-style: normal;
-      font-weight: 400;
-      font-size: clamp(25px, 8vw, 34px);
+      font-family: var(--display);
+      font-style: italic;
+      font-weight: 600;
+      font-size: clamp(22px, 7vw, 30px);
       line-height: 1.15;
       margin-top: 6px;
     }
@@ -531,7 +530,7 @@
       /* cqh = 1% of the cover's height, so the text scales with the art */
     }
 
-    /* cover.png (1414×2000): the bottom 92px is plain background; make the image 2000/1908 of the cover's
+    /* cover_new.png (1414×2000) ends in a flat 92px strip: make the image 2000/1908 of the cover's
      height so that strip drops below the bottom edge (overflow: hidden) */
     #undangan img {
       height: calc(100% * 2000 / 1908);
@@ -582,19 +581,18 @@
 
     .ct-names {
       top: 46.5%;
-      /* Railey, like the couple's names inside; it has one weight, so no faux bold/italic */
-      font-family: var(--title);
-      font-style: normal;
-      font-weight: 400;
-      font-size: 7.8vh;
-      font-size: min(7.8cqh, 16cqw);
-      line-height: 1.02;
+      font-family: var(--display);
+      font-style: italic;
+      font-weight: 600;
+      font-size: 6.4vh;
+      font-size: min(6.4cqh, 13.5cqw);
+      line-height: 1.12;
       text-shadow: 0.04em 0.05em 0.03em rgba(20, 12, 8, 0.32);
     }
 
-    /* in the plain band under the art: the gunungan ends at 86.5% of the cover, the plant pots at ~89% */
+    /* below the gunungan (it ends at ~82% of the cover) */
     .ct-to {
-      top: 88%;
+      top: 83%;
       font-style: italic;
       font-weight: 600;
       font-size: 2.1vh;
@@ -602,24 +600,12 @@
       line-height: 1.35;
     }
 
-    /* the guest's name sits in a small letterpress box */
     .ct-to .guest-name {
-      display: table;
-      max-width: 92%;
-      margin: 0.35em auto 0;
-      padding: 0.28em 1em 0.3em;
+      display: block;
+      margin-top: 0.15em;
       font-style: normal;
       font-weight: 700;
-      font-size: 1.08em;
-      line-height: 1.2;
-      color: var(--ink);
-      background: rgba(255, 253, 248, 0.82);
-      border: 1px solid #b3a58e;
-      border-radius: 6px;
-      box-shadow:
-        inset 0 0 0 3px rgba(255, 253, 248, 0.82),
-        inset 0 0 0 4px rgba(179, 165, 142, 0.45),
-        0 3px 10px rgba(40, 24, 14, 0.12);
+      font-size: 1.2em;
     }
 
     /* intro: once the envelope is opened the art settles in and the text rises line by line.
@@ -2415,7 +2401,7 @@
     <!-- Envelope, announcement card and verse -->
     <section class="taupe band" id="sampul">
       <article class="card" id="undangan" tabindex="-1">
-        <img src="pict/page/cover.png" width="1414" height="2000" alt="" aria-hidden="true" />
+        <img src="pict/page/cover_new.png" width="1414" height="2000" alt="" aria-hidden="true" />
         <div class="cover-text">
           <p class="ct-date">21.11.2026</p>
           <p class="ct-of">THE WEDDING OF</p>
@@ -2475,16 +2461,16 @@
             <img src="pict/my/web/rayhan.jpg" width="540" height="900" alt="Huda Nur Rayhan" />
           </div>
           <div class="who c-t1">
-            <h2 class="name">Huda Nur<br />Rayhan, S.Kom.</h2>
+            <h2 class="name">Huda Nur<br />Rayhan, S.Kom</h2>
             <p class="parents">
-              Putra Kedua dari<br />Bapak Mohammad Holil &<br />Ibu Tri Asih S, S.Pd.SD.
+              Putra Kedua dari<br />Bapak Mohammad Holil &<br />Ibu Tri Asih S, S.Pd.SD
             </p>
           </div>
           <p class="amp c-amp" aria-hidden="true">&amp;</p>
           <div class="who c-t2">
-            <h2 class="name">Yoland Alifia Az Zahra, S.Sos.</h2>
+            <h2 class="name">Yoland Alifia Az Zahra, S.Sos</h2>
             <p class="parents">
-              Putri Pertama dari<br />Bapak Aris Munandar, S.Pd, M.Pd. &<br />Ibu Lasmini Sri W, S.Pd.
+              Putri Pertama dari<br />Bapak Aris Munandar, S.Pd, M.Pd &<br />Ibu Lasmini Sri W, S.Pd
             </p>
           </div>
           <div class="oval c-p2" data-photo="bride">
