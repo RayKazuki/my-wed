@@ -5,10 +5,11 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <style>
+    /* no top padding: the cover art runs edge to edge under the notch/status bar (viewport-fit=cover);
+       a safe-area-inset-top padding here showed up as a blank strip above the cover on iPhone */
     :root {
       color-scheme: light;
       box-sizing: border-box;
-      padding-top: env(safe-area-inset-top, 0px);
       padding-bottom: env(safe-area-inset-bottom, 0px);
     }
 
