@@ -3474,7 +3474,13 @@
       function showGuest(name) {
         name = String(name || "")
           .trim()
-          .slice(0, 80);
+          .replace(/\s+/g, " ")
+          .slice(0, 80)
+          // capitalise the first letter of each word ("budi santoso" -> "Budi Santoso"); the rest is left
+          // as typed so titles like "S.Pd." keep their case
+          .replace(/(^|[\s\-\/(.])(\p{L})/gu, function (m, before, letter) {
+            return before + letter.toUpperCase();
+          });
         if (!name) return;
         // envelope and cover both greet the guest
         Array.prototype.forEach.call(
