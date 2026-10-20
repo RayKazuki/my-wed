@@ -2426,7 +2426,7 @@
       </button>
     </div>
     <p class="intro-to">
-      Kepada Yth.<br /><span id="guest-name" class="guest-name">Bapak/Ibu/Saudara/i <br></span>
+      Kepada Yth.<br /><span id="guest-name" class="guest-name">Bapak/Ibu/Saudara/i</span>
     </p>
   </div>
 
@@ -2440,7 +2440,7 @@
           <p class="ct-of">THE WEDDING OF</p>
           <h2 class="ct-names">Rayhan<br />&amp;<br />Yoland</h2>
           <p class="ct-to">
-            Kepada Yth.<span class="guest-name">Bapak/Ibu/Saudara/i <br></span>
+            Kepada Yth.<span class="guest-name">Bapak/Ibu/Saudara/i</span>
           </p>
         </div>
       </article>
@@ -3494,15 +3494,16 @@
             return before + letter.toUpperCase();
           });
         if (!name) return;
-        // "Budi" -> "Bapak/Ibu/Saudara/i Budi"; a name that already carries a family word or salutation
-        // ("Keluarga Bapak Joko", "Mbak Sari") is shown as-is
+        // "Budi" -> "Bapak/Ibu/Saudara/i" with "Budi" on the line below; a name that already carries a
+        // family word or salutation ("Keluarga Bapak Joko", "Mbak Sari") is shown as-is
         var hasSalutation = GUEST_SALUTATION.test(name);
-        var greeting = hasSalutation ? name : "Bapak/Ibu/Saudara/i " + name;
         // envelope and cover both greet the guest
         Array.prototype.forEach.call(
           document.querySelectorAll(".guest-name"),
           function (el) {
-            el.textContent = greeting;
+            el.textContent = hasSalutation ? "" : "Bapak/Ibu/Saudara/i";
+            if (!hasSalutation) el.appendChild(document.createElement("br"));
+            el.appendChild(document.createTextNode(name));
           },
         );
         // prefill the wish form, unless the guest already typed a name; a family/salutation name
