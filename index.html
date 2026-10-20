@@ -877,7 +877,7 @@
     }
 
     .lead {
-      font-size: 18.5px;
+      font-size: min(calc(15 * var(--u)), 20px);
       line-height: 1.5;
       text-wrap: balance;
     }
@@ -3465,8 +3465,9 @@
         else if (musicWanted) playMusic();
       });
 
-      // Guest name comes only from the link: index.html?id=12 looks the guest up in Supabase (list_pengunjung.Nama).
-      // No match (or no id) keeps the default "Bapak/Ibu/Saudara/i". textContent, so no HTML injection.
+      // Guest name comes only from the link: index.html?GuestName=Budi uses the name as-is, otherwise
+      // index.html?BelovedGuest=12 looks the guest up in Supabase (list_pengunjung.Nama).
+      // No match (or neither param) keeps the default "Bapak/Ibu/Saudara/i". textContent, so no HTML injection.
       function showGuest(name) {
         name = String(name || "")
           .trim()
@@ -3479,12 +3480,21 @@
             el.textContent = name;
           },
         );
+        // prefill the wish form, unless the guest already typed a name
+        var nameField = document.getElementById("w-name");
+        if (nameField && !nameField.value.trim()) {
+          nameField.value = name.slice(0, nameField.maxLength > 0 ? nameField.maxLength : 40);
+        }
       }
       try {
         var params = new URLSearchParams(window.location.search);
-        var guestId = (params.get("id") || "").trim();
-        // id is a bigint: only digits are sent to Supabase
-        if (/^\d{1,18}$/.test(guestId)) {
+        var guestName = (params.get("GuestName") || "").trim();
+        var guestId = (params.get("BelovedGuest") || "").trim();
+        if (guestName) {
+          // ?GuestName=... names the guest directly, no lookup needed
+          showGuest(guestName);
+        } else if (/^\d{1,18}$/.test(guestId)) {
+          // id is a bigint: only digits are sent to Supabase
           fetch(
             SB_GUESTS_URL + "?select=Nama&id=eq." + guestId + "&limit=1",
             { headers: sbHeaders() },
