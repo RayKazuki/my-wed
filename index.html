@@ -3034,13 +3034,24 @@
         };
       }
 
+      // capitalise the first letter of each word ("budi santoso" -> "Budi Santoso"), leaving the rest as is
+      function capitalizeWords(s) {
+        return String(s || "").replace(/(^|[\s\-\/(.])(\p{L})/gu, function (m, before, letter) {
+          return before + letter.toUpperCase();
+        });
+      }
+      // wish names in proper case whatever was typed: "BUDI SANTOSO" / "budi santoso" -> "Budi Santoso"
+      function properName(s) {
+        return capitalizeWords(String(s || "").trim().replace(/\s+/g, " ").toLowerCase());
+      }
+
       function wishPill(name, msg, mine, hadir) {
         var pill = document.createElement("p");
         pill.className =
           (mine ? "wish is-mine" : "wish") + (hadir === true ? " is-hadir" : "");
         var from = document.createElement("span");
         from.className = "wish-from";
-        from.textContent = name + ":";
+        from.textContent = properName(name) + ":";
         pill.appendChild(from);
         pill.appendChild(document.createTextNode(" " + msg));
         return pill;
@@ -3142,7 +3153,7 @@
       wForm.addEventListener("submit", function (e) {
         e.preventDefault();
         if (wBtn.disabled) return;
-        var name = wName.value.trim();
+        var name = properName(wName.value);
         var msg = wMsg.value.trim();
         var hadir = wHadir.value; // "true" | "false" | "" (not chosen yet)
         wOk.hidden = true;
@@ -3484,15 +3495,13 @@
         "iu",
       );
       function showGuest(name) {
-        name = String(name || "")
-          .trim()
-          .replace(/\s+/g, " ")
-          .slice(0, 80)
-          // capitalise the first letter of each word ("budi santoso" -> "Budi Santoso"); the rest is left
-          // as typed so titles like "S.Pd." keep their case
-          .replace(/(^|[\s\-\/(.])(\p{L})/gu, function (m, before, letter) {
-            return before + letter.toUpperCase();
-          });
+        // the rest of each word is left as typed so titles like "S.Pd." keep their case
+        name = capitalizeWords(
+          String(name || "")
+            .trim()
+            .replace(/\s+/g, " ")
+            .slice(0, 80),
+        );
         if (!name) return;
         // "Kepada Yth. Bapak/Ibu/Saudara/i" + [Budi]; a name that already carries a family word or
         // salutation ("Keluarga Bapak Joko", "Mbak Sari") drops the generic one: "Kepada Yth." + [Keluarga Bapak Joko]
