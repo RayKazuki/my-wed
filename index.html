@@ -3480,7 +3480,7 @@
       });
 
       // Guest name comes only from the link: index.html?GuestName=Budi uses the name as-is, otherwise
-      // index.html?BelovedGuest=12 looks the guest up in Supabase (list_pengunjung.Nama).
+      // index.html?id=12 looks the guest up in Supabase (list_pengunjung.Nama).
       // No match (or neither param) keeps just "Kepada Yth. Bapak/Ibu/Saudara/i". textContent, so no HTML injection.
       // Family words and salutations (whole words, any case, optional trailing dot: "Bpk.", "Kel.")
       var GUEST_SALUTATION = new RegExp(
@@ -3524,7 +3524,7 @@
       try {
         var params = new URLSearchParams(window.location.search);
         var guestName = (params.get("GuestName") || "").trim();
-        var guestId = (params.get("BelovedGuest") || "").trim();
+        var guestId = (params.get("id") || "").trim();
         if (guestName) {
           // ?GuestName=... names the guest directly, no lookup needed
           showGuest(guestName);
