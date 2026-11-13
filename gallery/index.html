@@ -12,13 +12,13 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Courier+Prime&family=Josefin+Sans:wght@400;600&display=swap">
-<link rel="preload" href="fonts/Railey.ttf" as="font" type="font/ttf" crossorigin>
+<link rel="preload" href="/fonts/Railey.ttf" as="font" type="font/ttf" crossorigin>
 <style>
-  /* Railey (TypeFairy, free for personal use) is self-hosted in fonts/.
+  /* Railey (TypeFairy, free for personal use) is self-hosted in /fonts (repo root).
      It has letters, digits, ! and ? only; other punctuation falls back to Cormorant. */
   @font-face {
     font-family: "Railey";
-    src: url("fonts/Railey.ttf") format("truetype");
+    src: url("/fonts/Railey.ttf") format("truetype");
     font-weight: 400;
     font-style: normal;
     font-display: swap;
@@ -93,6 +93,7 @@
   }
   .topbar a { text-decoration: none; color: var(--nav-mute); }
   .topbar a[aria-current] { color: var(--nav-ink); }
+  @media (max-width: 380px) { .topbar nav { gap: 18px; font-size: 19px; } }
   .topbar a:hover { text-decoration: underline; text-underline-offset: 4px; }
 
   /* ---------- taupe opening + upload card ---------- */
@@ -118,6 +119,7 @@
     line-height: 1.05;
     margin-top: 8px;
   }
+  .flourish { display: block; width: 160px; height: 16px; margin: 10px auto 4px; opacity: .7; }
   .lead {
     max-width: 34ch;
     margin: 8px auto 0;
@@ -178,6 +180,7 @@
     text-align: center;
     transition: background-color .2s ease, border-color .2s ease;
   }
+  .drop-ico { width: 40px; height: 40px; color: #9c8a78; }
   .drop.is-over { border-color: var(--red); background: rgba(148, 28, 33, .06); }
   .line-btn {
     display: inline-block;
@@ -198,7 +201,7 @@
   .line-btn:hover { background: #3b3833; color: #efead3; }
   #files:focus-visible + .line-btn { outline: 2px solid var(--red); outline-offset: 3px; }
   .drop.is-locked .line-btn { opacity: .45; pointer-events: none; }
-  .drop-hint { font-size: 16px; line-height: 1.35; color: var(--ink-soft); }
+  .drop-hint { font-size: 15px; line-height: 1.35; color: var(--ink-soft); font-style: italic; text-wrap: balance; }
 
   .queue { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
   .queue:empty { display: none; }
@@ -293,17 +296,20 @@
     text-transform: uppercase;
     color: var(--ink-soft);
   }
+  /* auto-fit + a fixed max width keeps a short album centred instead of hugging the left edge */
   .grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 22px 16px;
-    max-width: 980px;
+    justify-content: center;
+    gap: 26px 16px;
+    max-width: 1000px;
     margin-inline: auto;
+    padding-top: 8px;
   }
-  @media (min-width: 560px) { .grid { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px 24px; } }
-  @media (min-width: 880px) { .grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (min-width: 560px) { .grid { grid-template-columns: repeat(auto-fit, minmax(170px, 220px)); gap: 36px 26px; } }
 
   .shot {
+    position: relative;
     margin: 0;
     padding: 8px 8px 0;
     background: var(--polaroid);
@@ -315,9 +321,27 @@
   .shot:nth-child(odd) { --r: -1.6deg; }
   .shot:nth-child(even) { --r: 1.2deg; }
   .shot:nth-child(3n) { --r: .4deg; }
+  /* strip of washi tape holding each print */
+  .shot::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    top: -9px;
+    left: 50%;
+    width: 64px;
+    height: 20px;
+    transform: translateX(-50%) rotate(calc(var(--r, 0deg) * -2));
+    background: rgba(214, 196, 168, .72);
+    box-shadow: 0 1px 2px rgba(40, 24, 14, .12);
+    clip-path: polygon(0 8%, 6% 0, 12% 10%, 18% 0, 82% 0, 88% 10%, 94% 0, 100% 8%, 100% 92%, 94% 100%, 88% 90%, 82% 100%, 18% 100%, 12% 90%, 6% 100%, 0 92%);
+  }
+  .shot:nth-child(3n+2)::before { background: rgba(148, 28, 33, .28); }
+  .shot.is-skeleton::before { opacity: .5; }
   .shot:hover, .shot:focus-visible { transform: rotate(0deg) scale(1.03); box-shadow: 0 12px 24px rgba(40, 24, 14, .3); }
   .ph { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #d8d2c6 var(--noise); }
-  .ph img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .ph img { display: block; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity .5s ease; }
+  .ph img.is-in { opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .ph img { transition: none; } }
   .ph.is-pending img { display: none; }
   .ph.is-pending::after {
     content: "Foto sedang diproses Google Drive";
@@ -334,6 +358,7 @@
     text-transform: uppercase;
     color: var(--ink-soft);
   }
+  .shot figcaption.is-anon { color: #a39584; font-size: 20px; }
   .shot figcaption {
     height: 42px;
     padding: 0 6px;
@@ -366,6 +391,33 @@
   .note .line-btn { margin-top: 18px; font-style: normal; }
   .note.is-err { color: var(--red); }
   .more { display: flex; justify-content: center; margin-top: 36px; }
+
+  .fab {
+    position: fixed;
+    z-index: 20;
+    right: 16px;
+    bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 18px 11px;
+    background: var(--red);
+    color: var(--cream);
+    font-family: var(--sans);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 999px;
+    box-shadow: 0 8px 20px rgba(100, 18, 22, .35);
+    transform: translateY(140%);
+    opacity: 0;
+    transition: transform .3s cubic-bezier(.2, .7, .2, 1), opacity .3s ease;
+  }
+  .fab svg { width: 16px; height: 16px; margin-top: -2px; }
+  .fab.is-on { transform: none; opacity: 1; }
+  @media (prefers-reduced-motion: reduce) { .fab { transition: none; } }
 
   .foot {
     padding: 8px 16px 36px;
@@ -416,6 +468,18 @@
     background: #d8d2c6;
   }
   .lb-media.is-loaded { min-width: 0; min-height: 0; background: none; }
+  .lb-media.is-fail::after {
+    content: "Foto belum bisa ditampilkan. Coba unduh.";
+    padding: 16px;
+    text-align: center;
+    font-family: var(--sans);
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+  }
+  .lb-media.is-fail img { display: none; }
+  .lb-when { display: block; margin-top: 2px; font-family: var(--sans); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
   .lb-media img {
     display: block;
     width: auto;
@@ -425,7 +489,8 @@
     max-height: calc(100dvh - 230px);
   }
   .lb-cap { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; padding-top: 10px; }
-  .lb-title { min-width: 0; font-family: var(--script); font-size: 30px; line-height: 1.1; color: var(--red); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lb-who { min-width: 0; }
+  .lb-title { display: block; font-family: var(--script); font-size: 30px; line-height: 1.1; color: var(--red); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .lb-meta { flex: none; display: flex; align-items: baseline; gap: 14px; font-family: var(--sans); font-size: 12px; letter-spacing: .16em; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
   .lb-meta a { text-transform: uppercase; text-underline-offset: 3px; }
   .lb-btn {
@@ -455,10 +520,18 @@
 </style>
 </head>
 <body>
+<header class="topbar">
+  <nav aria-label="Navigasi">
+    <a href="/">Undangan</a>
+    <a href="#album" aria-current="page">Album</a>
+    <a href="#upload">Kirim</a>
+  </nav>
+</header>
 <main>
   <section class="hero" aria-labelledby="judul">
     <p class="eyebrow">Rayhan &amp; Yoland · 21.11.2026</p>
     <h1 id="judul">Share the moment</h1>
+    <svg class="flourish" viewBox="0 0 160 16" aria-hidden="true"><path d="M2 8h56M102 8h56" stroke="currentColor" stroke-width=".8"/><path d="M80 2c-4 4-4 8 0 12 4-4 4-8 0-12z" fill="currentColor"/><circle cx="66" cy="8" r="1.6" fill="currentColor"/><circle cx="94" cy="8" r="1.6" fill="currentColor"/></svg>
     <p class="lead">Punya foto dari hari bahagia kami? Kirimkan di sini, dan semua tamu bisa melihatnya di album bersama.</p>
 
     <form class="upload" id="upload" novalidate>
@@ -472,8 +545,9 @@
       </div>
       <div class="drop" id="drop">
         <input type="file" id="files" accept="image/*" multiple class="sr-only">
+        <svg class="drop-ico" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" aria-hidden="true"><path d="M6 16.5A3.5 3.5 0 0 1 9.5 13h6l3-5h11l3 5h6a3.5 3.5 0 0 1 3.5 3.5v19A3.5 3.5 0 0 1 38.5 39h-29A3.5 3.5 0 0 1 6 35.5z"/><circle cx="24" cy="25" r="7.5"/><path d="M36 18.5h.01" stroke-width="2.6" stroke-linecap="round"/></svg>
         <label for="files" class="line-btn">Pilih foto</label>
-        <p class="drop-hint">Bisa beberapa sekaligus, maksimal 15 MB per foto.</p>
+        <p class="drop-hint">Bisa beberapa sekaligus · maks 15 MB per foto</p>
       </div>
       <ul class="queue" id="queue" aria-label="Foto yang akan dikirim"></ul>
       <button type="submit" class="send-btn" id="send" disabled>Kirim foto</button>
@@ -497,6 +571,10 @@
   </section>
 </main>
 
+<a class="fab" id="fab" href="#upload" aria-hidden="true" tabindex="-1">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>Kirim foto
+</a>
+
 <footer class="foot">© 2026 · Made with love by Rayhan &amp; Yoland</footer>
 
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau foto" hidden>
@@ -509,7 +587,7 @@
   <figure class="lb-frame" id="lb-frame">
     <div class="lb-media" id="lb-media"></div>
     <figcaption class="lb-cap">
-      <span class="lb-title" id="lb-title"></span>
+      <span class="lb-who"><span class="lb-title" id="lb-title"></span><span class="lb-when" id="lb-when"></span></span>
       <span class="lb-meta"><span id="lb-count"></span><a id="lb-download" href="#" target="_blank" rel="noopener">Unduh</a></span>
     </figcaption>
   </figure>
@@ -603,10 +681,12 @@
     img.alt = '';
     img.loading = 'lazy';
     img.decoding = 'async';
+    img.addEventListener('load', function () { img.classList.add('is-in'); });
     setImage(img, it, 640, function () { ph.classList.add('is-pending'); });
     ph.appendChild(img);
     var cap = document.createElement('figcaption');
-    cap.textContent = it.by;
+    cap.textContent = it.by || 'Tamu';
+    if (!it.by) cap.className = 'is-anon';
     fig.appendChild(ph);
     fig.appendChild(cap);
     return fig;
@@ -847,7 +927,14 @@
   /* ---------- preview ---------- */
   var root = document.documentElement;
   var lb = $('lightbox'), lbMedia = $('lb-media'), lbTitle = $('lb-title'), lbCount = $('lb-count');
-  var lbDownload = $('lb-download'), lbFrame = $('lb-frame');
+  var lbDownload = $('lb-download'), lbFrame = $('lb-frame'), lbWhen = $('lb-when');
+  var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function when(t) {
+    if (!t) return '';
+    var d = new Date(t);
+    return d.getDate() + ' ' + MONTHS[d.getMonth()] + ' · ' + pad(d.getHours()) + '.' + pad(d.getMinutes());
+  }
   var current = 0, opener = null;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -857,12 +944,13 @@
     var it = items[current];
     var img = document.createElement('img');
     img.alt = it.by ? 'Foto dari ' + it.by : 'Foto tamu';
-    lbMedia.classList.remove('is-loaded');
+    lbMedia.classList.remove('is-loaded', 'is-fail');
     img.addEventListener('load', function () { lbMedia.classList.add('is-loaded'); });
-    setImage(img, it, 1600, null);
+    setImage(img, it, 1600, function () { if (items[current] === it) lbMedia.classList.add('is-fail'); });
     lbMedia.innerHTML = '';
     lbMedia.appendChild(img);
-    lbTitle.textContent = it.by;
+    lbTitle.textContent = it.by || 'Tamu';
+    lbWhen.textContent = when(it.time);
     lbCount.textContent = (current + 1) + ' / ' + items.length;
     lbDownload.href = driveDownload(it.id);
     if (dir && !reduceMotion && lbMedia.animate) {
@@ -915,6 +1003,17 @@
     startX = null;
     if (Math.abs(dx) > 40) show(current + (dx < 0 ? 1 : -1), dx < 0 ? 1 : -1);
   });
+
+  /* ---------- floating "Kirim foto" once the form scrolls away ---------- */
+  var fab = $('fab');
+  if ('IntersectionObserver' in window && configured) {
+    new IntersectionObserver(function (entries) {
+      var off = !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0;
+      fab.classList.toggle('is-on', off);
+      fab.setAttribute('aria-hidden', off ? 'false' : 'true');
+      fab.tabIndex = off ? 0 : -1;
+    }).observe(form);
+  }
 
   /* ---------- start ---------- */
   if (!configured) {
