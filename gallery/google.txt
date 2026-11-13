@@ -1,0 +1,113 @@
+/**
+ * Album foto pernikahan Rayhan & Yoland — backend Google Apps Script.
+ *
+ * - doGet  : mengembalikan daftar foto di folder Drive (terbaru dulu).
+ * - doPost : menerima satu foto (base64) dari halaman galeri dan menyimpannya ke folder.
+ *
+ * Deploy sebagai Web app:  Execute as = Me,  Who has access = Anyone.
+ */
+
+const FOLDER_ID = '16hW-Yrn6zkAphxP1Jw9xASkYqzq21C4b';
+const MAX_BYTES = 15 * 1024 * 1024; // 15 MB per foto
+const ALLOWED_TYPES = [
+  'image/jpeg', 'image/png', 'image/webp', 'image/gif', 'image/heic', 'image/heif'
+];
+const CACHE_KEY = 'album-list-v1';
+const CACHE_SECONDS = 60;
+
+/** Jalankan sekali dari editor untuk memberi izin akses Drive dan memastikan folder ditemukan. */
+function cekAkses() {
+  const folder = DriveApp.getFolderById(FOLDER_ID);
+  Logger.log('Folder ditemukan: ' + folder.getName());
+  Logger.log('Jumlah foto: ' + listPhotos_(true).length);
+}
+
+function doGet() {
+  try {
+    return json_({ ok: true, items: listPhotos_(false) });
+  } catch (err) {
+    return json_({ ok: false, error: message_(err) });
+  }
+}
+
+function doPost(e) {
+  try {
+    const body = JSON.parse((e && e.postData && e.postData.contents) || '{}');
+
+    // Kolom jebakan untuk bot: manusia tidak pernah mengisinya.
+    if (body.website) return json_({ ok: true, skipped: true });
+
+    const type = String(body.type || '').toLowerCase();
+    if (ALLOWED_TYPES.indexOf(type) === -1) {
+      throw new Error('Jenis file tidak didukung. Kirim foto JPG, PNG, WEBP, GIF, atau HEIC.');
+    }
+
+    const bytes = Utilities.base64Decode(String(body.data || ''));
+    if (!bytes.length) throw new Error('File foto kosong.');
+    if (bytes.length > MAX_BYTES) throw new Error('Ukuran foto lebih dari 15 MB.');
+
+    const by = clean_(body.by, 40);
+    const original = clean_(body.name, 80) || 'foto';
+    const stamp = Utilities.formatDate(new Date(), 'Asia/Jakarta', 'yyyyMMdd-HHmmss');
+    const fileName = stamp + ' - ' + (by ? by + ' - ' : '') + original;
+
+    const folder = DriveApp.getFolderById(FOLDER_ID);
+    const file = folder.createFile(Utilities.newBlob(bytes, type, fileName));
+    if (by) file.setDescription(by);
+
+    // Agar foto bisa tampil di galeri untuk semua tamu.
+    try {
+      file.setSharing(DriveApp.Access.ANYONE_WITH_LINK, DriveApp.Permission.VIEW);
+    } catch (_) {
+      // Beberapa akun Workspace melarang berbagi lewat tautan; foto tetap tersimpan.
+    }
+
+    CacheService.getScriptCache().remove(CACHE_KEY);
+    return json_({ ok: true, item: toItem_(file) });
+  } catch (err) {
+    return json_({ ok: false, error: message_(err) });
+  }
+}
+
+function listPhotos_(skipCache) {
+  const cache = CacheService.getScriptCache();
+  if (!skipCache) {
+    const hit = cache.get(CACHE_KEY);
+    if (hit) return JSON.parse(hit);
+  }
+
+  const files = DriveApp.getFolderById(FOLDER_ID)
+    .searchFiles("mimeType contains 'image/' and trashed = false");
+  const items = [];
+  while (files.hasNext()) items.push(toItem_(files.next()));
+  items.sort(function (a, b) { return b.time - a.time; });
+
+  try { cache.put(CACHE_KEY, JSON.stringify(items), CACHE_SECONDS); } catch (_) {}
+  return items;
+}
+
+function toItem_(file) {
+  return {
+    id: file.getId(),
+    by: file.getDescription() || '',
+    time: file.getDateCreated().getTime()
+  };
+}
+
+function clean_(value, max) {
+  return String(value || '')
+    .replace(/[\\/:*?"<>|\u0000-\u001f]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .slice(0, max);
+}
+
+function message_(err) {
+  return String((err && err.message) || err || 'Terjadi kesalahan.');
+}
+
+function json_(obj) {
+  return ContentService
+    .createTextOutput(JSON.stringify(obj))
+    .setMimeType(ContentService.MimeType.JSON);
+}
