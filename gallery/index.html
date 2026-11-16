@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Wedding Album · Rayhan &amp; Yoland</title>
-<meta name="description" content="Kirim dan lihat foto dari pernikahan Rayhan &amp; Yoland, Sabtu 21 November 2026.">
+<meta name="description" content="Kirim dan lihat foto &amp; video dari pernikahan Rayhan &amp; Yoland, Sabtu 21 November 2026.">
 <meta name="theme-color" content="#8a786c">
 <!-- link preview (WhatsApp, Telegram, Facebook, X), same card as the invitation: og:image and og:url must be absolute URLs -->
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Rayhan &amp; Yoland">
 <meta property="og:title" content="Wedding Album · Rayhan &amp; Yoland">
-<meta property="og:description" content="Kirim foto Anda dari hari bahagia kami dan lihat foto dari tamu lainnya.">
+<meta property="og:description" content="Kirim foto &amp; video Anda dari hari bahagia kami dan lihat kiriman tamu lainnya.">
 <meta property="og:url" content="https://my-wed-gamma.vercel.app/gallery/">
 <meta property="og:image" content="https://my-wed-gamma.vercel.app/pict/og/preview.jpg">
 <meta property="og:image:secure_url" content="https://my-wed-gamma.vercel.app/pict/og/preview.jpg">
@@ -227,7 +227,7 @@
     border: 1px solid #e2d8c4;
     overflow: hidden;
   }
-  .q img { width: 52px; height: 52px; object-fit: cover; display: block; background: #d8d2c6; }
+  .q-thumb { width: 52px; height: 52px; object-fit: cover; display: block; background: #d8d2c6; }
   .q-name { font-size: 16px; line-height: 1.2; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .q-state {
     margin-top: 4px;
@@ -237,7 +237,7 @@
     text-transform: uppercase;
     color: var(--ink-soft);
   }
-  .q.is-fail .q-state { color: var(--red); text-transform: none; letter-spacing: .02em; font-size: 12px; }
+  .q.is-fail .q-state, .q.is-bad .q-state { color: var(--red); text-transform: none; letter-spacing: .02em; font-size: 12px; }
   .q.is-done .q-state::before { content: "✓ "; }
   .q-x {
     width: 40px;
@@ -252,7 +252,9 @@
   }
   .q-x:hover { background: rgba(36, 28, 24, .06); }
   .q-x svg { width: 16px; height: 16px; }
-  .q.is-sending::after {
+  .q.is-bad { border-color: rgba(148, 28, 33, .35); }
+  .q.is-bad .q-thumb { opacity: .45; }
+  .q.is-sending::after, .q.is-checking::after {
     content: "";
     position: absolute;
     left: 0;
@@ -263,7 +265,7 @@
     animation: slide 1.1s ease-in-out infinite;
   }
   @keyframes slide { from { transform: translateX(-100%); } to { transform: translateX(250%); } }
-  @media (prefers-reduced-motion: reduce) { .q.is-sending::after { animation: none; width: 100%; opacity: .5; } }
+  @media (prefers-reduced-motion: reduce) { .q.is-sending::after, .q.is-checking::after { animation: none; width: 100%; opacity: .5; } }
 
   .send-btn {
     width: 100%;
@@ -331,7 +333,21 @@
   .shot:nth-child(3n) { --r: .4deg; }
   .shot:hover, .shot:focus-visible { transform: rotate(0deg) scale(1.03); box-shadow: 0 12px 24px rgba(40, 24, 14, .3); }
   .ph { position: relative; aspect-ratio: 4 / 5; overflow: hidden; background: #d8d2c6 var(--noise); }
-  .ph img { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .ph img, .ph video { display: block; width: 100%; height: 100%; object-fit: cover; }
+  .ph.is-video::before {
+    content: "";
+    position: absolute;
+    z-index: 1;
+    left: 50%;
+    top: 50%;
+    width: 46px;
+    height: 46px;
+    margin: -23px 0 0 -23px;
+    border-radius: 50%;
+    background: rgba(28, 20, 16, .55) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 6.5v11l9-5.5z' fill='%23f3eee2'/%3E%3C/svg%3E") center / 22px no-repeat;
+    pointer-events: none;
+  }
+  .ph.is-video.is-pending::before { display: none; }
   .ph.is-pending img { display: none; }
   .ph.is-pending::after {
     content: "Foto sedang diproses Google Drive";
@@ -348,6 +364,7 @@
     text-transform: uppercase;
     color: var(--ink-soft);
   }
+  .ph.is-video.is-pending::after { content: "Video sedang diproses Google Drive"; }
   .shot figcaption {
     height: 42px;
     padding: 0 6px;
@@ -438,6 +455,21 @@
     max-height: calc(100vh - 230px);
     max-height: calc(100dvh - 230px);
   }
+  .lb-media video {
+    display: block;
+    max-width: 100%;
+    max-height: calc(100vh - 230px);
+    max-height: calc(100dvh - 230px);
+    background: #000;
+  }
+  .lb-media iframe {
+    display: block;
+    width: min(596px, calc(100vw - 180px));
+    height: min(680px, calc(100vh - 230px));
+    height: min(680px, calc(100dvh - 230px));
+    border: 0;
+    background: #000;
+  }
   .lb-cap { display: flex; justify-content: space-between; align-items: baseline; gap: 14px; padding-top: 10px; }
   .lb-title { min-width: 0; font-family: var(--script); font-size: 30px; line-height: 1.1; color: var(--red); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .lb-meta { flex: none; display: flex; align-items: baseline; gap: 14px; font-family: var(--sans); font-size: 12px; letter-spacing: .16em; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
@@ -461,7 +493,8 @@
   .lb-close { position: absolute; top: calc(12px + env(safe-area-inset-top, 0px)); right: 16px; }
   @media (max-width: 600px) {
     .lightbox { grid-template-columns: 1fr 1fr; grid-template-areas: "frame frame" "prev next"; row-gap: 18px; }
-    .lb-media img { max-height: calc(100vh - 270px); max-height: calc(100dvh - 270px); }
+    .lb-media img, .lb-media video { max-height: calc(100vh - 270px); max-height: calc(100dvh - 270px); }
+    .lb-media iframe { width: calc(100vw - 56px); height: min(680px, calc(100vh - 270px)); height: min(680px, calc(100dvh - 270px)); }
     .lb-prev { justify-self: end; margin-right: 10px; }
     .lb-next { justify-self: start; margin-left: 10px; }
   }
@@ -473,10 +506,10 @@
   <section class="hero" aria-labelledby="judul">
     <p class="eyebrow">Rayhan &amp; Yoland · 21.11.2026</p>
     <h1 id="judul">Share the moment</h1>
-    <p class="lead">Punya foto dari hari bahagia kami? Kirimkan di sini, dan semua tamu bisa melihatnya di album bersama.</p>
+    <p class="lead">Punya foto atau video dari hari bahagia kami? Kirimkan di sini, dan semua tamu bisa melihatnya di album bersama.</p>
 
     <form class="upload" id="upload" novalidate>
-      <h2>Kirim foto</h2>
+      <h2>Kirim foto &amp; video</h2>
       <div class="field">
         <label for="by">Nama Anda</label>
         <input id="by" name="by" maxlength="40" autocomplete="name" placeholder="Tampil di bawah foto Anda">
@@ -485,23 +518,23 @@
         <label>Website <input id="website" name="website" tabindex="-1" autocomplete="off"></label>
       </div>
       <div class="drop" id="drop">
-        <input type="file" id="files" accept="image/*" multiple class="sr-only">
-        <label for="files" class="line-btn">Pilih foto</label>
-        <p class="drop-hint">Bisa beberapa sekaligus, maksimal 15 MB per foto.</p>
+        <input type="file" id="files" accept="image/*,video/*" multiple class="sr-only">
+        <label for="files" class="line-btn">Pilih foto / video</label>
+        <p class="drop-hint">Bisa beberapa sekaligus, foto maupun video, tanpa batas ukuran.</p>
       </div>
-      <ul class="queue" id="queue" aria-label="Foto yang akan dikirim"></ul>
-      <button type="submit" class="send-btn" id="send" disabled>Kirim foto</button>
+      <ul class="queue" id="queue" aria-label="File yang akan dikirim"></ul>
+      <button type="submit" class="send-btn" id="send" disabled>Kirim foto &amp; video</button>
       <p class="status" id="status" role="status" aria-live="polite"></p>
     </form>
   </section>
 
   <section class="album" id="album" aria-labelledby="album-title">
     <h2 class="album-title" id="album-title">Wedding album</h2>
-    <p class="hint" id="hint" aria-live="polite">Memuat foto…</p>
+    <p class="hint" id="hint" aria-live="polite">Memuat album…</p>
     <div class="grid" id="grid"></div>
     <div class="note" id="empty" hidden>
-      Album masih kosong. Jadilah tamu pertama yang mengirim foto.
-      <div><a class="line-btn" href="#upload">Kirim foto</a></div>
+      Album masih kosong. Jadilah tamu pertama yang mengirim foto atau video.
+      <div><a class="line-btn" href="#upload">Kirim foto &amp; video</a></div>
     </div>
     <div class="note is-err" id="error" hidden>
       <span id="error-text"></span>
@@ -513,11 +546,11 @@
 
 <footer class="foot">© 2026 · Made with love by Rayhan &amp; Yoland</footer>
 
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau foto" hidden>
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau" hidden>
   <button type="button" class="lb-btn lb-close" id="lb-close" aria-label="Tutup pratinjau">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
   </button>
-  <button type="button" class="lb-btn lb-prev" id="lb-prev" aria-label="Foto sebelumnya">
+  <button type="button" class="lb-btn lb-prev" id="lb-prev" aria-label="Sebelumnya">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
   </button>
   <figure class="lb-frame" id="lb-frame">
@@ -527,7 +560,7 @@
       <span class="lb-meta"><span id="lb-count"></span><a id="lb-download" href="#" target="_blank" rel="noopener">Unduh</a></span>
     </figcaption>
   </figure>
-  <button type="button" class="lb-btn lb-next" id="lb-next" aria-label="Foto berikutnya">
+  <button type="button" class="lb-btn lb-next" id="lb-next" aria-label="Berikutnya">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>
   </button>
 </div>
@@ -539,10 +572,8 @@
   /* ===== Isi dengan URL Web App dari Google Apps Script (berakhiran /exec) ===== */
   var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwrstZD3DiAFecCgFv982mvW236IV2yHUVT1MUY9mIwEuDF06MloZi5ha2FQoRrLtN7/exec';
 
-  var MAX_BYTES = 15 * 1024 * 1024;
-  var MAX_EDGE = 2400;      // sisi terpanjang setelah dikecilkan
-  var JPEG_QUALITY = 0.86;
-  var PAGE = 24;            // jumlah foto per halaman album
+  var CHUNK = 8 * 1024 * 1024; // ukuran potongan upload, wajib kelipatan 256 KB
+  var PAGE = 24;               // jumlah item per halaman album
   var configured = /^https:\/\/script\.google\.com\/macros\/s\/[^/]+\/exec/.test(SCRIPT_URL);
 
   var $ = function (id) { return document.getElementById(id); };
@@ -551,12 +582,13 @@
   var grid = $('grid'), hint = $('hint'), emptyEl = $('empty'), errorEl = $('error'), errorText = $('error-text');
   var moreEl = $('more');
 
-  var queue = [];   // {file, url, li, state}
-  var items = [];   // {id, by, time, local}
+  var queue = [];   // {file, url, li, state, kind, mime}
+  var items = [];   // {id, by, time, type, local}
   var shown = PAGE;
   var busy = false;
   var lastLoad = 0;
   var uid = 0;
+  var checking = Promise.resolve();
 
   /* ---------- server ---------- */
   function api(payload) {
@@ -575,14 +607,16 @@
     });
   }
 
-  /* ---------- Drive image URLs ---------- */
+  /* ---------- Drive URLs ---------- */
   function driveThumb(id, w) { return 'https://drive.google.com/thumbnail?id=' + encodeURIComponent(id) + '&sz=w' + w; }
   function driveAlt(id, w) { return 'https://lh3.googleusercontent.com/d/' + encodeURIComponent(id) + '=w' + w; }
   function driveDownload(id) { return 'https://drive.google.com/uc?export=download&id=' + encodeURIComponent(id); }
+  function drivePreview(id) { return 'https://drive.google.com/file/d/' + encodeURIComponent(id) + '/preview'; }
+  function isVideo(it) { return /^video\//.test(it.type || ''); }
 
   function setImage(img, it, w, onFail) {
     img.referrerPolicy = 'no-referrer';
-    if (it.local) { img.src = it.local; return; }
+    if (it.local && !isVideo(it)) { img.src = it.local; return; }
     var step = 0;
     img.onerror = function () {
       step++;
@@ -590,6 +624,13 @@
       else { img.onerror = null; if (onFail) onFail(); }
     };
     img.src = driveThumb(it.id, w);
+  }
+
+  function countLabel(kinds) {
+    var v = kinds.filter(function (k) { return k === 'video'; }).length, p = kinds.length - v, out = [];
+    if (p) out.push(p + ' foto');
+    if (v) out.push(v + ' video');
+    return out.join(' & ');
   }
 
   /* ---------- album ---------- */
@@ -605,20 +646,30 @@
   }
 
   function card(it, i) {
+    var video = isVideo(it);
     var fig = document.createElement('figure');
     fig.className = 'shot';
     fig.tabIndex = 0;
     fig.setAttribute('role', 'button');
     fig.setAttribute('data-index', i);
-    fig.setAttribute('aria-label', 'Lihat foto' + (it.by ? ' dari ' + it.by : '') + ', ' + (i + 1) + ' dari ' + items.length);
+    fig.setAttribute('aria-label', 'Lihat ' + (video ? 'video' : 'foto') + (it.by ? ' dari ' + it.by : '') + ', ' + (i + 1) + ' dari ' + items.length);
     var ph = document.createElement('div');
-    ph.className = 'ph';
-    var img = document.createElement('img');
-    img.alt = '';
-    img.loading = 'lazy';
-    img.decoding = 'async';
-    setImage(img, it, 640, function () { ph.classList.add('is-pending'); });
-    ph.appendChild(img);
+    ph.className = 'ph' + (video ? ' is-video' : '');
+    if (video && it.local) {
+      var v = document.createElement('video');
+      v.muted = true;
+      v.playsInline = true;
+      v.preload = 'metadata';
+      v.src = it.local + '#t=0.1';
+      ph.appendChild(v);
+    } else {
+      var img = document.createElement('img');
+      img.alt = '';
+      img.loading = 'lazy';
+      img.decoding = 'async';
+      setImage(img, it, 640, function () { ph.classList.add('is-pending'); });
+      ph.appendChild(img);
+    }
     var cap = document.createElement('figcaption');
     cap.textContent = it.by;
     fig.appendChild(ph);
@@ -634,7 +685,8 @@
     grid.appendChild(frag);
     emptyEl.hidden = items.length > 0;
     moreEl.hidden = items.length <= shown;
-    hint.textContent = items.length ? items.length + ' foto · ketuk untuk melihat lebih dekat' : '';
+    var kinds = items.map(function (it) { return isVideo(it) ? 'video' : 'image'; });
+    hint.textContent = items.length ? countLabel(kinds).replace(' & ', ' · ') + ' · ketuk untuk melihat lebih dekat' : '';
   }
 
   function showError(msg) {
@@ -652,13 +704,13 @@
       $('retry').hidden = true;
       return Promise.resolve();
     }
-    if (!quiet) { skeleton(); hint.textContent = 'Memuat foto…'; errorEl.hidden = true; emptyEl.hidden = true; }
+    if (!quiet) { skeleton(); hint.textContent = 'Memuat album…'; errorEl.hidden = true; emptyEl.hidden = true; }
     return api(null).then(function (data) {
       var locals = {};
       items.forEach(function (it) { if (it.local) locals[it.id] = it.local; });
       items = (data.items || []).map(function (it) {
         var id = String(it.id);
-        return { id: id, by: String(it.by || ''), time: Number(it.time) || 0, local: locals[id] || null };
+        return { id: id, by: String(it.by || ''), time: Number(it.time) || 0, type: String(it.type || ''), local: locals[id] || null };
       });
       lastLoad = Date.now();
       renderAlbum();
@@ -679,16 +731,131 @@
     if (document.visibilityState === 'visible' && configured && !busy && Date.now() - lastLoad > 60000) loadAlbum(true);
   });
 
-  /* ---------- picking photos ---------- */
-  function isImage(file) {
-    return /^image\//.test(file.type) || /\.(jpe?g|png|webp|gif|heic|heif)$/i.test(file.name);
+  /* ---------- checking files: harus foto/video asli dan tidak rusak ---------- */
+  var BAD = 'File rusak atau tidak lengkap.';
+
+  function bytes(blob) {
+    return (blob.arrayBuffer ? blob.arrayBuffer() : new Response(blob).arrayBuffer())
+      .then(function (b) { return new Uint8Array(b); });
   }
-  function typeOf(file) {
-    if (file.type) return file.type.toLowerCase();
-    var ext = (file.name.split('.').pop() || '').toLowerCase();
-    return { jpg: 'image/jpeg', jpeg: 'image/jpeg', png: 'image/png', webp: 'image/webp', gif: 'image/gif', heic: 'image/heic', heif: 'image/heif' }[ext] || '';
+  function ascii(b, s, e) { var t = ''; for (var i = s; i < e && i < b.length; i++) t += String.fromCharCode(b[i]); return t; }
+  function u32(b, i) { return b[i] * 16777216 + (b[i + 1] << 16) + (b[i + 2] << 8) + b[i + 3]; }
+  function u32le(b, i) { return b[i] + (b[i + 1] << 8) + (b[i + 2] << 16) + b[i + 3] * 16777216; }
+
+  // Kenali jenis file dari isi byte awalnya, bukan dari nama/ekstensi.
+  function sniff(h) {
+    var at4 = ascii(h, 4, 8);
+    if (h[0] === 0xFF && h[1] === 0xD8 && h[2] === 0xFF) return { kind: 'image', fmt: 'decode', mime: 'image/jpeg' };
+    if (h[0] === 0x89 && ascii(h, 1, 4) === 'PNG') return { kind: 'image', fmt: 'png', mime: 'image/png' };
+    if (/^GIF8[79]a$/.test(ascii(h, 0, 6))) return { kind: 'image', fmt: 'decode', mime: 'image/gif' };
+    if (h[0] === 0x42 && h[1] === 0x4D && h.length > 26) return { kind: 'image', fmt: 'decode', mime: 'image/bmp' };
+    if (ascii(h, 0, 4) === 'II*\0' || ascii(h, 0, 4) === 'MM\0*') return { kind: 'image', fmt: 'none', mime: 'image/tiff' };
+    if (ascii(h, 0, 4) === 'RIFF') {
+      var sub = ascii(h, 8, 12);
+      if (sub === 'WEBP') return { kind: 'image', fmt: 'riff', mime: 'image/webp' };
+      if (sub === 'AVI ') return { kind: 'video', fmt: 'riff', mime: 'video/x-msvideo' };
+      return null;
+    }
+    if (at4 === 'ftyp') {
+      var brand = ascii(h, 8, 12);
+      if (/^(heic|heix|heim|heis|hevc|hevx)$/.test(brand)) return { kind: 'image', fmt: 'bmff', mime: 'image/heic' };
+      if (/^(avif|avis)$/.test(brand)) return { kind: 'image', fmt: 'bmff', mime: 'image/avif' };
+      if (/^(mif1|msf1)$/.test(brand)) return { kind: 'image', fmt: 'bmff', mime: 'image/heif' };
+      if (/^M4[ABP] $/.test(brand)) return null; // audio
+      if (brand === 'qt  ') return { kind: 'video', fmt: 'bmff', mime: 'video/quicktime' };
+      if (/^3g2/.test(brand)) return { kind: 'video', fmt: 'bmff', mime: 'video/3gpp2' };
+      if (/^3g/.test(brand)) return { kind: 'video', fmt: 'bmff', mime: 'video/3gpp' };
+      return { kind: 'video', fmt: 'bmff', mime: 'video/mp4' };
+    }
+    if (/^(moov|mdat|wide|free|skip|pnot)$/.test(at4)) return { kind: 'video', fmt: 'bmff', mime: 'video/quicktime' };
+    if (h[0] === 0x1A && h[1] === 0x45 && h[2] === 0xDF && h[3] === 0xA3) {
+      var webm = ascii(h, 0, h.length).indexOf('webm') !== -1;
+      return { kind: 'video', fmt: 'ebml', mime: webm ? 'video/webm' : 'video/x-matroska' };
+    }
+    return null;
   }
-  function sizeLabel(n) { return n >= 1048576 ? (n / 1048576).toFixed(1).replace('.', ',') + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB'; }
+
+  // MP4/MOV/HEIC: telusuri kotak (box) tingkat atas. File terpotong akan
+  // punya kotak yang ukurannya melewati akhir file.
+  function walkBoxes(file) {
+    var pos = 0, size = file.size, found = {}, n = 0;
+    function step() {
+      if (size - pos < 8 || n++ > 5000) return Promise.resolve(found);
+      return bytes(file.slice(pos, pos + 16)).then(function (b) {
+        var len = u32(b, 0);
+        if (len === 1) len = u32(b, 8) * 4294967296 + u32(b, 12);
+        else if (len === 0) len = size - pos;
+        if (len < 8 || pos + len > size) throw new Error(BAD);
+        found[ascii(b, 4, 8)] = true;
+        pos += len;
+        return step();
+      });
+    }
+    return step();
+  }
+
+  function decodeImage(url) {
+    return new Promise(function (resolve, reject) {
+      var img = new Image(), t = setTimeout(function () { resolve(); }, 20000);
+      img.onload = function () {
+        clearTimeout(t);
+        if (!img.naturalWidth) return reject(new Error(BAD));
+        (img.decode ? img.decode() : Promise.resolve()).then(resolve, function () { reject(new Error(BAD)); });
+      };
+      img.onerror = function () { clearTimeout(t); reject(new Error(BAD)); };
+      img.src = url;
+    });
+  }
+
+  function probeVideo(url) {
+    return new Promise(function (resolve) {
+      var v = document.createElement('video'), t = setTimeout(function () { done(false); }, 15000);
+      function done(ok) { clearTimeout(t); v.onloadedmetadata = v.onerror = null; v.removeAttribute('src'); v.load(); resolve(ok); }
+      v.muted = true;
+      v.playsInline = true;
+      v.preload = 'metadata';
+      v.onloadedmetadata = function () { done(v.duration > 0); };
+      v.onerror = function () { done(false); };
+      v.src = url;
+    });
+  }
+
+  function check(q) {
+    var file = q.file;
+    if (!file.size) return Promise.reject(new Error('File kosong.'));
+    return bytes(file.slice(0, 64)).then(function (h) {
+      var s = sniff(h);
+      if (!s) throw new Error('Bukan foto atau video.');
+      q.kind = s.kind;
+      q.mime = s.mime;
+      switch (s.fmt) {
+        case 'bmff':
+          return walkBoxes(file).then(function (found) {
+            if (!(s.kind === 'video' ? found.moov : found.meta)) throw new Error(BAD);
+          });
+        case 'riff':
+          if (u32le(h, 4) + 8 > file.size) throw new Error(BAD);
+          return s.kind === 'image' ? decodeImage(q.url) : null;
+        case 'png':
+          return bytes(file.slice(Math.max(0, file.size - 1024))).then(function (t) {
+            if (ascii(t, 0, t.length).indexOf('IEND') === -1) throw new Error(BAD);
+            return decodeImage(q.url);
+          });
+        case 'decode':
+          return decodeImage(q.url);
+        case 'ebml':
+          return probeVideo(q.url).then(function (ok) {
+            if (!ok && document.createElement('video').canPlayType(s.mime)) throw new Error(BAD);
+          });
+      }
+    });
+  }
+
+  /* ---------- picking files ---------- */
+  function sizeLabel(n) {
+    if (n >= 1073741824) return (n / 1073741824).toFixed(2).replace('.', ',') + ' GB';
+    return n >= 1048576 ? (n / 1048576).toFixed(1).replace('.', ',') + ' MB' : Math.max(1, Math.round(n / 1024)) + ' KB';
+  }
 
   function setState(q, state, text) {
     q.state = state;
@@ -697,28 +864,57 @@
     q.li.querySelector('.q-x').hidden = state === 'sending' || state === 'done';
   }
 
+  function setThumb(q, kind) {
+    var old = q.li.querySelector('.q-thumb'), el;
+    if (old && old.getAttribute('data-kind') === kind) return;
+    if (kind === 'video') {
+      el = document.createElement('video');
+      el.muted = true;
+      el.playsInline = true;
+      el.preload = 'metadata';
+      el.src = q.url + '#t=0.1';
+    } else {
+      el = document.createElement('img');
+      el.alt = '';
+      el.src = q.url;
+    }
+    el.className = 'q-thumb';
+    el.setAttribute('data-kind', kind);
+    if (old) old.replaceWith(el); else q.li.insertBefore(el, q.li.firstChild);
+  }
+
   function addFiles(list) {
-    var skipped = 0;
     Array.prototype.forEach.call(list, function (file) {
-      if (!isImage(file)) { skipped++; return; }
-      var q = { file: file, url: URL.createObjectURL(file), state: 'ready', key: ++uid };
+      var q = { file: file, url: URL.createObjectURL(file), state: 'checking', key: ++uid };
       var li = document.createElement('li');
       li.innerHTML =
-        '<img alt=""><div><div class="q-name"></div><div class="q-state"></div></div>' +
+        '<div><div class="q-name"></div><div class="q-state"></div></div>' +
         '<button type="button" class="q-x"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>';
-      li.querySelector('img').src = q.url;
       li.querySelector('.q-name').textContent = file.name;
       var x = li.querySelector('.q-x');
       x.setAttribute('aria-label', 'Hapus ' + file.name + ' dari daftar');
       x.addEventListener('click', function () { removeFromQueue(q); fileInput.focus(); });
       q.li = li;
+      setThumb(q, /^video\//.test(file.type) ? 'video' : 'image');
       queue.push(q);
       queueEl.appendChild(li);
-      setState(q, 'ready', file.size > MAX_BYTES && !/jpeg|png|webp/.test(typeOf(file)) ? 'Terlalu besar, maks 15 MB' : sizeLabel(file.size));
+      setState(q, 'checking', 'Memeriksa…');
+
+      // Diperiksa satu per satu supaya HP tidak kehabisan memori.
+      checking = checking.then(function () {
+        if (queue.indexOf(q) === -1) return;
+        return check(q).then(function () {
+          if (queue.indexOf(q) === -1) return;
+          setThumb(q, q.kind);
+          setState(q, 'ready', (q.kind === 'video' ? 'Video' : 'Foto') + ' · ' + sizeLabel(file.size));
+        }, function (err) {
+          if (queue.indexOf(q) === -1) return;
+          setState(q, 'bad', (err && err.message) || BAD);
+        }).then(updateSend);
+      });
     });
     updateSend();
-    if (skipped) say(skipped + ' file dilewati karena bukan foto.', true);
-    else say('');
+    say('');
   }
 
   function removeFromQueue(q) {
@@ -731,9 +927,12 @@
   function pending() { return queue.filter(function (q) { return q.state === 'ready' || q.state === 'fail'; }); }
 
   function updateSend() {
-    var n = pending().length;
-    sendBtn.disabled = busy || n === 0 || !configured;
-    sendBtn.textContent = busy ? 'Mengirim…' : (n > 1 ? 'Kirim ' + n + ' foto' : 'Kirim foto');
+    var todo = pending();
+    var waiting = queue.some(function (q) { return q.state === 'checking'; });
+    sendBtn.disabled = busy || waiting || todo.length === 0 || !configured;
+    sendBtn.textContent = busy ? 'Mengirim…'
+      : waiting ? 'Memeriksa file…'
+      : 'Kirim ' + (todo.length ? countLabel(todo.map(function (q) { return q.kind; })) : 'foto & video');
   }
 
   function say(text, isErr) {
@@ -755,52 +954,72 @@
     if (!busy && e.dataTransfer && e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
   });
 
-  /* ---------- preparing + sending ---------- */
-  function loadImg(url) {
-    return new Promise(function (resolve, reject) {
-      var img = new Image();
-      img.onload = function () { resolve(img); };
-      img.onerror = reject;
-      img.src = url;
-    });
-  }
+  /* ---------- sending (resumable upload ke Google Drive, per potongan) ---------- */
+  function wait(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
   function toBase64(blob) {
     return new Promise(function (resolve, reject) {
       var r = new FileReader();
       r.onload = function () { resolve(String(r.result).split(',')[1] || ''); };
-      r.onerror = function () { reject(new Error('Foto tidak bisa dibaca.')); };
+      r.onerror = function () { reject(new Error('File tidak bisa dibaca.')); };
       r.readAsDataURL(blob);
     });
   }
 
-  // Shrink large JPG/PNG/WEBP so uploads stay fast on mobile data.
-  function prepare(q) {
-    var file = q.file, type = typeOf(file);
-    var shrink = /^image\/(jpeg|png|webp)$/.test(type)
-      ? loadImg(q.url).then(function (img) {
-          var w = img.naturalWidth, h = img.naturalHeight;
-          var scale = Math.min(1, MAX_EDGE / Math.max(w, h));
-          if (scale === 1 && file.size < 1.5 * 1048576) return null;
-          var c = document.createElement('canvas');
-          c.width = Math.round(w * scale);
-          c.height = Math.round(h * scale);
-          var ctx = c.getContext('2d');
-          ctx.fillStyle = '#ffffff';
-          ctx.fillRect(0, 0, c.width, c.height);
-          ctx.drawImage(img, 0, 0, c.width, c.height);
-          return new Promise(function (res) { c.toBlob(res, 'image/jpeg', JPEG_QUALITY); });
-        }).catch(function () { return null; })
-      : Promise.resolve(null);
-
-    return shrink.then(function (out) {
-      var blob = file, outType = type;
-      if (out && out.size < file.size) { blob = out; outType = 'image/jpeg'; }
-      if (blob.size > MAX_BYTES) throw new Error('Ukuran foto lebih dari 15 MB.');
-      if (!outType) throw new Error('Jenis file tidak dikenali.');
-      var base = file.name.replace(/\.[^.]+$/, '') || 'foto';
-      var name = outType === 'image/jpeg' && blob !== file ? base + '.jpg' : file.name;
-      return toBase64(blob).then(function (data) { return { name: name, type: outType, data: data }; });
+  // Langsung dari browser ke Google Drive (cepat).
+  function putDirect(url, part, start, end, total) {
+    return fetch(url, {
+      method: 'PUT',
+      headers: { 'Content-Range': 'bytes ' + start + '-' + (end - 1) + '/' + total },
+      body: part
+    }).then(function (res) {
+      if (res.status === 200 || res.status === 201) return res.json().then(function (d) { return { id: d.id }; });
+      if (res.status === 308) {
+        var m = /-(\d+)$/.exec(res.headers.get('Range') || '');
+        return { next: m ? Number(m[1]) + 1 : end };
+      }
+      throw new Error('Upload ditolak (' + res.status + ').');
     });
+  }
+
+  // Lewat Apps Script (cadangan bila browser diblokir CORS). part=null → cek posisi terakhir.
+  function putProxy(url, part, start, end, total) {
+    return (part ? toBase64(part) : Promise.resolve('')).then(function (data) {
+      return api({ action: 'chunk', url: url, start: start, total: total, data: data });
+    }).then(function (r) { return r.id ? { id: r.id } : { next: Number(r.next) || 0 }; });
+  }
+
+  function sendFile(q, by) {
+    var file = q.file, total = file.size;
+    return api({ action: 'start', by: by, name: file.name, type: q.mime, size: total, origin: location.origin, website: trap.value })
+      .then(function (s) {
+        var url = s.uploadUrl, offset = 0, direct = true, tries = 0;
+        if (!url) throw new Error('Server album tidak memberi alamat upload.');
+
+        function step() {
+          setState(q, 'sending', 'Mengunggah ' + Math.floor(offset / total * 100) + '%');
+          var end = Math.min(offset + CHUNK, total);
+          return (direct ? putDirect : putProxy)(url, file.slice(offset, end), offset, end, total).then(handle, recover);
+        }
+        function handle(r) {
+          if (r.id) return r.id;
+          if (r.next > offset) tries = 0;
+          else if (++tries > 4) throw new Error('Upload macet. Tekan Kirim untuk mencoba lagi.');
+          offset = r.next;
+          return step();
+        }
+        function recover(err) {
+          if (direct) direct = false;
+          else if (++tries > 4) throw err;
+          return wait(tries * 2000)
+            .then(function () { return putProxy(url, null, offset, offset, total); })
+            .then(handle, recover);
+        }
+        return step();
+      })
+      .then(function (id) {
+        setState(q, 'sending', 'Menyimpan…');
+        return api({ action: 'finish', id: id, by: by });
+      });
   }
 
   form.addEventListener('submit', function (e) {
@@ -815,26 +1034,24 @@
     updateSend();
 
     var by = byInput.value.trim();
-    var ok = 0, fail = 0, i = 0;
+    var sent = [], fail = 0, i = 0;
 
     function next() {
       if (i >= todo.length) return Promise.resolve();
       var q = todo[i++];
-      say('Mengirim ' + i + ' dari ' + todo.length + ' foto…');
+      say('Mengirim ' + i + ' dari ' + todo.length + ' file…');
       setState(q, 'sending', 'Menyiapkan…');
-      return prepare(q).then(function (p) {
-        setState(q, 'sending', 'Mengunggah…');
-        return api({ by: by, name: p.name, type: p.type, data: p.data, website: trap.value });
-      }).then(function (res) {
-        ok++;
+      return sendFile(q, by).then(function (res) {
+        sent.push(q.kind);
         setState(q, 'done', 'Terkirim');
-        if (res.item && res.item.id) {
-          items.unshift({ id: String(res.item.id), by: String(res.item.by || by), time: Number(res.item.time) || Date.now(), local: q.url });
+        var it = res.item;
+        if (it && it.id) {
+          items.unshift({ id: String(it.id), by: String(it.by || by), time: Number(it.time) || Date.now(), type: String(it.type || q.mime), local: q.url });
           renderAlbum();
         }
       }, function (err) {
         fail++;
-        setState(q, 'fail', err.message || 'Gagal mengirim.');
+        setState(q, 'fail', (err && err.message) || 'Gagal mengirim.');
       }).then(next);
     }
 
@@ -843,9 +1060,9 @@
       byInput.disabled = false;
       fileInput.disabled = false;
       drop.classList.remove('is-locked');
-      if (fail && ok) say(ok + ' foto terkirim, ' + fail + ' gagal. Tekan Kirim lagi untuk mencoba ulang yang gagal.', true);
-      else if (fail) say('Foto belum terkirim. Periksa pesan di daftar lalu tekan Kirim untuk mencoba lagi.', true);
-      else say('Terima kasih! ' + ok + ' foto sudah masuk ke album.');
+      if (fail && sent.length) say(countLabel(sent) + ' terkirim, ' + fail + ' gagal. Tekan Kirim lagi untuk mencoba ulang yang gagal.', true);
+      else if (fail) say('File belum terkirim. Periksa pesan di daftar lalu tekan Kirim untuk mencoba lagi.', true);
+      else say('Terima kasih! ' + countLabel(sent) + ' sudah masuk ke album.');
       setTimeout(function () {
         queue.filter(function (q) { return q.state === 'done'; }).forEach(function (q) {
           queue = queue.filter(function (o) { return o !== q; });
@@ -854,7 +1071,7 @@
         updateSend();
       }, 2500);
       updateSend();
-      if (ok) loadAlbum(true);
+      if (sent.length) loadAlbum(true);
     });
   });
 
@@ -868,14 +1085,32 @@
   function show(i, dir) {
     if (!items.length) return;
     current = (i + items.length) % items.length;
-    var it = items[current];
-    var img = document.createElement('img');
-    img.alt = it.by ? 'Foto dari ' + it.by : 'Foto tamu';
+    var it = items[current], video = isVideo(it), el;
+    var loaded = function () { lbMedia.classList.add('is-loaded'); };
     lbMedia.classList.remove('is-loaded');
-    img.addEventListener('load', function () { lbMedia.classList.add('is-loaded'); });
-    setImage(img, it, 1600, null);
+    lbMedia.classList.toggle('is-video', video);
+    if (video && it.local) {
+      el = document.createElement('video');
+      el.controls = true;
+      el.playsInline = true;
+      el.preload = 'metadata';
+      el.addEventListener('loadedmetadata', loaded);
+      el.src = it.local;
+    } else if (video) {
+      el = document.createElement('iframe');
+      el.title = it.by ? 'Video dari ' + it.by : 'Video tamu';
+      el.allow = 'autoplay; fullscreen';
+      el.allowFullscreen = true;
+      el.addEventListener('load', loaded);
+      el.src = drivePreview(it.id);
+    } else {
+      el = document.createElement('img');
+      el.alt = it.by ? 'Foto dari ' + it.by : 'Foto tamu';
+      el.addEventListener('load', loaded);
+      setImage(el, it, 1600, null);
+    }
     lbMedia.innerHTML = '';
-    lbMedia.appendChild(img);
+    lbMedia.appendChild(el);
     lbTitle.textContent = it.by;
     lbCount.textContent = (current + 1) + ' / ' + items.length;
     lbDownload.href = driveDownload(it.id);
@@ -911,9 +1146,10 @@
   lb.addEventListener('click', function (e) { if (e.target === lb) closePreview(); });
   document.addEventListener('keydown', function (e) {
     if (lb.hidden) return;
+    var inVideo = document.activeElement && document.activeElement.tagName === 'VIDEO';
     if (e.key === 'Escape') closePreview();
-    else if (e.key === 'ArrowLeft') show(current - 1, -1);
-    else if (e.key === 'ArrowRight') show(current + 1, 1);
+    else if (e.key === 'ArrowLeft' && !inVideo) show(current - 1, -1);
+    else if (e.key === 'ArrowRight' && !inVideo) show(current + 1, 1);
     else if (e.key === 'Tab') {
       var f = lb.querySelectorAll('button, a[href]');
       var first = f[0], last = f[f.length - 1];
@@ -922,7 +1158,7 @@
     }
   });
   var startX = null;
-  lbFrame.addEventListener('pointerdown', function (e) { startX = e.clientX; });
+  lbFrame.addEventListener('pointerdown', function (e) { startX = e.target.tagName === 'VIDEO' ? null : e.clientX; });
   lbFrame.addEventListener('pointerup', function (e) {
     if (startX === null) return;
     var dx = e.clientX - startX;
